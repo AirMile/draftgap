@@ -51,8 +51,13 @@ export function QuickPick({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const poolRanking = selectedEnemy
+  const poolWithData = selectedEnemy
     ? rankPoolVsEnemy(pool, selectedEnemy, matchups)
+    : [];
+
+  const poolWithDataSet = new Set(poolWithData.map((m) => m.champion));
+  const poolNoData = selectedEnemy
+    ? pool.filter((c) => !poolWithDataSet.has(c))
     : [];
 
   const topCounters = selectedEnemy
@@ -63,7 +68,7 @@ export function QuickPick({
       ).slice(0, 3)
     : [];
 
-  const bestPoolWr = poolRanking.length > 0 ? poolRanking[0].winrate : 0;
+  const bestPoolWr = poolWithData.length > 0 ? poolWithData[0].winrate : 0;
   const betterCounters = topCounters.filter((c) => c.winrate > bestPoolWr);
 
   return (
@@ -125,9 +130,9 @@ export function QuickPick({
             <h3 className="text-sm font-medium text-muted mb-3">
               Jouw pool vs {selectedEnemy}
             </h3>
-            {poolRanking.length > 0 ? (
+            {poolWithData.length > 0 || poolNoData.length > 0 ? (
               <div className="space-y-2">
-                {poolRanking.map((m, i) => (
+                {poolWithData.map((m, i) => (
                   <div key={m.champion} className="flex items-center gap-3">
                     <span className="text-muted text-sm w-5">#{i + 1}</span>
                     <ChampionIcon
@@ -141,6 +146,14 @@ export function QuickPick({
                     >
                       {m.winrate.toFixed(1)}%
                     </span>
+                  </div>
+                ))}
+                {poolNoData.map((c) => (
+                  <div key={c} className="flex items-center gap-3 opacity-40">
+                    <span className="text-muted text-sm w-5">—</span>
+                    <ChampionIcon championId={c} version={version} size={24} />
+                    <span className="flex-1">{c}</span>
+                    <span className="text-muted text-xs">geen data</span>
                   </div>
                 ))}
               </div>
