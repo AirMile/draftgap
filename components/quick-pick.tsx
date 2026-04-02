@@ -65,7 +65,7 @@ export function QuickPick({
         allChampions.filter((c) => !pool.includes(c)),
         selectedEnemy,
         matchups,
-      ).slice(0, 3)
+      ).slice(0, 5)
     : [];
 
   const bestPoolWr = poolWithData.length > 0 ? poolWithData[0].winrate : 0;
