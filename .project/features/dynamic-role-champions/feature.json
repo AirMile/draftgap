@@ -1,0 +1,244 @@
+{
+  "name": "dynamic-role-champions",
+  "created": "2026-04-02",
+  "status": "DOING",
+  "stage": "built",
+  "summary": "Vervang statische role-mapping.json door dynamische champion lijst van OP.GG tier list via /api/champions/[role]",
+  "depends": ["opgg-data-source"],
+  "choices": [
+    {
+      "question": "Data source voor champion lijst",
+      "answer": "OP.GG tier list (lol_list_lane_meta_champions)",
+      "context": "Al beschikbaar in opgg.ts MCP integratie, ~60 champions per role, actueel"
+    },
+    {
+      "question": "Data flow",
+      "answer": "Aparte API route /api/champions/[role]",
+      "context": "Eigen endpoint met 24h cache, landing page hoeft niet op matchup data te wachten"
+    },
+    {
+      "question": "Statische role-mapping.json",
+      "answer": "Verwijderen",
+      "context": "Volledig dynamisch, geen dual-source verwarring"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "description": "API route /api/champions/[role] retourneert dynamische champion lijst van OP.GG tier list",
+      "category": "API",
+      "status": "built",
+      "technique": "TDD",
+      "syncNote": "fetchRoleChampions in lib/opgg.ts — hergebruikt MCP tier list + DDragon name mapping. Route in app/api/champions/[role]/route.ts met 24h ISR cache.",
+      "acceptanceCriteria": "GET /api/champions/top → 200 + string[] met DDragon IDs; alle 5 roles werken; ongeldige role → 400; revalidate = 86400"
+    },
+    {
+      "id": "REQ-002",
+      "description": "Landing page haalt champion lijst dynamisch op per geselecteerde role",
+      "category": "Integration",
+      "status": "built",
+      "technique": "Implementation First",
+      "syncNote": "page.tsx fetcht /api/champions/{role} bij role change met loading state, vervangt statische roleMapping import",
+      "acceptanceCriteria": "Bij role selectie → fetch /api/champions/{role}; champion selector toont dynamische lijst; loading state tijdens fetch"
+    },
+    {
+      "id": "REQ-003",
+      "description": "Pool page gebruikt dynamische champion lijst i.p.v. role-mapping",
+      "category": "Integration",
+      "status": "built",
+      "technique": "Implementation First",
+      "syncNote": "pool/page.tsx fetcht /api/champions/{role} parallel met matchups, allRoleChampions nu dynamisch",
+      "acceptanceCriteria": "allRoleChampions komt van /api/champions/{role} of matchups response; suggestChampions werkt met dynamische lijst"
+    },
+    {
+      "id": "REQ-004",
+      "description": "Verwijder data/role-mapping.json en alle imports",
+      "category": "Cleanup",
+      "status": "built",
+      "technique": "Implementation Only",
+      "skipTestReason": "config-only",
+      "syncNote": "role-mapping.json verwijderd, imports uit page.tsx en pool/page.tsx verwijderd",
+      "acceptanceCriteria": "Geen import van role-mapping.json; bestand verwijderd; app compileert en draait zonder errors"
+    }
+  ],
+  "files": [
+    {
+      "path": "lib/opgg.ts",
+      "type": "module",
+      "action": "modify",
+      "purpose": "Export fetchRoleChampions(role) — hergebruikt MCP + DDragon name mapping",
+      "requirements": ["REQ-001"]
+    },
+    {
+      "path": "app/api/champions/[role]/route.ts",
+      "type": "route",
+      "action": "create",
+      "purpose": "GET endpoint met 24h ISR cache, role validatie, calls fetchRoleChampions",
+      "requirements": ["REQ-001"]
+    },
+    {
+      "path": "app/page.tsx",
+      "type": "page",
+      "action": "modify",
+      "purpose": "Fetch /api/champions/{role} bij role change, loading state",
+      "requirements": ["REQ-002"]
+    },
+    {
+      "path": "app/pool/page.tsx",
+      "type": "page",
+      "action": "modify",
+      "purpose": "Vervang roleMapping import door dynamische champion lijst",
+      "requirements": ["REQ-003"]
+    },
+    {
+      "path": "data/role-mapping.json",
+      "type": "data",
+      "action": "delete",
+      "purpose": "Statisch bestand verwijderen",
+      "requirements": ["REQ-004"]
+    }
+  ],
+  "architecture": {
+    "componentTree": "page.tsx → /api/champions/[role] → lib/opgg.ts → mcp-api.op.gg/mcp",
+    "interfaces": [
+      {
+        "name": "fetchRoleChampions",
+        "file": "lib/opgg.ts",
+        "signature": "(role: Role) => Promise<string[]>",
+        "description": "Retourneert DDragon IDs voor champions die de role spelen, gesorteerd op tier/playrate"
+      }
+    ]
+  },
+  "apiContract": {
+    "endpoint": "/api/champions/[role]",
+    "method": "GET",
+    "params": {
+      "role": "top | jungle | mid | bot | support (URL segment)"
+    },
+    "response": "string[] (200) | { error: string } (400)",
+    "caching": "revalidate = 86400 (24h ISR)"
+  },
+  "buildSequence": [
+    {
+      "step": 1,
+      "requirements": ["REQ-001"],
+      "description": "lib/opgg.ts fetchRoleChampions + app/api/champions/[role]/route.ts",
+      "dependsOn": []
+    },
+    {
+      "step": 2,
+      "requirements": ["REQ-002", "REQ-003"],
+      "description": "Landing page + pool page: dynamic fetch i.p.v. static import",
+      "dependsOn": [1]
+    },
+    {
+      "step": 3,
+      "requirements": ["REQ-004"],
+      "description": "Verwijder data/role-mapping.json en alle imports",
+      "dependsOn": [2]
+    }
+  ],
+  "testStrategy": {
+    "location": "colocated in __tests__/",
+    "tests": [
+      {
+        "requirement": "REQ-001",
+        "file": "__tests__/opgg.test.ts",
+        "description": "fetchRoleChampions retourneert string[] met DDragon IDs"
+      },
+      {
+        "requirement": "REQ-001",
+        "file": "__tests__/api-champions-role.test.ts",
+        "description": "Route: valid role → 200 + array, invalid → 400, revalidate=86400"
+      },
+      {
+        "requirement": "REQ-002",
+        "file": "browser-verify",
+        "description": "Role switch → nieuwe champions laden, loading state"
+      },
+      {
+        "requirement": "REQ-003",
+        "file": "browser-verify",
+        "description": "Pool page suggestions met dynamische lijst"
+      },
+      {
+        "requirement": "REQ-004",
+        "file": "browser-verify",
+        "description": "App compileert en draait zonder role-mapping.json"
+      }
+    ]
+  },
+  "build": {
+    "started": "2026-04-02",
+    "completed": "2026-04-02",
+    "techniques": { "TDD": 1, "Implementation First": 2, "Implementation Only": 1 },
+    "testsPass": 61,
+    "testsTotal": 61,
+    "explanation": "De app haalt nu automatisch op welke champions in elke role gespeeld worden, direct van OP.GG's tier list. Geen handmatig bijgehouden lijstje meer — altijd actueel met de meta. Bij het selecteren van een role (bijv. Top) doet de pagina een API call naar /api/champions/top, die de OP.GG tier list opvraagt en DDragon IDs teruggeeft. De pool page doet dit parallel met de matchup data. Flow: [Gebruiker kiest Role] → [/api/champions/{role}] → [OP.GG MCP tier list] → [DDragon ID mapping] → [Champion selector gevuld]",
+    "decisions": [
+      {
+        "decision": "fetchRoleChampions als aparte export in opgg.ts, hergebruikt bestaande MCP + DDragon infra",
+        "reason": "Voorkomt code duplicatie — dezelfde MCP client en name mapping als fetchMatchups"
+      },
+      {
+        "decision": "Pool page fetcht champions parallel met matchups via Promise.all",
+        "reason": "Sneller dan sequentieel, beide API calls zijn onafhankelijk"
+      }
+    ]
+  },
+  "packages": [],
+  "tests": {
+    "checklist": [
+      {
+        "id": 1,
+        "title": "API route retourneert champion lijst per role",
+        "requirementId": "REQ-001",
+        "steps": ["GET /api/champions/top", "Controleer response body is string[]", "Herhaal voor jungle, mid, bot, support"],
+        "expected": "200 response met array van DDragon champion IDs",
+        "status": "pending"
+      },
+      {
+        "id": 2,
+        "title": "Ongeldige role geeft 400 error",
+        "requirementId": "REQ-001",
+        "steps": ["GET /api/champions/invalid"],
+        "expected": "400 response met error message",
+        "status": "pending"
+      },
+      {
+        "id": 3,
+        "title": "Landing page laadt champions dynamisch bij role selectie",
+        "requirementId": "REQ-002",
+        "steps": ["Navigeer naar /", "Klik op een role (bijv. Top)", "Wacht op loading indicator"],
+        "expected": "Champion selector toont dynamische lijst van OP.GG tier list champions",
+        "status": "pending"
+      },
+      {
+        "id": 4,
+        "title": "Pool page toont suggestions met dynamische champion lijst",
+        "requirementId": "REQ-003",
+        "steps": ["Selecteer role en 2+ champions op landing page", "Klik Analyseer Matchups", "Scroll naar Gap Analysis / Suggestions"],
+        "expected": "Suggestions komen uit dynamische champion lijst, niet uit statische role-mapping",
+        "status": "pending"
+      },
+      {
+        "id": 5,
+        "title": "App werkt zonder role-mapping.json",
+        "requirementId": "REQ-004",
+        "steps": ["Navigeer naar /", "Selecteer role", "Ga naar /pool"],
+        "expected": "Geen errors, alle functionaliteit werkt",
+        "status": "pending"
+      }
+    ]
+  },
+  "durableDecisions": [
+    {
+      "decision": "OP.GG tier list als champion bron, niet DDragon role tags",
+      "rationale": "Accurater — toont champions die daadwerkelijk in de role gespeeld worden, gesorteerd op meta relevantie"
+    },
+    {
+      "decision": "Aparte /api/champions/[role] route, niet hergebruiken van matchups response",
+      "rationale": "Landing page hoeft geen zware matchup data te laden voor enkel een champion selector"
+    }
+  ]
+}

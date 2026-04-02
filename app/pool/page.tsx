@@ -8,7 +8,6 @@ import { MatchupMatrix } from "@/components/matchup-matrix";
 import { QuickPick } from "@/components/quick-pick";
 import { GapAnalysis } from "@/components/gap-analysis";
 import type { MatchupDataset } from "@/lib/types";
-import roleMapping from "@/data/role-mapping.json";
 
 const DDRAGON_VERSION = "14.10.1";
 
@@ -17,6 +16,7 @@ export default function PoolPage() {
   const { pool, loaded, isValid } = usePool();
 
   const [dataset, setDataset] = useState<MatchupDataset | null>(null);
+  const [allRoleChampions, setAllRoleChampions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,13 +33,21 @@ export default function PoolPage() {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/matchups/${pool.role}`)
-      .then((res) => {
+    Promise.all([
+      fetch(`/api/matchups/${pool.role}`).then((res) => {
         if (!res.ok) throw new Error(`API error: ${res.status}`);
-        return res.json();
-      })
-      .then((data: MatchupDataset) => {
-        if (!cancelled) setDataset(data);
+        return res.json() as Promise<MatchupDataset>;
+      }),
+      fetch(`/api/champions/${pool.role}`).then((res) => {
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        return res.json() as Promise<string[]>;
+      }),
+    ])
+      .then(([matchupData, champions]) => {
+        if (!cancelled) {
+          setDataset(matchupData);
+          setAllRoleChampions(champions);
+        }
       })
       .catch((err) => {
         if (!cancelled) setError(err.message);
@@ -63,13 +71,6 @@ export default function PoolPage() {
     );
     return [...knownOpponents];
   }, [pool, dataset]);
-
-  const allRoleChampions = useMemo(() => {
-    if (!pool) return [];
-    return Object.entries(roleMapping)
-      .filter(([, roles]) => (roles as string[]).includes(pool.role))
-      .map(([name]) => name);
-  }, [pool]);
 
   const gaps = useMemo(() => {
     if (!pool || !dataset) return [];

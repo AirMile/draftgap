@@ -36,7 +36,7 @@
     {
       "name": "dynamic-role-champions",
       "status": "DOING",
-      "stage": "defined",
+      "stage": "built",
       "summary": "Dynamische champion lijst per role via OP.GG tier list, vervangt statische role-mapping.json",
       "created": "2026-04-02"
     }
@@ -52,7 +52,7 @@
       "method": "GET",
       "path": "/api/champions/[role]",
       "description": "OP.GG champion lijst per role, 24h cache",
-      "status": "planned"
+      "status": "built"
     },
     {
       "method": "GET",
@@ -98,21 +98,22 @@
       "components/champion-icon.tsx": "DDragon icon wrapper met fallback",
       "lib/matchup-engine.ts": "Pure functions: bestPick, findGaps, suggestChampions, rankPoolVsEnemy",
       "lib/ddragon.ts": "DDragon fetch + version resolve + MonkeyKing mapping",
-      "lib/opgg.ts": "MCP client + fetchMatchups(role) → MatchupDataset via OP.GG MCP",
+      "lib/opgg.ts": "MCP client + fetchMatchups(role) + fetchRoleChampions(role) via OP.GG MCP",
+      "app/api/champions/[role]/route.ts": "OP.GG champion lijst per role, 24h ISR cache",
       "lib/types.ts": "TypeScript interfaces: Champion, MatchupData, PoolState, GapResult, Suggestion, MatchupDataset",
       "lib/use-pool.ts": "React hook: localStorage pool state",
-      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)",
-      "data/role-mapping.json": "Champion → role(s) mapping (86 champions)"
+      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)"
     },
     "routing": {
       "/": "Pool invoer (landing)",
       "/pool": "Matrix + analyse (client-side, redirects als pool invalid)",
       "/api/champions": "DDragon champion data proxy",
+      "/api/champions/[role]": "OP.GG champion lijst per role, 24h ISR cache",
       "/api/matchups/[role]": "OP.GG matchup data per role"
     },
     "patterns": {
       "state": "localStorage via usePool hook, geen backend",
-      "data": "OP.GG MCP → /api/matchups/[role] → MatchupDataset interface → UI",
+      "data": "OP.GG MCP → /api/matchups/[role] + /api/champions/[role] → dynamische data → UI",
       "styling": "Dark theme met LoL kleuren (gold accent, groen/geel/rood winrates)"
     }
   },

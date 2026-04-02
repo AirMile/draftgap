@@ -13,21 +13,22 @@
       "components/champion-icon.tsx": "DDragon icon wrapper met fallback",
       "lib/matchup-engine.ts": "Pure functions: bestPick, findGaps, suggestChampions, rankPoolVsEnemy",
       "lib/ddragon.ts": "DDragon fetch + version resolve + MonkeyKing mapping",
-      "lib/opgg.ts": "MCP client + fetchMatchups(role) → MatchupDataset via OP.GG MCP",
+      "lib/opgg.ts": "MCP client + fetchMatchups(role) + fetchRoleChampions(role) via OP.GG MCP",
+      "app/api/champions/[role]/route.ts": "OP.GG champion lijst per role, 24h ISR cache",
       "lib/types.ts": "TypeScript interfaces: Champion, MatchupData, PoolState, GapResult, Suggestion, MatchupDataset",
       "lib/use-pool.ts": "React hook: localStorage pool state",
-      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)",
-      "data/role-mapping.json": "Champion → role(s) mapping (86 champions)"
+      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)"
     },
     "routing": {
       "/": "Pool invoer (landing)",
       "/pool": "Matrix + analyse (client-side, redirects als pool invalid)",
       "/api/champions": "DDragon champion data proxy",
+      "/api/champions/[role]": "OP.GG champion lijst per role, 24h ISR cache",
       "/api/matchups/[role]": "OP.GG matchup data per role (top/jungle/mid/bot/support)"
     },
     "patterns": {
       "state": "localStorage via usePool hook, geen backend",
-      "data": "OP.GG MCP → /api/matchups/[role] → sparse MatchupDataset → UI (opponents gefilterd op beschikbare data)",
+      "data": "OP.GG MCP → /api/matchups/[role] + /api/champions/[role] → dynamische data → UI",
       "styling": "Dark theme met LoL kleuren (gold accent, groen/geel/rood winrates)"
     }
   },
@@ -66,9 +67,20 @@
         "connects_to": ["ddragon"]
       },
       {
+        "name": "champions-role-api",
+        "layer": "API",
+        "description": "GET /api/champions/[role] — OP.GG tier list per role, 24h ISR cache",
+        "status": "done",
+        "src": "app/api/champions/[role]/route.ts",
+        "test": "__tests__/api-champions-role.test.ts",
+        "connects_to": ["opgg-fetcher"],
+        "endpoints": ["GET /api/champions/[role]"],
+        "feature": "dynamic-role-champions"
+      },
+      {
         "name": "opgg-fetcher",
         "layer": "Data",
-        "description": "MCP client, fetchMatchups → sparse MatchupDataset via counter data",
+        "description": "MCP client, fetchMatchups + fetchRoleChampions via counter/tier data",
         "status": "done",
         "src": "lib/opgg.ts",
         "test": "__tests__/opgg.test.ts",
@@ -134,6 +146,12 @@
       "feature": "opgg-data-source",
       "type": "pitfall",
       "summary": "OP.GG display namen ≠ DDragon IDs (Dr. Mundo vs DrMundo). Altijd name mapping bouwen via getChampions() bij externe data bronnen."
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "dynamic-role-champions",
+      "type": "pattern",
+      "summary": "OP.GG tier list (lol_list_lane_meta_champions) als champion bron per role — accurater dan DDragon role tags, gesorteerd op meta relevantie"
     }
   ]
 }

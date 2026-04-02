@@ -222,6 +222,48 @@ function parseMetaChampions(text: string): string[] {
 }
 
 /**
+ * Fetch the champion list for a role from OP.GG's meta tier list.
+ * Returns DDragon IDs sorted by tier/playrate.
+ */
+export async function fetchRoleChampions(role: Role): Promise<string[]> {
+  const { Client } = await import("@modelcontextprotocol/sdk/client/index.js");
+  const { StreamableHTTPClientTransport } =
+    await import("@modelcontextprotocol/sdk/client/streamableHttp.js");
+
+  const ddChampions = await getChampions();
+  const nameToId = new Map<string, string>();
+  for (const c of ddChampions) {
+    nameToId.set(c.name, c.id);
+  }
+
+  const client = new Client({ name: "lol-pool-optimizer", version: "1.0.0" });
+  const transport = new StreamableHTTPClientTransport(new URL(OPGG_MCP_URL));
+  await client.connect(transport);
+
+  try {
+    const position = ROLE_TO_OPGG[role];
+    const metaResult = await client.callTool({
+      name: "lol_list_lane_meta_champions",
+      arguments: {
+        position,
+        desired_output_fields: [
+          `data.positions.${position}[].{champion,play,win_rate,tier}`,
+        ],
+      },
+    });
+
+    const metaText =
+      metaResult.content?.[0]?.type === "text"
+        ? (metaResult.content[0] as { type: "text"; text: string }).text
+        : "";
+    const champNames = parseMetaChampions(metaText);
+    return champNames.map((n) => nameToId.get(n) ?? n);
+  } finally {
+    await client.close();
+  }
+}
+
+/**
  * Fetch matchup data from OP.GG MCP for a given role.
  * Gets the top N champions from the meta tier list, then fetches counter data for each.
  */

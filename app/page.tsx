@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePool } from "@/lib/use-pool";
 import { PoolInput } from "@/components/pool-input";
-import roleMapping from "@/data/role-mapping.json";
 
 const DDRAGON_VERSION = "14.10.1";
 
@@ -21,18 +20,35 @@ export default function Home() {
   } = usePool();
 
   const [championsForRole, setChampionsForRole] = useState<string[]>([]);
+  const [championsLoading, setChampionsLoading] = useState(false);
 
   useEffect(() => {
     if (!pool?.role) {
       setChampionsForRole([]);
       return;
     }
-    const role = pool.role;
-    const filtered = Object.entries(roleMapping)
-      .filter(([, roles]) => (roles as string[]).includes(role))
-      .map(([name]) => name)
-      .sort();
-    setChampionsForRole(filtered);
+
+    let cancelled = false;
+    setChampionsLoading(true);
+
+    fetch(`/api/champions/${pool.role}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        return res.json();
+      })
+      .then((champions: string[]) => {
+        if (!cancelled) setChampionsForRole(champions);
+      })
+      .catch(() => {
+        if (!cancelled) setChampionsForRole([]);
+      })
+      .finally(() => {
+        if (!cancelled) setChampionsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [pool?.role]);
 
   if (!loaded) {
@@ -63,6 +79,10 @@ export default function Home() {
           onAddChampion={addChampion}
           onRemoveChampion={removeChampion}
         />
+
+        {championsLoading && (
+          <p className="text-muted text-sm mt-2">Champions laden...</p>
+        )}
 
         <div className="mt-8">
           <button
