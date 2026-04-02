@@ -13,7 +13,7 @@ const DDRAGON_VERSION = "14.10.1";
 
 export default function PoolPage() {
   const router = useRouter();
-  const { pool, loaded, isValid } = usePool();
+  const { pool, loaded, isValid, addChampion, maxChampions } = usePool();
 
   const [dataset, setDataset] = useState<MatchupDataset | null>(null);
   const [allRoleChampions, setAllRoleChampions] = useState<string[]>([]);
@@ -179,6 +179,8 @@ export default function PoolPage() {
           suggestions={suggestions}
           totalOpponents={opponents.length}
           version={DDRAGON_VERSION}
+          onAddChampion={addChampion}
+          canAdd={pool.champions.length < maxChampions}
         />
 
         <MatchupMatrix

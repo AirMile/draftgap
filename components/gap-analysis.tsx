@@ -8,6 +8,8 @@ interface GapAnalysisProps {
   suggestions: Suggestion[];
   totalOpponents: number;
   version: string;
+  onAddChampion?: (id: string) => void;
+  canAdd?: boolean;
 }
 
 export function GapAnalysis({
@@ -15,6 +17,8 @@ export function GapAnalysis({
   suggestions,
   totalOpponents,
   version,
+  onAddChampion,
+  canAdd,
 }: GapAnalysisProps) {
   const gapCount = gaps.filter((g) => g.isGap).length;
   const covered = totalOpponents - gapCount;
@@ -49,12 +53,20 @@ export function GapAnalysis({
                   version={version}
                   size={32}
                 />
-                <div>
+                <div className="flex-1">
                   <span className="font-medium">{s.champion}</span>
                   <span className="text-muted text-sm ml-2">
                     dicht {s.gapsFixed} gap{s.gapsFixed !== 1 ? "s" : ""}
                   </span>
                 </div>
+                {onAddChampion && canAdd && (
+                  <button
+                    onClick={() => onAddChampion(s.champion)}
+                    className="px-3 py-1 bg-accent text-background rounded-md text-sm font-medium hover:bg-accent-dim transition-colors cursor-pointer"
+                  >
+                    + Pool
+                  </button>
+                )}
               </div>
             ))}
           </div>
