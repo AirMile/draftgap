@@ -90,7 +90,7 @@
       {
         "name": "matchup-engine",
         "layer": "Data",
-        "description": "Pure functions: bestPick, findGaps, suggestChampions",
+        "description": "Pure functions: bestPick, findGaps, suggestChampions, rankPoolVsEnemy — bi-directionele matchup lookups",
         "status": "done",
         "connects_to": []
       },
@@ -152,6 +152,24 @@
       "feature": "dynamic-role-champions",
       "type": "pattern",
       "summary": "OP.GG tier list (lol_list_lane_meta_champions) als champion bron per role — accurater dan DDragon role tags, gesorteerd op meta relevantie"
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "dynamic-role-champions",
+      "type": "pitfall",
+      "summary": "OP.GG strong/weak_counters retourneert ~1 entry per champion. Position-level counters (data.summary.positions[].counters) bevatten 3-9x meer data — altijd meenemen."
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "dynamic-role-champions",
+      "type": "pattern",
+      "summary": "Bi-directionele matchup lookups: als A vs B = 42% bekend is, is B vs A ≈ 58%. Verdubbelt effectieve coverage bij sparse counter data."
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "dynamic-role-champions",
+      "type": "pitfall",
+      "summary": "MCP SDK callTool().content is getypeerd als {} — vereist explicit cast naar { type: string; text?: string }[] voor TypeScript strict mode builds."
     }
   ]
 }

@@ -1,8 +1,7 @@
 {
   "name": "dynamic-role-champions",
   "created": "2026-04-02",
-  "status": "DOING",
-  "stage": "built",
+  "status": "DONE",
   "summary": "Vervang statische role-mapping.json door dynamische champion lijst van OP.GG tier list via /api/champions/[role]",
   "depends": ["opgg-data-source"],
   "choices": [
@@ -27,7 +26,7 @@
       "id": "REQ-001",
       "description": "API route /api/champions/[role] retourneert dynamische champion lijst van OP.GG tier list",
       "category": "API",
-      "status": "built",
+      "status": "PASS",
       "technique": "TDD",
       "syncNote": "fetchRoleChampions in lib/opgg.ts — hergebruikt MCP tier list + DDragon name mapping. Route in app/api/champions/[role]/route.ts met 24h ISR cache.",
       "acceptanceCriteria": "GET /api/champions/top → 200 + string[] met DDragon IDs; alle 5 roles werken; ongeldige role → 400; revalidate = 86400"
@@ -36,7 +35,7 @@
       "id": "REQ-002",
       "description": "Landing page haalt champion lijst dynamisch op per geselecteerde role",
       "category": "Integration",
-      "status": "built",
+      "status": "PASS",
       "technique": "Implementation First",
       "syncNote": "page.tsx fetcht /api/champions/{role} bij role change met loading state, vervangt statische roleMapping import",
       "acceptanceCriteria": "Bij role selectie → fetch /api/champions/{role}; champion selector toont dynamische lijst; loading state tijdens fetch"
@@ -45,7 +44,7 @@
       "id": "REQ-003",
       "description": "Pool page gebruikt dynamische champion lijst i.p.v. role-mapping",
       "category": "Integration",
-      "status": "built",
+      "status": "PASS",
       "technique": "Implementation First",
       "syncNote": "pool/page.tsx fetcht /api/champions/{role} parallel met matchups, allRoleChampions nu dynamisch",
       "acceptanceCriteria": "allRoleChampions komt van /api/champions/{role} of matchups response; suggestChampions werkt met dynamische lijst"
@@ -54,7 +53,7 @@
       "id": "REQ-004",
       "description": "Verwijder data/role-mapping.json en alle imports",
       "category": "Cleanup",
-      "status": "built",
+      "status": "PASS",
       "technique": "Implementation Only",
       "skipTestReason": "config-only",
       "syncNote": "role-mapping.json verwijderd, imports uit page.tsx en pool/page.tsx verwijderd",
@@ -195,7 +194,7 @@
         "requirementId": "REQ-001",
         "steps": ["GET /api/champions/top", "Controleer response body is string[]", "Herhaal voor jungle, mid, bot, support"],
         "expected": "200 response met array van DDragon champion IDs",
-        "status": "pending"
+        "status": "PASS"
       },
       {
         "id": 2,
@@ -203,7 +202,7 @@
         "requirementId": "REQ-001",
         "steps": ["GET /api/champions/invalid"],
         "expected": "400 response met error message",
-        "status": "pending"
+        "status": "PASS"
       },
       {
         "id": 3,
@@ -211,7 +210,7 @@
         "requirementId": "REQ-002",
         "steps": ["Navigeer naar /", "Klik op een role (bijv. Top)", "Wacht op loading indicator"],
         "expected": "Champion selector toont dynamische lijst van OP.GG tier list champions",
-        "status": "pending"
+        "status": "PASS"
       },
       {
         "id": 4,
@@ -219,7 +218,7 @@
         "requirementId": "REQ-003",
         "steps": ["Selecteer role en 2+ champions op landing page", "Klik Analyseer Matchups", "Scroll naar Gap Analysis / Suggestions"],
         "expected": "Suggestions komen uit dynamische champion lijst, niet uit statische role-mapping",
-        "status": "pending"
+        "status": "PASS"
       },
       {
         "id": 5,
@@ -227,10 +226,29 @@
         "requirementId": "REQ-004",
         "steps": ["Navigeer naar /", "Selecteer role", "Ga naar /pool"],
         "expected": "Geen errors, alle functionaliteit werkt",
-        "status": "pending"
+        "status": "PASS"
       }
-    ]
+    ],
+    "finalStatus": "PASSED",
+    "sessions": [{ "date": "2026-04-02", "pass": 5, "fail": 0, "skip": 0 }],
+    "fixSync": [
+      { "title": "TS build error: MCP SDK content typing", "file": "lib/opgg.ts", "fix": "Explicit type cast op content array" },
+      { "title": "Bi-directionele matchup lookups", "file": "lib/matchup-engine.ts", "fix": "findMatchup() helper zoekt ook omgekeerde entries" },
+      { "title": "Position-level counters voor rijkere matchup data", "file": "lib/opgg.ts", "fix": "Fetch data.summary.positions[].counters, parse en merge. 17→173 matchups." }
+    ],
+    "verificationCheckpoint": { "gaps": [], "mismatches": [], "adjustments": "none" },
+    "evaluation": [
+      { "reqId": "REQ-001", "acceptancePass": 2, "acceptanceTotal": 2, "builderPass": 10, "builderTotal": 10, "verdict": "PASS" },
+      { "reqId": "REQ-002", "acceptancePass": 2, "acceptanceTotal": 2, "builderPass": 0, "builderTotal": 0, "verdict": "PASS" },
+      { "reqId": "REQ-003", "acceptancePass": 2, "acceptanceTotal": 2, "builderPass": 0, "builderTotal": 0, "verdict": "PASS" },
+      { "reqId": "REQ-004", "acceptancePass": 2, "acceptanceTotal": 2, "builderPass": 0, "builderTotal": 0, "verdict": "PASS" }
+    ],
+    "acceptanceTestFile": "__tests__/acceptance/dynamic-role-champions.acceptance.test.ts"
   },
+  "observations": [
+    "OP.GG MCP strong/weak_counters retourneert slechts ~1 entry per champion (behalve populaire champions als Garen). Position-level counters (data.summary.positions[].counters) bevatten 3-9 extra entries — nu geïntegreerd via parseCounterResponse.",
+    "MCP SDK typed callTool().content als {} i.p.v. array — vereist explicit cast voor TypeScript strict mode."
+  ],
   "durableDecisions": [
     {
       "decision": "OP.GG tier list als champion bron, niet DDragon role tags",

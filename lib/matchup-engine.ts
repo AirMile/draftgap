@@ -2,6 +2,29 @@ import type { MatchupData, GapResult, Suggestion } from "@/lib/types";
 
 const GAP_THRESHOLD = 48;
 
+function findMatchup(
+  champion: string,
+  opponent: string,
+  matchups: MatchupData[],
+): MatchupData | undefined {
+  const direct = matchups.find(
+    (m) => m.champion === champion && m.opponent === opponent,
+  );
+  if (direct) return direct;
+  const reverse = matchups.find(
+    (m) => m.champion === opponent && m.opponent === champion,
+  );
+  if (reverse) {
+    return {
+      champion,
+      opponent,
+      winrate: Math.round((100 - reverse.winrate) * 10) / 10,
+      games: reverse.games,
+    };
+  }
+  return undefined;
+}
+
 export function bestPick(
   pool: string[],
   opponent: string,
@@ -10,9 +33,7 @@ export function bestPick(
   let best: { champion: string; winrate: number; games: number } | null = null;
 
   for (const champ of pool) {
-    const m = matchups.find(
-      (mu) => mu.champion === champ && mu.opponent === opponent,
-    );
+    const m = findMatchup(champ, opponent, matchups);
     if (!m) continue;
     if (
       !best ||
@@ -36,9 +57,7 @@ export function findGaps(
     let bestChampion: string | null = null;
 
     for (const champ of pool) {
-      const m = matchups.find(
-        (mu) => mu.champion === champ && mu.opponent === opponent,
-      );
+      const m = findMatchup(champ, opponent, matchups);
       if (m && m.winrate > bestWinrate) {
         bestWinrate = m.winrate;
         bestChampion = champ;
@@ -65,9 +84,7 @@ export function suggestChampions(
   const suggestions: Suggestion[] = nonPool
     .map((champion) => {
       const relevantMatchups = gapOpponents
-        .map((opp) =>
-          matchups.find((m) => m.champion === champion && m.opponent === opp),
-        )
+        .map((opp) => findMatchup(champion, opp, matchups))
         .filter((m): m is MatchupData => m !== undefined);
 
       const gapsFixed = relevantMatchups.filter(
@@ -89,9 +106,7 @@ export function rankPoolVsEnemy(
   matchups: MatchupData[],
 ): MatchupData[] {
   return pool
-    .map((champ) =>
-      matchups.find((m) => m.champion === champ && m.opponent === enemy),
-    )
+    .map((champ) => findMatchup(champ, enemy, matchups))
     .filter((m): m is MatchupData => m !== undefined)
     .sort((a, b) => b.winrate - a.winrate);
 }

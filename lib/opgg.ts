@@ -22,6 +22,7 @@ export interface CounterEntry {
 export interface CounterResult {
   strong: CounterEntry[];
   weak: CounterEntry[];
+  position: CounterEntry[];
 }
 
 /**
@@ -41,12 +42,12 @@ export function toUpperSnake(name: string): string {
  */
 export function parseCounterResponse(text: string): CounterResult {
   if (!text || text === "[]" || !text.includes("Data(")) {
-    return { strong: [], weak: [] };
+    return { strong: [], weak: [], position: [] };
   }
 
   // Determine which fields Data has
   const dataClassMatch = text.match(/class Data: (.+)/);
-  if (!dataClassMatch) return { strong: [], weak: [] };
+  if (!dataClassMatch) return { strong: [], weak: [], position: [] };
   const dataFields = dataClassMatch[1].split(",");
 
   const hasStrong = dataFields.includes("strong_counters");
@@ -91,7 +92,40 @@ export function parseCounterResponse(text: string): CounterResult {
     }
   }
 
-  return { strong, weak };
+  // Parse position-level counters (Counter(id,name,play,win) inside Position)
+  const position: CounterEntry[] = [];
+  const hasSummary = dataFields.includes("summary");
+  if (hasSummary) {
+    // Find Counter class fields: class Counter: champion_id,champion_name,play,win
+    const posCounterClassMatch = text.match(/class Counter: ([^\n]+)/);
+    if (posCounterClassMatch) {
+      const posFields = posCounterClassMatch[1].split(",");
+      const posNameIdx = posFields.indexOf("champion_name");
+      const posPlayIdx = posFields.indexOf("play");
+      const posWinIdx = posFields.indexOf("win");
+
+      // Position counters are in the last array(s) — look for Counter() entries
+      // They represent the champion's win rate against these opponents
+      const counterRegex = /Counter\(([^)]+)\)/g;
+      let cm;
+      while ((cm = counterRegex.exec(text)) !== null) {
+        const args = parseArgs(cm[1]);
+        if (args.length > Math.max(posNameIdx, posPlayIdx, posWinIdx)) {
+          const play = args[posPlayIdx] as number;
+          const win = args[posWinIdx] as number;
+          if (play > 0) {
+            position.push({
+              champion_name: args[posNameIdx] as string,
+              play,
+              win_rate: win / play,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return { strong, weak, position };
 }
 
 /**
@@ -200,6 +234,21 @@ export function countersToMatchupData(
     });
   }
 
+  // Position counters: win_rate = champion's WR against the counter (bad matchups)
+  // Skip duplicates already covered by strong/weak counters
+  const existingOpponents = new Set(matchups.map((m) => m.opponent));
+  for (const entry of counters.position ?? []) {
+    const opponentId = nameToId.get(entry.champion_name) ?? entry.champion_name;
+    if (!existingOpponents.has(opponentId)) {
+      matchups.push({
+        champion: championId,
+        opponent: opponentId,
+        winrate: round1(entry.win_rate * 100),
+        games: entry.play,
+      });
+    }
+  }
+
   return matchups;
 }
 
@@ -252,10 +301,11 @@ export async function fetchRoleChampions(role: Role): Promise<string[]> {
       },
     });
 
+    const contentArr = metaResult.content as
+      | { type: string; text?: string }[]
+      | undefined;
     const metaText =
-      metaResult.content?.[0]?.type === "text"
-        ? (metaResult.content[0] as { type: "text"; text: string }).text
-        : "";
+      contentArr?.[0]?.type === "text" ? (contentArr[0].text ?? "") : "";
     const champNames = parseMetaChampions(metaText);
     return champNames.map((n) => nameToId.get(n) ?? n);
   } finally {
@@ -298,9 +348,12 @@ export async function fetchMatchups(role: Role): Promise<MatchupDataset> {
       },
     });
 
+    const metaContentArr = metaResult.content as
+      | { type: string; text?: string }[]
+      | undefined;
     const metaText =
-      metaResult.content?.[0]?.type === "text"
-        ? (metaResult.content[0] as { type: "text"; text: string }).text
+      metaContentArr?.[0]?.type === "text"
+        ? (metaContentArr[0].text ?? "")
         : "";
     const champNames = parseMetaChampions(metaText).slice(0, MAX_CHAMPIONS);
 
@@ -320,12 +373,16 @@ export async function fetchMatchups(role: Role): Promise<MatchupDataset> {
               desired_output_fields: [
                 "data.strong_counters[].{champion_name,play,win_rate}",
                 "data.weak_counters[].{champion_name,play,win_rate}",
+                "data.summary.positions[].{name,counters}",
               ],
             },
           });
+          const resultContent = result.content as
+            | { type: string; text?: string }[]
+            | undefined;
           const text =
-            result.content?.[0]?.type === "text"
-              ? (result.content[0] as { type: "text"; text: string }).text
+            resultContent?.[0]?.type === "text"
+              ? (resultContent[0].text ?? "")
               : "";
           return { name, text };
         }),

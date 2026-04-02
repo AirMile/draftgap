@@ -35,8 +35,7 @@
     },
     {
       "name": "dynamic-role-champions",
-      "status": "DOING",
-      "stage": "built",
+      "status": "DONE",
       "summary": "Dynamische champion lijst per role via OP.GG tier list, vervangt statische role-mapping.json",
       "created": "2026-04-02"
     }
@@ -136,5 +135,95 @@
       "type": "pattern",
       "summary": "TDD voor pure engine functions + browser verify voor UI componenten = volledige coverage zonder component unit tests"
     }
-  ]
+  ],
+  "architecture": {
+    "layers": [
+      {
+        "name": "UI",
+        "order": 1
+      },
+      {
+        "name": "API",
+        "order": 2
+      },
+      {
+        "name": "Data",
+        "order": 3
+      },
+      {
+        "name": "External",
+        "order": 4
+      }
+    ],
+    "dataFlow": "pool/page → /api/matchups/[role] → lib/opgg.ts → mcp-api.op.gg/mcp",
+    "components": [
+      {
+        "name": "pool-page",
+        "layer": "UI",
+        "description": "Matrix view, quick pick, gap analysis",
+        "status": "done",
+        "connects_to": ["matchups-api"]
+      },
+      {
+        "name": "matchups-api",
+        "layer": "API",
+        "description": "GET /api/matchups/[role] met 24h ISR cache, role validatie",
+        "status": "done",
+        "src": "app/api/matchups/[role]/route.ts",
+        "test": "__tests__/api-matchups.test.ts",
+        "connects_to": ["opgg-fetcher"],
+        "endpoints": ["GET /api/matchups/[role]"],
+        "feature": "opgg-data-source"
+      },
+      {
+        "name": "champions-api",
+        "layer": "API",
+        "description": "GET /api/champions DDragon proxy",
+        "status": "done",
+        "connects_to": ["ddragon"]
+      },
+      {
+        "name": "champions-role-api",
+        "layer": "API",
+        "description": "GET /api/champions/[role] — OP.GG tier list per role, 24h ISR cache",
+        "status": "done",
+        "src": "app/api/champions/[role]/route.ts",
+        "test": "__tests__/api-champions-role.test.ts",
+        "connects_to": ["opgg-fetcher"],
+        "endpoints": ["GET /api/champions/[role]"],
+        "feature": "dynamic-role-champions"
+      },
+      {
+        "name": "opgg-fetcher",
+        "layer": "Data",
+        "description": "MCP client, fetchMatchups + fetchRoleChampions via counter/tier data",
+        "status": "done",
+        "src": "lib/opgg.ts",
+        "test": "__tests__/opgg.test.ts",
+        "connects_to": ["opgg-mcp"],
+        "feature": "opgg-data-source"
+      },
+      {
+        "name": "matchup-engine",
+        "layer": "Data",
+        "description": "Pure functions: bestPick, findGaps, suggestChampions",
+        "status": "done",
+        "connects_to": []
+      },
+      {
+        "name": "opgg-mcp",
+        "layer": "External",
+        "description": "OP.GG official MCP server (mcp-api.op.gg/mcp)",
+        "status": "external",
+        "connects_to": []
+      },
+      {
+        "name": "ddragon",
+        "layer": "External",
+        "description": "Riot DDragon CDN (champion data + icons)",
+        "status": "external",
+        "connects_to": []
+      }
+    ]
+  }
 }

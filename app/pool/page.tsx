@@ -62,13 +62,22 @@ export default function PoolPage() {
   }, [pool?.role]);
 
   // Only show opponents where we have matchup data for at least one pool champion
+  // Bi-directional: also include champions that have entries against our pool
   const opponents = useMemo(() => {
     if (!pool || !dataset) return [];
-    const knownOpponents = new Set(
-      dataset.matchups
-        .filter((m) => pool.champions.includes(m.champion))
-        .map((m) => m.opponent),
-    );
+    const knownOpponents = new Set<string>();
+    for (const m of dataset.matchups) {
+      if (pool.champions.includes(m.champion)) {
+        knownOpponents.add(m.opponent);
+      }
+      if (pool.champions.includes(m.opponent)) {
+        knownOpponents.add(m.champion);
+      }
+    }
+    // Don't include pool champions as opponents
+    for (const c of pool.champions) {
+      knownOpponents.delete(c);
+    }
     return [...knownOpponents];
   }, [pool, dataset]);
 
