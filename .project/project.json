@@ -29,9 +29,15 @@
     },
     {
       "name": "opgg-data-source",
-      "status": "DOING",
-      "stage": "built",
+      "status": "DONE",
       "summary": "OP.GG MCP als databron: API route met 24h cache, sparse counter data, alle roles",
+      "created": "2026-04-02"
+    },
+    {
+      "name": "dynamic-role-champions",
+      "status": "DOING",
+      "stage": "defined",
+      "summary": "Dynamische champion lijst per role via OP.GG tier list, vervangt statische role-mapping.json",
       "created": "2026-04-02"
     }
   ],
@@ -40,6 +46,12 @@
       "method": "GET",
       "path": "/api/champions",
       "description": "DDragon champion data proxy met cache",
+      "status": "planned"
+    },
+    {
+      "method": "GET",
+      "path": "/api/champions/[role]",
+      "description": "OP.GG champion lijst per role, 24h cache",
       "status": "planned"
     },
     {

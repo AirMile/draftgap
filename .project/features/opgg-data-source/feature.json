@@ -1,0 +1,312 @@
+{
+  "name": "opgg-data-source",
+  "created": "2026-04-02",
+  "status": "DONE",
+  "summary": "OP.GG MCP als databron: API route met 24h cache, MCP client voor matchup data, alle roles, sparse counter data i.p.v. volledige matrix",
+  "depends": [],
+  "choices": [
+    {
+      "question": "Hoe data ophalen?",
+      "answer": "Next.js API route (server-side)",
+      "context": "Past bij bestaand /api/champions pattern"
+    },
+    {
+      "question": "Data scope",
+      "answer": "Strong/weak counters per champion (sparse)",
+      "context": "OP.GG MCP geeft alleen top counters, geen volledige matchup matrix. ~3-6 matchups per champion."
+    },
+    {
+      "question": "Caching",
+      "answer": "Server-side cache 24h",
+      "context": "revalidate = 86400, zelfde als /api/champions"
+    },
+    {
+      "question": "Fallback bij OP.GG failure",
+      "answer": "Error tonen",
+      "context": "Geen fallback naar mock data"
+    },
+    {
+      "question": "Roles",
+      "answer": "Alle 5 roles",
+      "context": "top, jungle, mid, bot, support — bot mapped naar adc voor OP.GG"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "description": "API route /api/matchups/[role] retourneert MatchupDataset voor alle 5 roles",
+      "category": "API",
+      "status": "PASS",
+      "technique": "Implementation First",
+      "syncNote": "Zelfde pattern als /api/champions — revalidate export + try/catch + NextResponse.json. Role validatie via Set.",
+      "acceptanceCriteria": "GET /api/matchups/top → 200 + MatchupDataset JSON; alle roles (top/jungle/mid/bot/support) leveren data; missende of ongeldige role → 400 met error"
+    },
+    {
+      "id": "REQ-002",
+      "description": "OP.GG data fetcher haalt counter data per champion op en transformeert naar MatchupDataset",
+      "category": "Data",
+      "status": "PASS",
+      "technique": "TDD",
+      "syncNote": "parseCounterResponse parst OP.GG's custom class-based text format. countersToMatchupData flipt strong_counter winrates (opponent WR → champion WR). DDragon name mapping voor ID conversie.",
+      "acceptanceCriteria": "Fetch retourneert MatchupData[] met winrate (0-100) en games (>0) per champion/opponent; champion namen matchen DDragon IDs; fetch failure → throw Error"
+    },
+    {
+      "id": "REQ-003",
+      "description": "24h server-side caching op de matchups API route",
+      "category": "Caching",
+      "status": "PASS",
+      "technique": "Implementation First",
+      "syncNote": "revalidate = 86400 export. Geen searchParams → route blijft statisch per [role] segment, ISR werkt.",
+      "acceptanceCriteria": "revalidate = 86400 export; herhaalde requests binnen 24h serveren cached response"
+    },
+    {
+      "id": "REQ-004",
+      "description": "Pool page fetcht matchup data via API i.p.v. statische mock import",
+      "category": "Integration",
+      "status": "PASS",
+      "technique": "Implementation First",
+      "syncNote": "Mock import verwijderd. opponents gefilterd op beschikbare matchup data (sparse-aware). Loading + error states toegevoegd.",
+      "acceptanceCriteria": "Import van mock-matchups.json verwijderd; page fetcht /api/matchups/{role}; loading state tijdens fetch; error message bij API failure"
+    }
+  ],
+  "files": [
+    {
+      "path": "lib/opgg.ts",
+      "type": "module",
+      "action": "create",
+      "purpose": "MCP client + data fetcher + OP.GG response parser + DDragon name mapping",
+      "requirements": ["REQ-002"]
+    },
+    {
+      "path": "app/api/matchups/[role]/route.ts",
+      "type": "route",
+      "action": "create",
+      "purpose": "API endpoint met 24h revalidate, role validatie, calls fetchMatchups",
+      "requirements": ["REQ-001", "REQ-003"]
+    },
+    {
+      "path": "app/pool/page.tsx",
+      "type": "page",
+      "action": "modify",
+      "purpose": "API fetch i.p.v. mock, loading/error states, sparse-aware opponent filtering",
+      "requirements": ["REQ-004"]
+    },
+    {
+      "path": "__tests__/opgg.test.ts",
+      "type": "test",
+      "action": "create",
+      "purpose": "TDD tests voor parseCounterResponse, countersToMatchupData, toUpperSnake",
+      "requirements": ["REQ-002"]
+    },
+    {
+      "path": "__tests__/api-matchups.test.ts",
+      "type": "test",
+      "action": "create",
+      "purpose": "API route tests: revalidate export, role validatie, response format",
+      "requirements": ["REQ-001", "REQ-003"]
+    }
+  ],
+  "architecture": {
+    "componentTree": "pool/page.tsx → /api/matchups/[role] → lib/opgg.ts → mcp-api.op.gg/mcp",
+    "interfaces": [
+      {
+        "name": "fetchMatchups",
+        "file": "lib/opgg.ts",
+        "signature": "(role: Role) => Promise<MatchupDataset>",
+        "description": "Haalt meta tier list + counter data op voor top 30 champions via OP.GG MCP. Data is sparse — alleen strong/weak counters."
+      }
+    ]
+  },
+  "apiContract": {
+    "endpoint": "/api/matchups/[role]",
+    "method": "GET",
+    "params": {
+      "role": "top | jungle | mid | bot | support (URL segment)"
+    },
+    "response": "MatchupDataset (200) | { error: string } (400/502)",
+    "caching": "revalidate = 86400 (24h ISR)"
+  },
+  "buildSequence": [
+    {
+      "step": 1,
+      "requirements": ["REQ-002"],
+      "description": "lib/opgg.ts — MCP client, fetchMatchups functie, data transform",
+      "dependsOn": []
+    },
+    {
+      "step": 2,
+      "requirements": ["REQ-001", "REQ-003"],
+      "description": "app/api/matchups/[role]/route.ts — API route met 24h cache en role validatie",
+      "dependsOn": [1]
+    },
+    {
+      "step": 3,
+      "requirements": ["REQ-004"],
+      "description": "app/pool/page.tsx — mock import verwijderd, API fetch + loading/error states",
+      "dependsOn": [2]
+    }
+  ],
+  "testStrategy": {
+    "location": "colocated in __tests__/",
+    "tests": [
+      {
+        "requirement": "REQ-001",
+        "file": "__tests__/api-matchups.test.ts",
+        "description": "Route retourneert MatchupDataset bij valid role, 400 bij invalid role"
+      },
+      {
+        "requirement": "REQ-002",
+        "file": "__tests__/opgg.test.ts",
+        "description": "Parser: OP.GG text format → MatchupData[], winrate flip, name mapping, edge cases"
+      },
+      {
+        "requirement": "REQ-003",
+        "file": "__tests__/api-matchups.test.ts",
+        "description": "Verify revalidate = 86400 export"
+      },
+      {
+        "requirement": "REQ-004",
+        "file": "browser-verify",
+        "description": "Loading state, error message bij failure, correcte data display, sparse-aware opponents"
+      }
+    ]
+  },
+  "durableDecisions": [
+    {
+      "decision": "Route segment /api/matchups/[role] i.p.v. query params",
+      "rationale": "searchParams leest opt-in naar dynamic mode, breekt Next.js ISR caching"
+    },
+    {
+      "decision": "OP.GG official MCP server als databron (mcp-api.op.gg/mcp)",
+      "rationale": "Gesanctioneerde API, gestructureerde JSON output, geen scraping nodig"
+    },
+    {
+      "decision": "@modelcontextprotocol/sdk als MCP client",
+      "rationale": "Official Anthropic SDK, StreamableHTTP transport voor remote MCP"
+    },
+    {
+      "decision": "Sparse counter data i.p.v. volledige matchup matrix",
+      "rationale": "OP.GG MCP geeft alleen top strong/weak counters (~3-6 per champion). Opponents in UI gefilterd op beschikbare data."
+    },
+    {
+      "decision": "Top 30 champions per role (meta tier list)",
+      "rationale": "Beperkt MCP calls, dekt de meest gespeelde champions. 30 calls met concurrency 5."
+    }
+  ],
+  "research": [
+    {
+      "topic": "OP.GG data access",
+      "finding": "Official MCP server op mcp-api.op.gg/mcp. Tools: lol_get_champion_analysis (counter matchups), lol_list_lane_meta_champions (tier list per role). Response in custom class-based text format.",
+      "source": "github.com/opgginc/opgg-mcp"
+    },
+    {
+      "topic": "OP.GG counter data scope",
+      "finding": "strong_counters (WR < 50%) en weak_counters (WR > 50%) geven ~3-6 matchups per champion. Niet geschikt voor volledige N×N matrix.",
+      "source": "Live MCP test calls"
+    },
+    {
+      "topic": "Next.js route caching",
+      "finding": "export const revalidate = 86400 voor 24h ISR. Niet searchParams lezen — opt-in dynamic mode. Dynamic route segments [role] behouden caching.",
+      "source": "Next.js docs"
+    }
+  ],
+  "build": {
+    "started": "2026-04-02",
+    "completed": "2026-04-02",
+    "techniques": {
+      "TDD": 1,
+      "Implementation First": 3
+    },
+    "testsPass": 44,
+    "testsTotal": 44,
+    "decisions": [
+      {
+        "decision": "Sparse data met opponent filtering i.p.v. volledige matrix",
+        "rationale": "OP.GG MCP biedt alleen top counters. UI filtert opponents op beschikbare data — voorkomt ruis in gap analysis."
+      },
+      {
+        "decision": "DDragon name mapping in lib/opgg.ts",
+        "rationale": "OP.GG display names (Dr. Mundo) ≠ DDragon IDs (DrMundo). Map gebouwd via getChampions() call."
+      },
+      {
+        "decision": "Dynamic import voor MCP SDK",
+        "rationale": "Houdt SDK als server-only dependency, voorkomt client bundle bloat."
+      }
+    ]
+  },
+  "packages": [
+    {
+      "name": "@modelcontextprotocol/sdk",
+      "version": "latest",
+      "purpose": "MCP client voor OP.GG data fetching via StreamableHTTP transport"
+    }
+  ],
+  "tests": {
+    "checklist": [
+      {
+        "id": 1,
+        "title": "API retourneert matchup data voor top role",
+        "requirementId": "REQ-001",
+        "steps": ["Navigeer naar /api/matchups/top in browser", "Bekijk JSON response"],
+        "expected": "200 response met patch, role, champions array, matchups array",
+        "status": "PASS"
+      },
+      {
+        "id": 2,
+        "title": "API retourneert 400 voor ongeldige role",
+        "requirementId": "REQ-001",
+        "steps": ["Navigeer naar /api/matchups/invalid in browser"],
+        "expected": "400 response met error message",
+        "status": "PASS"
+      },
+      {
+        "id": 3,
+        "title": "Matchup data bevat correcte winrates en games",
+        "requirementId": "REQ-002",
+        "steps": ["Navigeer naar /api/matchups/top", "Check matchups array entries"],
+        "expected": "Elke entry heeft champion, opponent (DDragon IDs), winrate (0-100), games (>0)",
+        "status": "PASS"
+      },
+      {
+        "id": 4,
+        "title": "Pool page toont loading state",
+        "requirementId": "REQ-004",
+        "steps": ["Selecteer role + 2 champions op /", "Klik Analyze"],
+        "expected": "\"Matchup data ophalen...\" tekst zichtbaar tijdens laden",
+        "status": "PASS"
+      },
+      {
+        "id": 5,
+        "title": "Pool page toont matchup matrix met echte data",
+        "requirementId": "REQ-004",
+        "steps": ["Selecteer role + 2 champions", "Wacht tot data geladen"],
+        "expected": "Matrix toont pool champions vs opponents met winrate percentages",
+        "status": "PASS"
+      },
+      {
+        "id": 6,
+        "title": "Pool page toont error bij API failure",
+        "requirementId": "REQ-004",
+        "steps": ["Blokkeer netwerk naar /api/matchups/*", "Laad /pool page"],
+        "expected": "Error message zichtbaar met Terug knop",
+        "status": "PASS"
+      }
+    ],
+    "finalStatus": "PASSED",
+    "sessions": [
+      { "date": "2026-04-02", "pass": 6, "fail": 0, "skip": 0 }
+    ],
+    "acceptanceTestFile": "__tests__/acceptance/opgg-data-source.acceptance.test.ts",
+    "evaluation": [
+      { "reqId": "REQ-001", "acceptancePass": 6, "acceptanceTotal": 6, "builderPass": 4, "builderTotal": 4, "verdict": "PASS" },
+      { "reqId": "REQ-002", "acceptancePass": 5, "acceptanceTotal": 5, "builderPass": 16, "builderTotal": 16, "verdict": "PASS" },
+      { "reqId": "REQ-003", "acceptancePass": 0, "acceptanceTotal": 0, "builderPass": 1, "builderTotal": 1, "verdict": "PASS" },
+      { "reqId": "REQ-004", "acceptancePass": 2, "acceptanceTotal": 2, "builderPass": 0, "builderTotal": 0, "verdict": "PASS" }
+    ],
+    "verificationCheckpoint": {
+      "gaps": [],
+      "mismatches": [],
+      "adjustments": "none"
+    }
+  }
+}

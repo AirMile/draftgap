@@ -29,13 +29,24 @@
           },
           {
             "name": "opgg-data-source",
-            "status": "DOING",
-            "stage": "built",
+            "status": "DONE",
             "auto": true,
             "type": "API",
             "phase": "P1",
             "description": "OP.GG API/MCP als databron integreren. Eerst app werkend krijgen met OP.GG data, later converteren naar Riot API.",
             "dependency": null,
+            "created": "2026-04-02",
+            "updated": "2026-04-02"
+          },
+          {
+            "name": "dynamic-role-champions",
+            "status": "DOING",
+            "stage": "defined",
+            "auto": true,
+            "type": "FEATURE",
+            "phase": "P2",
+            "description": "Vervang statische role-mapping.json door dynamische champion lijst van OP.GG tier list per role.",
+            "dependency": "opgg-data-source",
             "created": "2026-04-02"
           }
         ],
