@@ -1,0 +1,49 @@
+{
+  "name": "lol-pool-optimizer",
+  "description": "LoL Champion Pool Optimizer — matchup matrix, coverage gaps & champion suggesties",
+  "created": "2026-04-01",
+  "updated": "2026-04-01",
+  "stack": {
+    "framework": "Next.js (App Router)",
+    "language": "TypeScript",
+    "styling": "Tailwind CSS",
+    "deployment": "Vercel",
+    "packages": []
+  },
+  "concept": {
+    "pitch": "Web-app waar LoL spelers hun champion pool invoeren en een matchup matrix zien: welke champion pak je tegen welke tegenstander, waar zitten coverage gaps, en welke champions dichten die gaps.",
+    "content": ""
+  },
+  "features": [
+    {
+      "name": "lol-pool-optimizer",
+      "status": "DOING",
+      "stage": "built",
+      "summary": "MVP: pool invoer, matchup matrix, best pick, coverage gaps, champion suggesties, quick pick met counters",
+      "created": "2026-04-01"
+    }
+  ],
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/champions",
+      "description": "DDragon champion data proxy met cache",
+      "status": "planned"
+    }
+  ],
+  "data": {
+    "entities": [
+      {
+        "name": "Champion",
+        "fields": ["id", "name", "key", "roles"],
+        "relations": []
+      },
+      {
+        "name": "MatchupData",
+        "fields": ["champion", "opponent", "winrate", "games"],
+        "relations": ["Champion"]
+      }
+    ]
+  },
+  "thinking": []
+}

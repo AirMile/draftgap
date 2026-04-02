@@ -1,0 +1,45 @@
+{
+  "updated": "2026-04-02",
+  "context": {
+    "structure": {
+      "app/page.tsx": "Landing: role selectie + pool invoer",
+      "app/pool/page.tsx": "Matrix view + quick pick + gaps + suggesties",
+      "app/api/champions/route.ts": "DDragon proxy met 24h cache",
+      "components/pool-input.tsx": "Champion zoek + selectie met autocomplete",
+      "components/matchup-matrix.tsx": "Grid met kleurcodering + best pick highlight",
+      "components/quick-pick.tsx": "Zoekbalk + pool ranking + top counters",
+      "components/gap-analysis.tsx": "Coverage gaps + champion suggesties",
+      "components/champion-icon.tsx": "DDragon icon wrapper met fallback",
+      "lib/matchup-engine.ts": "Pure functions: bestPick, findGaps, suggestChampions, rankPoolVsEnemy",
+      "lib/ddragon.ts": "DDragon fetch + version resolve + MonkeyKing mapping",
+      "lib/types.ts": "TypeScript interfaces: Champion, MatchupData, PoolState, GapResult, Suggestion, MatchupDataset",
+      "lib/use-pool.ts": "React hook: localStorage pool state",
+      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)",
+      "data/role-mapping.json": "Champion → role(s) mapping (86 champions)"
+    },
+    "routing": {
+      "/": "Pool invoer (landing)",
+      "/pool": "Matrix + analyse (client-side, redirects als pool invalid)",
+      "/api/champions": "DDragon champion data proxy"
+    },
+    "patterns": {
+      "state": "localStorage via usePool hook, geen backend",
+      "data": "Mock JSON → toekomstig Riot API pipeline, zelfde MatchupDataset interface",
+      "styling": "Dark theme met LoL kleuren (gold accent, groen/geel/rood winrates)"
+    }
+  },
+  "learnings": [
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pattern",
+      "summary": "MatchupDataset interface als contract tussen mock data en toekomstige Riot API pipeline — swap zonder UI changes"
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pitfall",
+      "summary": "DDragon gebruikt 'MonkeyKing' als interne ID voor Wukong — altijd mappen in ddragon.ts fetch laag"
+    }
+  ]
+}

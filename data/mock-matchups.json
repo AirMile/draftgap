@@ -1,0 +1,2308 @@
+{
+  "patch": "14.10",
+  "role": "top",
+  "champions": [
+    "Darius",
+    "Garen",
+    "Mordekaiser",
+    "Sett",
+    "Renekton",
+    "Fiora",
+    "Camille",
+    "Irelia",
+    "Jax",
+    "Aatrox",
+    "Riven",
+    "Kennen",
+    "Tryndamere",
+    "Urgot",
+    "Ornn",
+    "Malphite",
+    "Teemo",
+    "Kayle",
+    "Yorick",
+    "Gwen"
+  ],
+  "matchups": [
+    {
+      "champion": "Darius",
+      "opponent": "Garen",
+      "winrate": 50.6,
+      "games": 3205
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Mordekaiser",
+      "winrate": 50.3,
+      "games": 2975
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Sett",
+      "winrate": 50.9,
+      "games": 3384
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Renekton",
+      "winrate": 50.4,
+      "games": 3336
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Fiora",
+      "winrate": 49.5,
+      "games": 3467
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Camille",
+      "winrate": 53.4,
+      "games": 2948
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Irelia",
+      "winrate": 49.8,
+      "games": 3035
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Jax",
+      "winrate": 49.1,
+      "games": 3139
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Aatrox",
+      "winrate": 50.1,
+      "games": 3248
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Riven",
+      "winrate": 48.9,
+      "games": 3164
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Kennen",
+      "winrate": 48.9,
+      "games": 3047
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Tryndamere",
+      "winrate": 53.5,
+      "games": 3127
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Urgot",
+      "winrate": 49,
+      "games": 2853
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Ornn",
+      "winrate": 50.3,
+      "games": 2857
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Malphite",
+      "winrate": 51.6,
+      "games": 2963
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Teemo",
+      "winrate": 50.3,
+      "games": 3215
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Kayle",
+      "winrate": 56.8,
+      "games": 2847
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Yorick",
+      "winrate": 50.8,
+      "games": 2647
+    },
+    {
+      "champion": "Darius",
+      "opponent": "Gwen",
+      "winrate": 48.5,
+      "games": 2859
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Darius",
+      "winrate": 49.7,
+      "games": 3637
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Mordekaiser",
+      "winrate": 49.3,
+      "games": 3316
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Sett",
+      "winrate": 49.9,
+      "games": 3318
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Renekton",
+      "winrate": 49.1,
+      "games": 3128
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Fiora",
+      "winrate": 47.7,
+      "games": 3240
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Camille",
+      "winrate": 48.4,
+      "games": 2903
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Irelia",
+      "winrate": 48.1,
+      "games": 2929
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Jax",
+      "winrate": 48.6,
+      "games": 3163
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Aatrox",
+      "winrate": 48.8,
+      "games": 3260
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Riven",
+      "winrate": 52.9,
+      "games": 2926
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Kennen",
+      "winrate": 49.1,
+      "games": 2814
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Tryndamere",
+      "winrate": 47.9,
+      "games": 3014
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Urgot",
+      "winrate": 49.4,
+      "games": 2741
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Ornn",
+      "winrate": 49.9,
+      "games": 2995
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Malphite",
+      "winrate": 50,
+      "games": 2718
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Teemo",
+      "winrate": 48,
+      "games": 3164
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Kayle",
+      "winrate": 53,
+      "games": 2905
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Yorick",
+      "winrate": 48.9,
+      "games": 2988
+    },
+    {
+      "champion": "Garen",
+      "opponent": "Gwen",
+      "winrate": 48.1,
+      "games": 2899
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Darius",
+      "winrate": 49.5,
+      "games": 3338
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Garen",
+      "winrate": 49.8,
+      "games": 3172
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Sett",
+      "winrate": 50.3,
+      "games": 2883
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Renekton",
+      "winrate": 49.2,
+      "games": 2681
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Fiora",
+      "winrate": 48.4,
+      "games": 3175
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Camille",
+      "winrate": 53.9,
+      "games": 3057
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Irelia",
+      "winrate": 48.6,
+      "games": 3251
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Jax",
+      "winrate": 49.2,
+      "games": 3086
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Aatrox",
+      "winrate": 50.5,
+      "games": 2976
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Riven",
+      "winrate": 48.9,
+      "games": 2961
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Kennen",
+      "winrate": 50.9,
+      "games": 2578
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Tryndamere",
+      "winrate": 48.9,
+      "games": 2784
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Urgot",
+      "winrate": 49.5,
+      "games": 2616
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Ornn",
+      "winrate": 51.6,
+      "games": 2950
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Malphite",
+      "winrate": 51.1,
+      "games": 2654
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Teemo",
+      "winrate": 50.5,
+      "games": 3018
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Kayle",
+      "winrate": 53.8,
+      "games": 2434
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Yorick",
+      "winrate": 50.2,
+      "games": 2456
+    },
+    {
+      "champion": "Mordekaiser",
+      "opponent": "Gwen",
+      "winrate": 49.9,
+      "games": 2863
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Darius",
+      "winrate": 49.2,
+      "games": 3102
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Garen",
+      "winrate": 51.4,
+      "games": 3435
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Mordekaiser",
+      "winrate": 50.6,
+      "games": 3287
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Renekton",
+      "winrate": 50.3,
+      "games": 2795
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Fiora",
+      "winrate": 48.1,
+      "games": 2846
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Camille",
+      "winrate": 48.2,
+      "games": 2933
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Irelia",
+      "winrate": 48.6,
+      "games": 2723
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Jax",
+      "winrate": 49.8,
+      "games": 3280
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Aatrox",
+      "winrate": 49.3,
+      "games": 2847
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Riven",
+      "winrate": 52.5,
+      "games": 2601
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Kennen",
+      "winrate": 50,
+      "games": 2520
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Tryndamere",
+      "winrate": 49.2,
+      "games": 2839
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Urgot",
+      "winrate": 50,
+      "games": 2643
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Ornn",
+      "winrate": 50.8,
+      "games": 2727
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Malphite",
+      "winrate": 50.6,
+      "games": 2789
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Teemo",
+      "winrate": 50.2,
+      "games": 2526
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Kayle",
+      "winrate": 55.6,
+      "games": 2806
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Yorick",
+      "winrate": 50.5,
+      "games": 2664
+    },
+    {
+      "champion": "Sett",
+      "opponent": "Gwen",
+      "winrate": 48.5,
+      "games": 2558
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Darius",
+      "winrate": 50,
+      "games": 3044
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Garen",
+      "winrate": 51.3,
+      "games": 3242
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Mordekaiser",
+      "winrate": 49,
+      "games": 3167
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Sett",
+      "winrate": 49.6,
+      "games": 2862
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Fiora",
+      "winrate": 48.4,
+      "games": 3142
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Camille",
+      "winrate": 49,
+      "games": 2910
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Irelia",
+      "winrate": 48.8,
+      "games": 3082
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Jax",
+      "winrate": 49.7,
+      "games": 3109
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Aatrox",
+      "winrate": 50.4,
+      "games": 2768
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Riven",
+      "winrate": 53.9,
+      "games": 2932
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Kennen",
+      "winrate": 50,
+      "games": 2804
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Tryndamere",
+      "winrate": 49,
+      "games": 2501
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Urgot",
+      "winrate": 49.7,
+      "games": 2396
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Ornn",
+      "winrate": 50.7,
+      "games": 2627
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Malphite",
+      "winrate": 51.4,
+      "games": 2607
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Teemo",
+      "winrate": 48.9,
+      "games": 2645
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Kayle",
+      "winrate": 56.2,
+      "games": 2729
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Yorick",
+      "winrate": 50.4,
+      "games": 2826
+    },
+    {
+      "champion": "Renekton",
+      "opponent": "Gwen",
+      "winrate": 53.7,
+      "games": 2468
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Darius",
+      "winrate": 57,
+      "games": 3425
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Garen",
+      "winrate": 57,
+      "games": 2878
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Mordekaiser",
+      "winrate": 51.3,
+      "games": 2827
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Sett",
+      "winrate": 55.1,
+      "games": 2838
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Renekton",
+      "winrate": 52,
+      "games": 2838
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Camille",
+      "winrate": 51.2,
+      "games": 3062
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Irelia",
+      "winrate": 50.7,
+      "games": 2921
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Jax",
+      "winrate": 50,
+      "games": 2919
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Aatrox",
+      "winrate": 50.4,
+      "games": 3126
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Riven",
+      "winrate": 49.9,
+      "games": 3053
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Kennen",
+      "winrate": 51.6,
+      "games": 2819
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Tryndamere",
+      "winrate": 49.8,
+      "games": 3037
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Urgot",
+      "winrate": 51.3,
+      "games": 2437
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Ornn",
+      "winrate": 57,
+      "games": 2779
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Malphite",
+      "winrate": 57,
+      "games": 2508
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Teemo",
+      "winrate": 51.1,
+      "games": 2882
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Kayle",
+      "winrate": 50.5,
+      "games": 2659
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Yorick",
+      "winrate": 51.9,
+      "games": 2958
+    },
+    {
+      "champion": "Fiora",
+      "opponent": "Gwen",
+      "winrate": 51.5,
+      "games": 2575
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Darius",
+      "winrate": 51.2,
+      "games": 3024
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Garen",
+      "winrate": 50.3,
+      "games": 2793
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Mordekaiser",
+      "winrate": 46.3,
+      "games": 3149
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Sett",
+      "winrate": 50.5,
+      "games": 2811
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Renekton",
+      "winrate": 50.8,
+      "games": 2610
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Fiora",
+      "winrate": 50.3,
+      "games": 2795
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Irelia",
+      "winrate": 50.4,
+      "games": 3046
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Jax",
+      "winrate": 49.4,
+      "games": 2920
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Aatrox",
+      "winrate": 51,
+      "games": 2927
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Riven",
+      "winrate": 50.3,
+      "games": 2613
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Kennen",
+      "winrate": 49.9,
+      "games": 2670
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Tryndamere",
+      "winrate": 50.8,
+      "games": 2486
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Urgot",
+      "winrate": 50.1,
+      "games": 2554
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Ornn",
+      "winrate": 51.9,
+      "games": 2640
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Malphite",
+      "winrate": 51.4,
+      "games": 2909
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Teemo",
+      "winrate": 50.7,
+      "games": 2871
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Kayle",
+      "winrate": 50.5,
+      "games": 2428
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Yorick",
+      "winrate": 49.9,
+      "games": 2595
+    },
+    {
+      "champion": "Camille",
+      "opponent": "Gwen",
+      "winrate": 50.8,
+      "games": 2784
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Darius",
+      "winrate": 51,
+      "games": 3126
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Garen",
+      "winrate": 51.1,
+      "games": 3384
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Mordekaiser",
+      "winrate": 50.3,
+      "games": 3314
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Sett",
+      "winrate": 50.8,
+      "games": 3108
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Renekton",
+      "winrate": 51.8,
+      "games": 2807
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Fiora",
+      "winrate": 47.1,
+      "games": 2919
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Camille",
+      "winrate": 49.4,
+      "games": 2653
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Jax",
+      "winrate": 50.4,
+      "games": 3016
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Aatrox",
+      "winrate": 51.7,
+      "games": 3188
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Riven",
+      "winrate": 50.5,
+      "games": 2602
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Kennen",
+      "winrate": 55,
+      "games": 2638
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Tryndamere",
+      "winrate": 51,
+      "games": 2936
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Urgot",
+      "winrate": 51.6,
+      "games": 2621
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Ornn",
+      "winrate": 51.9,
+      "games": 3033
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Malphite",
+      "winrate": 51.6,
+      "games": 2862
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Teemo",
+      "winrate": 55.9,
+      "games": 2653
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Kayle",
+      "winrate": 53,
+      "games": 2944
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Yorick",
+      "winrate": 56.4,
+      "games": 2639
+    },
+    {
+      "champion": "Irelia",
+      "opponent": "Gwen",
+      "winrate": 51.3,
+      "games": 3003
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Darius",
+      "winrate": 50.5,
+      "games": 3350
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Garen",
+      "winrate": 52.3,
+      "games": 2996
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Mordekaiser",
+      "winrate": 51.5,
+      "games": 3228
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Sett",
+      "winrate": 50.5,
+      "games": 2867
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Renekton",
+      "winrate": 50,
+      "games": 2708
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Fiora",
+      "winrate": 48.8,
+      "games": 3269
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Camille",
+      "winrate": 55,
+      "games": 2861
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Irelia",
+      "winrate": 49.9,
+      "games": 2961
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Aatrox",
+      "winrate": 51.5,
+      "games": 3113
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Riven",
+      "winrate": 49.4,
+      "games": 2666
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Kennen",
+      "winrate": 50.5,
+      "games": 2909
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Tryndamere",
+      "winrate": 54.4,
+      "games": 2709
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Urgot",
+      "winrate": 50.6,
+      "games": 2935
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Ornn",
+      "winrate": 55.2,
+      "games": 2828
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Malphite",
+      "winrate": 51.9,
+      "games": 2744
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Teemo",
+      "winrate": 50.9,
+      "games": 3048
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Kayle",
+      "winrate": 51.3,
+      "games": 2522
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Yorick",
+      "winrate": 51,
+      "games": 2454
+    },
+    {
+      "champion": "Jax",
+      "opponent": "Gwen",
+      "winrate": 49.3,
+      "games": 2506
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Darius",
+      "winrate": 49.4,
+      "games": 3561
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Garen",
+      "winrate": 51.1,
+      "games": 3531
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Mordekaiser",
+      "winrate": 49.8,
+      "games": 3214
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Sett",
+      "winrate": 51.2,
+      "games": 3151
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Renekton",
+      "winrate": 50.3,
+      "games": 2870
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Fiora",
+      "winrate": 48.4,
+      "games": 2927
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Camille",
+      "winrate": 48.7,
+      "games": 3192
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Irelia",
+      "winrate": 45.9,
+      "games": 3291
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Jax",
+      "winrate": 49.5,
+      "games": 3435
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Riven",
+      "winrate": 48.6,
+      "games": 3116
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Kennen",
+      "winrate": 50.4,
+      "games": 3035
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Tryndamere",
+      "winrate": 49.2,
+      "games": 2781
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Urgot",
+      "winrate": 49.6,
+      "games": 2629
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Ornn",
+      "winrate": 50.3,
+      "games": 2712
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Malphite",
+      "winrate": 51.7,
+      "games": 2936
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Teemo",
+      "winrate": 49.2,
+      "games": 3181
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Kayle",
+      "winrate": 53.6,
+      "games": 2769
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Yorick",
+      "winrate": 51,
+      "games": 2912
+    },
+    {
+      "champion": "Aatrox",
+      "opponent": "Gwen",
+      "winrate": 48.7,
+      "games": 2714
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Darius",
+      "winrate": 50.7,
+      "games": 3028
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Garen",
+      "winrate": 45.9,
+      "games": 2917
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Mordekaiser",
+      "winrate": 50.1,
+      "games": 2750
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Sett",
+      "winrate": 50.4,
+      "games": 2607
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Renekton",
+      "winrate": 50.9,
+      "games": 2840
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Fiora",
+      "winrate": 48.9,
+      "games": 2986
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Camille",
+      "winrate": 49.5,
+      "games": 2903
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Irelia",
+      "winrate": 50,
+      "games": 2941
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Jax",
+      "winrate": 49.9,
+      "games": 3152
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Aatrox",
+      "winrate": 50.2,
+      "games": 3023
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Kennen",
+      "winrate": 50.3,
+      "games": 2678
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Tryndamere",
+      "winrate": 51,
+      "games": 2513
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Urgot",
+      "winrate": 51,
+      "games": 2754
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Ornn",
+      "winrate": 51,
+      "games": 2860
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Malphite",
+      "winrate": 52.4,
+      "games": 2703
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Teemo",
+      "winrate": 49.3,
+      "games": 2499
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Kayle",
+      "winrate": 50.8,
+      "games": 2419
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Yorick",
+      "winrate": 50.3,
+      "games": 2591
+    },
+    {
+      "champion": "Riven",
+      "opponent": "Gwen",
+      "winrate": 50.2,
+      "games": 2709
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Darius",
+      "winrate": 54.4,
+      "games": 3030
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Garen",
+      "winrate": 56.5,
+      "games": 2548
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Mordekaiser",
+      "winrate": 50.1,
+      "games": 2727
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Sett",
+      "winrate": 54.3,
+      "games": 2720
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Renekton",
+      "winrate": 49.9,
+      "games": 2396
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Fiora",
+      "winrate": 49.1,
+      "games": 2588
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Camille",
+      "winrate": 49.5,
+      "games": 2530
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Irelia",
+      "winrate": 48.6,
+      "games": 2652
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Jax",
+      "winrate": 49.1,
+      "games": 2758
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Aatrox",
+      "winrate": 49.2,
+      "games": 3060
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Riven",
+      "winrate": 49.8,
+      "games": 2385
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Tryndamere",
+      "winrate": 48.5,
+      "games": 2263
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Urgot",
+      "winrate": 49.6,
+      "games": 2285
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Ornn",
+      "winrate": 54.4,
+      "games": 2470
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Malphite",
+      "winrate": 51.1,
+      "games": 2243
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Teemo",
+      "winrate": 49.8,
+      "games": 2490
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Kayle",
+      "winrate": 48.6,
+      "games": 2132
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Yorick",
+      "winrate": 50,
+      "games": 2435
+    },
+    {
+      "champion": "Kennen",
+      "opponent": "Gwen",
+      "winrate": 49.9,
+      "games": 2312
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Darius",
+      "winrate": 50.5,
+      "games": 3061
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Garen",
+      "winrate": 51.6,
+      "games": 2987
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Mordekaiser",
+      "winrate": 50.9,
+      "games": 2488
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Sett",
+      "winrate": 49.8,
+      "games": 2807
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Renekton",
+      "winrate": 51,
+      "games": 2426
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Fiora",
+      "winrate": 48.9,
+      "games": 2754
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Camille",
+      "winrate": 50.7,
+      "games": 2612
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Irelia",
+      "winrate": 49.3,
+      "games": 2643
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Jax",
+      "winrate": 50.4,
+      "games": 3055
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Aatrox",
+      "winrate": 49.8,
+      "games": 3169
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Riven",
+      "winrate": 50.2,
+      "games": 2708
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Kennen",
+      "winrate": 50.5,
+      "games": 2282
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Urgot",
+      "winrate": 50.8,
+      "games": 2453
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Ornn",
+      "winrate": 53.7,
+      "games": 2824
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Malphite",
+      "winrate": 51.2,
+      "games": 2532
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Teemo",
+      "winrate": 46.2,
+      "games": 2352
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Kayle",
+      "winrate": 50.8,
+      "games": 2461
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Yorick",
+      "winrate": 51.3,
+      "games": 2656
+    },
+    {
+      "champion": "Tryndamere",
+      "opponent": "Gwen",
+      "winrate": 49.8,
+      "games": 2552
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Darius",
+      "winrate": 49.5,
+      "games": 2817
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Garen",
+      "winrate": 51.6,
+      "games": 2714
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Mordekaiser",
+      "winrate": 50.5,
+      "games": 2534
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Sett",
+      "winrate": 49.8,
+      "games": 2426
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Renekton",
+      "winrate": 50.5,
+      "games": 2521
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Fiora",
+      "winrate": 48.5,
+      "games": 2438
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Camille",
+      "winrate": 48.4,
+      "games": 2785
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Irelia",
+      "winrate": 50,
+      "games": 2513
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Jax",
+      "winrate": 48.6,
+      "games": 2583
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Aatrox",
+      "winrate": 49.5,
+      "games": 2828
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Riven",
+      "winrate": 52.6,
+      "games": 2569
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Kennen",
+      "winrate": 49.2,
+      "games": 2317
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Tryndamere",
+      "winrate": 49.6,
+      "games": 2588
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Ornn",
+      "winrate": 51.6,
+      "games": 2407
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Malphite",
+      "winrate": 50.6,
+      "games": 2452
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Teemo",
+      "winrate": 50.1,
+      "games": 2275
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Kayle",
+      "winrate": 49.9,
+      "games": 2054
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Yorick",
+      "winrate": 53.4,
+      "games": 2111
+    },
+    {
+      "champion": "Urgot",
+      "opponent": "Gwen",
+      "winrate": 49.3,
+      "games": 2538
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Darius",
+      "winrate": 48.8,
+      "games": 2828
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Garen",
+      "winrate": 49.2,
+      "games": 2959
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Mordekaiser",
+      "winrate": 48.5,
+      "games": 3022
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Sett",
+      "winrate": 49.7,
+      "games": 2746
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Renekton",
+      "winrate": 48.1,
+      "games": 2708
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Fiora",
+      "winrate": 47.2,
+      "games": 2947
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Camille",
+      "winrate": 48.5,
+      "games": 2952
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Irelia",
+      "winrate": 47.9,
+      "games": 3060
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Jax",
+      "winrate": 47.9,
+      "games": 2991
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Aatrox",
+      "winrate": 52.2,
+      "games": 3162
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Riven",
+      "winrate": 48.6,
+      "games": 2839
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Kennen",
+      "winrate": 49.2,
+      "games": 2529
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Tryndamere",
+      "winrate": 53.7,
+      "games": 2614
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Urgot",
+      "winrate": 49.4,
+      "games": 2268
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Malphite",
+      "winrate": 49,
+      "games": 2754
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Teemo",
+      "winrate": 49.1,
+      "games": 2821
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Kayle",
+      "winrate": 48.6,
+      "games": 2367
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Yorick",
+      "winrate": 48.8,
+      "games": 2469
+    },
+    {
+      "champion": "Ornn",
+      "opponent": "Gwen",
+      "winrate": 47.4,
+      "games": 2540
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Darius",
+      "winrate": 49.5,
+      "games": 2804
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Garen",
+      "winrate": 50.2,
+      "games": 3159
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Mordekaiser",
+      "winrate": 48,
+      "games": 2500
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Sett",
+      "winrate": 49.2,
+      "games": 2525
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Renekton",
+      "winrate": 52.4,
+      "games": 2610
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Fiora",
+      "winrate": 47.7,
+      "games": 2669
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Camille",
+      "winrate": 47.4,
+      "games": 2837
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Irelia",
+      "winrate": 48.6,
+      "games": 2917
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Jax",
+      "winrate": 48.5,
+      "games": 2603
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Aatrox",
+      "winrate": 53.6,
+      "games": 3136
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Riven",
+      "winrate": 53.1,
+      "games": 2826
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Kennen",
+      "winrate": 49.7,
+      "games": 2520
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Tryndamere",
+      "winrate": 54.5,
+      "games": 2650
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Urgot",
+      "winrate": 48.3,
+      "games": 2619
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Ornn",
+      "winrate": 51,
+      "games": 2553
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Teemo",
+      "winrate": 48.6,
+      "games": 2608
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Kayle",
+      "winrate": 48.9,
+      "games": 2676
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Yorick",
+      "winrate": 49.4,
+      "games": 2539
+    },
+    {
+      "champion": "Malphite",
+      "opponent": "Gwen",
+      "winrate": 48.3,
+      "games": 2749
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Darius",
+      "winrate": 55.2,
+      "games": 3069
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Garen",
+      "winrate": 57,
+      "games": 2826
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Mordekaiser",
+      "winrate": 52.3,
+      "games": 2867
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Sett",
+      "winrate": 55.9,
+      "games": 2676
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Renekton",
+      "winrate": 51.1,
+      "games": 2904
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Fiora",
+      "winrate": 49.1,
+      "games": 3011
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Camille",
+      "winrate": 49.8,
+      "games": 2499
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Irelia",
+      "winrate": 48.8,
+      "games": 2825
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Jax",
+      "winrate": 49.8,
+      "games": 2727
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Aatrox",
+      "winrate": 50.7,
+      "games": 2804
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Riven",
+      "winrate": 50.1,
+      "games": 2825
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Kennen",
+      "winrate": 50.6,
+      "games": 2580
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Tryndamere",
+      "winrate": 50.8,
+      "games": 2763
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Urgot",
+      "winrate": 50.3,
+      "games": 2411
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Ornn",
+      "winrate": 51.9,
+      "games": 2408
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Malphite",
+      "winrate": 50.7,
+      "games": 2480
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Kayle",
+      "winrate": 50.9,
+      "games": 2327
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Yorick",
+      "winrate": 54.5,
+      "games": 2475
+    },
+    {
+      "champion": "Teemo",
+      "opponent": "Gwen",
+      "winrate": 49.7,
+      "games": 2533
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Darius",
+      "winrate": 51,
+      "games": 2921
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Garen",
+      "winrate": 52,
+      "games": 3027
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Mordekaiser",
+      "winrate": 50.1,
+      "games": 2455
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Sett",
+      "winrate": 51.5,
+      "games": 2648
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Renekton",
+      "winrate": 51.4,
+      "games": 2427
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Fiora",
+      "winrate": 49.7,
+      "games": 2772
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Camille",
+      "winrate": 49.3,
+      "games": 2376
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Irelia",
+      "winrate": 49.4,
+      "games": 2830
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Jax",
+      "winrate": 53.8,
+      "games": 2450
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Aatrox",
+      "winrate": 50.7,
+      "games": 2547
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Riven",
+      "winrate": 50.2,
+      "games": 2258
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Kennen",
+      "winrate": 49.6,
+      "games": 2158
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Tryndamere",
+      "winrate": 49.6,
+      "games": 2455
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Urgot",
+      "winrate": 50.6,
+      "games": 2298
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Ornn",
+      "winrate": 54.8,
+      "games": 2484
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Malphite",
+      "winrate": 55.3,
+      "games": 2349
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Teemo",
+      "winrate": 49.6,
+      "games": 2566
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Yorick",
+      "winrate": 54.3,
+      "games": 2325
+    },
+    {
+      "champion": "Kayle",
+      "opponent": "Gwen",
+      "winrate": 49.3,
+      "games": 2290
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Darius",
+      "winrate": 50.9,
+      "games": 2977
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Garen",
+      "winrate": 50.3,
+      "games": 2806
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Mordekaiser",
+      "winrate": 49.1,
+      "games": 2627
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Sett",
+      "winrate": 49.2,
+      "games": 2847
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Renekton",
+      "winrate": 49.5,
+      "games": 2756
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Fiora",
+      "winrate": 49.7,
+      "games": 2643
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Camille",
+      "winrate": 49,
+      "games": 2387
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Irelia",
+      "winrate": 44.2,
+      "games": 2740
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Jax",
+      "winrate": 49,
+      "games": 2454
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Aatrox",
+      "winrate": 50.1,
+      "games": 2989
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Riven",
+      "winrate": 48.4,
+      "games": 2363
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Kennen",
+      "winrate": 49.6,
+      "games": 2573
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Tryndamere",
+      "winrate": 50.2,
+      "games": 2288
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Urgot",
+      "winrate": 49.3,
+      "games": 2155
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Ornn",
+      "winrate": 55.6,
+      "games": 2175
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Malphite",
+      "winrate": 51.7,
+      "games": 2501
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Teemo",
+      "winrate": 49,
+      "games": 2256
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Kayle",
+      "winrate": 48.9,
+      "games": 2599
+    },
+    {
+      "champion": "Yorick",
+      "opponent": "Gwen",
+      "winrate": 49.2,
+      "games": 2685
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Darius",
+      "winrate": 50.6,
+      "games": 3078
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Garen",
+      "winrate": 52.2,
+      "games": 2851
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Mordekaiser",
+      "winrate": 55.5,
+      "games": 2658
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Sett",
+      "winrate": 50.6,
+      "games": 2545
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Renekton",
+      "winrate": 50.9,
+      "games": 2781
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Fiora",
+      "winrate": 49.1,
+      "games": 2734
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Camille",
+      "winrate": 50,
+      "games": 2602
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Irelia",
+      "winrate": 50.6,
+      "games": 3010
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Jax",
+      "winrate": 50.4,
+      "games": 2980
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Aatrox",
+      "winrate": 51.3,
+      "games": 2860
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Riven",
+      "winrate": 50.3,
+      "games": 2742
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Kennen",
+      "winrate": 50,
+      "games": 2456
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Tryndamere",
+      "winrate": 49.5,
+      "games": 2598
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Urgot",
+      "winrate": 50.9,
+      "games": 2507
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Ornn",
+      "winrate": 56.6,
+      "games": 2489
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Malphite",
+      "winrate": 57,
+      "games": 2622
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Teemo",
+      "winrate": 49.6,
+      "games": 2315
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Kayle",
+      "winrate": 51,
+      "games": 2313
+    },
+    {
+      "champion": "Gwen",
+      "opponent": "Yorick",
+      "winrate": 51.4,
+      "games": 2540
+    }
+  ]
+}
