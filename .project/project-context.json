@@ -40,6 +40,12 @@
       "feature": "lol-pool-optimizer",
       "type": "pitfall",
       "summary": "DDragon gebruikt 'MonkeyKing' als interne ID voor Wukong — altijd mappen in ddragon.ts fetch laag"
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pattern",
+      "summary": "TDD voor pure engine functions + browser verify voor UI componenten = volledige coverage zonder component unit tests"
     }
   ]
 }

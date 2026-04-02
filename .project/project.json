@@ -17,8 +17,7 @@
   "features": [
     {
       "name": "lol-pool-optimizer",
-      "status": "DOING",
-      "stage": "built",
+      "status": "DONE",
       "summary": "MVP: pool invoer, matchup matrix, best pick, coverage gaps, champion suggesties, quick pick met counters",
       "created": "2026-04-01"
     }
