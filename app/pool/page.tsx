@@ -13,7 +13,8 @@ const DDRAGON_VERSION = "14.10.1";
 
 export default function PoolPage() {
   const router = useRouter();
-  const { pool, loaded, isValid, addChampion, maxChampions } = usePool();
+  const { pool, loaded, isValid, addChampion, removeChampion, maxChampions } =
+    usePool();
 
   const [dataset, setDataset] = useState<MatchupDataset | null>(null);
   const [allRoleChampions, setAllRoleChampions] = useState<string[]>([]);
@@ -153,10 +154,25 @@ export default function PoolPage() {
             <h1 className="text-2xl font-bold text-accent">
               LoL Pool Optimizer
             </h1>
-            <p className="text-muted text-sm">
-              {pool.role.charAt(0).toUpperCase() + pool.role.slice(1)} —{" "}
-              {pool.champions.join(", ")}
-            </p>
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              <span className="text-muted text-sm">
+                {pool.role.charAt(0).toUpperCase() + pool.role.slice(1)} —
+              </span>
+              {pool.champions.map((c) => (
+                <span
+                  key={c}
+                  className="inline-flex items-center gap-1 bg-card border border-card-border rounded-md px-2 py-0.5 text-sm"
+                >
+                  {c}
+                  <button
+                    onClick={() => removeChampion(c)}
+                    className="text-muted hover:text-loss ml-0.5 cursor-pointer"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
           </div>
           <button
             onClick={() => router.push("/")}
