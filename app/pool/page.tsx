@@ -61,16 +61,26 @@ export default function PoolPage() {
     };
   }, [pool?.role]);
 
-  // Only show opponents where we have matchup data for at least one pool champion
-  // Bi-directional: also include champions that have entries against our pool
+  // Only show opponents that are meta in this role AND have matchup data vs pool
+  const roleChampions = useMemo(
+    () => new Set(dataset?.champions ?? []),
+    [dataset],
+  );
+
   const opponents = useMemo(() => {
     if (!pool || !dataset) return [];
     const knownOpponents = new Set<string>();
     for (const m of dataset.matchups) {
-      if (pool.champions.includes(m.champion)) {
+      if (
+        pool.champions.includes(m.champion) &&
+        roleChampions.has(m.opponent)
+      ) {
         knownOpponents.add(m.opponent);
       }
-      if (pool.champions.includes(m.opponent)) {
+      if (
+        pool.champions.includes(m.opponent) &&
+        roleChampions.has(m.champion)
+      ) {
         knownOpponents.add(m.champion);
       }
     }
@@ -79,7 +89,7 @@ export default function PoolPage() {
       knownOpponents.delete(c);
     }
     return [...knownOpponents];
-  }, [pool, dataset]);
+  }, [pool, dataset, roleChampions]);
 
   const gaps = useMemo(() => {
     if (!pool || !dataset) return [];
