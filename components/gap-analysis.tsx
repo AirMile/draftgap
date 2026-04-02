@@ -20,22 +20,44 @@ export function GapAnalysis({
   onAddChampion,
   canAdd,
 }: GapAnalysisProps) {
-  const gapCount = gaps.filter((g) => g.isGap).length;
-  const covered = totalOpponents - gapCount;
+  const gapList = gaps.filter((g) => g.isGap);
+  const covered = totalOpponents - gapList.length;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-baseline gap-3">
+      <div className="flex items-baseline gap-3 flex-wrap">
         <span className="text-2xl font-bold">
           {covered}/{totalOpponents}
         </span>
         <span className="text-muted">matchups gedekt</span>
-        {gapCount > 0 && (
+        {gapList.length > 0 && (
           <span className="text-gap font-medium">
-            {gapCount} gap{gapCount !== 1 ? "s" : ""}
+            {gapList.length} gap{gapList.length !== 1 ? "s" : ""}
           </span>
         )}
       </div>
+
+      {gapList.length > 0 && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm text-muted">Gaps tegen:</span>
+          {gapList.map((g) => (
+            <div
+              key={g.opponent}
+              className="flex items-center gap-1.5 bg-card border border-loss/30 rounded-md px-2 py-1"
+            >
+              <ChampionIcon
+                championId={g.opponent}
+                version={version}
+                size={20}
+              />
+              <span className="text-sm">{g.opponent}</span>
+              <span className="text-loss text-xs font-mono">
+                {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {suggestions.length > 0 && (
         <div>
