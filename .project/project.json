@@ -2,13 +2,19 @@
   "name": "lol-pool-optimizer",
   "description": "LoL Champion Pool Optimizer — matchup matrix, coverage gaps & champion suggesties",
   "created": "2026-04-01",
-  "updated": "2026-04-01",
+  "updated": "2026-04-02",
   "stack": {
     "framework": "Next.js (App Router)",
     "language": "TypeScript",
     "styling": "Tailwind CSS",
     "deployment": "Vercel",
-    "packages": []
+    "packages": [
+      {
+        "name": "@modelcontextprotocol/sdk",
+        "version": "latest",
+        "purpose": "MCP client voor OP.GG data fetching"
+      }
+    ]
   },
   "concept": {
     "pitch": "Web-app waar LoL spelers hun champion pool invoeren en een matchup matrix zien: welke champion pak je tegen welke tegenstander, waar zitten coverage gaps, en welke champions dichten die gaps.",
@@ -20,6 +26,13 @@
       "status": "DONE",
       "summary": "MVP: pool invoer, matchup matrix, best pick, coverage gaps, champion suggesties, quick pick met counters",
       "created": "2026-04-01"
+    },
+    {
+      "name": "opgg-data-source",
+      "status": "DOING",
+      "stage": "built",
+      "summary": "OP.GG MCP als databron: API route met 24h cache, sparse counter data, alle roles",
+      "created": "2026-04-02"
     }
   ],
   "endpoints": [
@@ -28,6 +41,12 @@
       "path": "/api/champions",
       "description": "DDragon champion data proxy met cache",
       "status": "planned"
+    },
+    {
+      "method": "GET",
+      "path": "/api/matchups/[role]",
+      "description": "OP.GG matchup data per role, 24h cache",
+      "status": "built"
     }
   ],
   "data": {
@@ -44,5 +63,65 @@
       }
     ]
   },
-  "thinking": []
+  "thinking": [
+    {
+      "type": "todo",
+      "date": "2026-04-02",
+      "title": "opgg-data-source",
+      "summary": "OP.GG API/MCP als databron integreren. Eerst app werkend krijgen met OP.GG data, later converteren naar Riot API.",
+      "newFeature": "opgg-data-source",
+      "source": "/dev-todo"
+    }
+  ],
+  "context": {
+    "structure": {
+      "app/page.tsx": "Landing: role selectie + pool invoer",
+      "app/pool/page.tsx": "Matrix view + quick pick + gaps + suggesties (fetcht /api/matchups/[role])",
+      "app/api/champions/route.ts": "DDragon proxy met 24h cache",
+      "app/api/matchups/[role]/route.ts": "OP.GG matchup data per role, 24h ISR cache",
+      "components/pool-input.tsx": "Champion zoek + selectie met autocomplete",
+      "components/matchup-matrix.tsx": "Grid met kleurcodering + best pick highlight",
+      "components/quick-pick.tsx": "Zoekbalk + pool ranking + top counters",
+      "components/gap-analysis.tsx": "Coverage gaps + champion suggesties",
+      "components/champion-icon.tsx": "DDragon icon wrapper met fallback",
+      "lib/matchup-engine.ts": "Pure functions: bestPick, findGaps, suggestChampions, rankPoolVsEnemy",
+      "lib/ddragon.ts": "DDragon fetch + version resolve + MonkeyKing mapping",
+      "lib/opgg.ts": "MCP client + fetchMatchups(role) → MatchupDataset via OP.GG MCP",
+      "lib/types.ts": "TypeScript interfaces: Champion, MatchupData, PoolState, GapResult, Suggestion, MatchupDataset",
+      "lib/use-pool.ts": "React hook: localStorage pool state",
+      "data/mock-matchups.json": "Mock top lane matchup data (20 champions, 380 matchups)",
+      "data/role-mapping.json": "Champion → role(s) mapping (86 champions)"
+    },
+    "routing": {
+      "/": "Pool invoer (landing)",
+      "/pool": "Matrix + analyse (client-side, redirects als pool invalid)",
+      "/api/champions": "DDragon champion data proxy",
+      "/api/matchups/[role]": "OP.GG matchup data per role"
+    },
+    "patterns": {
+      "state": "localStorage via usePool hook, geen backend",
+      "data": "OP.GG MCP → /api/matchups/[role] → MatchupDataset interface → UI",
+      "styling": "Dark theme met LoL kleuren (gold accent, groen/geel/rood winrates)"
+    }
+  },
+  "learnings": [
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pattern",
+      "summary": "MatchupDataset interface als contract tussen mock data en toekomstige Riot API pipeline — swap zonder UI changes"
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pitfall",
+      "summary": "DDragon gebruikt 'MonkeyKing' als interne ID voor Wukong — altijd mappen in ddragon.ts fetch laag"
+    },
+    {
+      "date": "2026-04-02",
+      "feature": "lol-pool-optimizer",
+      "type": "pattern",
+      "summary": "TDD voor pure engine functions + browser verify voor UI componenten = volledige coverage zonder component unit tests"
+    }
+  ]
 }
