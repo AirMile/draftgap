@@ -1,1 +1,35 @@
-{"permissions": {"allow": []}}
+{
+  "permissions": {
+    "allow": [
+      "Read *",
+      "Edit *",
+      "Write *",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(git *)",
+      "Bash(curl *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(rm *)",
+      "Bash(kill *)",
+      "Bash(sleep *)",
+      "Bash(wc *)"
+    ],
+    "deny": ["Edit node_modules/**", "Write node_modules/**", "Write .next/**"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/format-on-save.cjs"
+          }
+        ]
+      }
+    ]
+  }
+}
