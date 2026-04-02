@@ -1,9 +1,8 @@
 /**
  * Acceptance tests for opgg-data-source feature.
  * Tests contract-level behavior: HTTP status, response shape, data constraints.
+ * Routes now read static JSON files instead of calling OP.GG MCP.
  */
-import * as fs from "fs";
-import * as path from "path";
 
 // Mock next/server (no Web APIs in Jest Node env)
 jest.mock("next/server", () => ({
@@ -15,11 +14,11 @@ jest.mock("next/server", () => ({
   },
 }));
 
-// --- Item 1 & 3: Mock fetchMatchups to return realistic data per role ---
+// --- Mock datasets per role ---
 
 const MOCK_DATASETS: Record<string, unknown> = {
   top: {
-    patch: "current",
+    patch: "16.7",
     role: "top",
     champions: ["Garen", "Darius", "Jax"],
     matchups: [
@@ -29,7 +28,7 @@ const MOCK_DATASETS: Record<string, unknown> = {
     ],
   },
   jungle: {
-    patch: "current",
+    patch: "16.7",
     role: "jungle",
     champions: ["LeeSin", "Elise"],
     matchups: [
@@ -37,7 +36,7 @@ const MOCK_DATASETS: Record<string, unknown> = {
     ],
   },
   mid: {
-    patch: "current",
+    patch: "16.7",
     role: "mid",
     champions: ["Ahri", "Syndra"],
     matchups: [
@@ -45,7 +44,7 @@ const MOCK_DATASETS: Record<string, unknown> = {
     ],
   },
   bot: {
-    patch: "current",
+    patch: "16.7",
     role: "bot",
     champions: ["Jinx", "KaiSa"],
     matchups: [
@@ -53,7 +52,7 @@ const MOCK_DATASETS: Record<string, unknown> = {
     ],
   },
   support: {
-    patch: "current",
+    patch: "16.7",
     role: "support",
     champions: ["Thresh", "Lulu"],
     matchups: [
@@ -62,22 +61,51 @@ const MOCK_DATASETS: Record<string, unknown> = {
   },
 };
 
-jest.mock("@/lib/opgg", () => ({
-  fetchMatchups: jest.fn().mockImplementation((role: string) => {
-    const dataset = MOCK_DATASETS[role];
-    if (!dataset) return Promise.reject(new Error(`No data for role: ${role}`));
-    return Promise.resolve(dataset);
-  }),
-}));
+jest.mock("fs", () => {
+  const realFs = jest.requireActual<typeof import("fs")>("fs");
+  return {
+    ...realFs,
+    readFileSync: jest
+      .fn()
+      .mockImplementation((_path: string, _encoding?: string) => {
+        // For acceptance tests that read real source files, pass through
+        if (
+          typeof _path === "string" &&
+          (_path.includes("app/") || _path.includes("components/"))
+        ) {
+          return realFs.readFileSync(_path, _encoding as BufferEncoding);
+        }
+        // For route handler JSON reads, return mock data
+        const match =
+          typeof _path === "string"
+            ? _path.match(/matchups\/(\w+)\.json/)
+            : null;
+        const role = match ? match[1] : "";
+        const dataset = MOCK_DATASETS[role];
+        if (!dataset) throw new Error(`File not found: ${_path}`);
+        return JSON.stringify(dataset);
+      }),
+  };
+});
 
+jest.mock("path", () => {
+  const realPath = jest.requireActual<typeof import("path")>("path");
+  return {
+    ...realPath,
+    join: (...args: string[]) => args.join("/"),
+  };
+});
+
+import * as fs from "fs";
+import * as path from "path";
 import { GET } from "@/app/api/matchups/[role]/route";
-import type { MatchupDataset, MatchupData } from "@/lib/types";
+import type { MatchupDataset } from "@/lib/types";
 
 type MockResponse = { data: MatchupDataset; status: number };
 type MockErrorResponse = { data: { error: string }; status: number };
 
 // ============================================================
-// Item 1: Live API contract verification (REQ-001)
+// Item 1: API contract verification (REQ-001)
 // ============================================================
 
 describe("REQ-001: API contract — GET /api/matchups/[role]", () => {
@@ -93,23 +121,19 @@ describe("REQ-001: API contract — GET /api/matchups/[role]", () => {
       expect(response.status).toBe(200);
 
       const data = response.data;
-      // MatchupDataset shape
       expect(data).toHaveProperty("patch");
       expect(data).toHaveProperty("role", role);
       expect(data).toHaveProperty("champions");
       expect(data).toHaveProperty("matchups");
 
-      // Type checks
       expect(typeof data.patch).toBe("string");
       expect(Array.isArray(data.champions)).toBe(true);
       expect(Array.isArray(data.matchups)).toBe(true);
 
-      // Champions are strings
       for (const c of data.champions) {
         expect(typeof c).toBe("string");
       }
 
-      // Matchup entries conform to MatchupData shape
       for (const m of data.matchups) {
         expect(m).toHaveProperty("champion");
         expect(m).toHaveProperty("opponent");
@@ -134,7 +158,6 @@ describe("REQ-001: API contract — GET /api/matchups/[role]", () => {
 // ============================================================
 
 describe("REQ-002: Data shape validation", () => {
-  // DDragon ID pattern: PascalCase, no spaces, no dots, no apostrophes
   const DDRAGON_ID_PATTERN = /^[A-Za-z0-9]+$/;
 
   it.each(["top", "jungle", "mid", "bot", "support"] as const)(
@@ -150,14 +173,9 @@ describe("REQ-002: Data shape validation", () => {
       expect(matchups.length).toBeGreaterThan(0);
 
       for (const m of matchups) {
-        // Winrate between 0 and 100
         expect(m.winrate).toBeGreaterThanOrEqual(0);
         expect(m.winrate).toBeLessThanOrEqual(100);
-
-        // Games > 0
         expect(m.games).toBeGreaterThan(0);
-
-        // Champion and opponent are DDragon IDs (no spaces, dots, apostrophes)
         expect(m.champion).toMatch(DDRAGON_ID_PATTERN);
         expect(m.opponent).toMatch(DDRAGON_ID_PATTERN);
       }
@@ -166,16 +184,18 @@ describe("REQ-002: Data shape validation", () => {
 });
 
 // ============================================================
-// REQ-004: Mock import removal check
+// REQ-004: pool/page.tsx uses API, not mock import
 // ============================================================
 
 describe("REQ-004: pool/page.tsx uses API, not mock import", () => {
-  const poolPagePath = path.resolve(__dirname, "../../app/pool/page.tsx");
+  const realFs = jest.requireActual<typeof import("fs")>("fs");
+  const realPath = jest.requireActual<typeof import("path")>("path");
+  const poolPagePath = realPath.resolve(__dirname, "../../app/pool/page.tsx");
 
   let poolPageSource: string;
 
   beforeAll(() => {
-    poolPageSource = fs.readFileSync(poolPagePath, "utf-8");
+    poolPageSource = realFs.readFileSync(poolPagePath, "utf-8");
   });
 
   it("does NOT import from mock-matchups.json", () => {

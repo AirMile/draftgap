@@ -1,6 +1,6 @@
 /**
  * Tests for /api/champions/[role] route.
- * Mocks next/server and lib/opgg since MCP isn't available in Jest.
+ * Mocks next/server and fs since the route reads static JSON files.
  */
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -11,10 +11,19 @@ jest.mock("next/server", () => ({
   },
 }));
 
-jest.mock("@/lib/opgg", () => ({
-  fetchRoleChampions: jest
-    .fn()
-    .mockResolvedValue(["Garen", "Darius", "Camille", "Jax"]),
+const MOCK_DATASET = JSON.stringify({
+  patch: "16.7",
+  role: "top",
+  champions: ["Garen", "Darius", "Camille", "Jax"],
+  matchups: [{ champion: "Garen", opponent: "Jax", winrate: 42, games: 663 }],
+});
+
+jest.mock("fs", () => ({
+  readFileSync: jest.fn().mockReturnValue(MOCK_DATASET),
+}));
+
+jest.mock("path", () => ({
+  join: (...args: string[]) => args.join("/"),
 }));
 
 import { GET, revalidate } from "@/app/api/champions/[role]/route";

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { fetchMatchups } from "@/lib/opgg";
-import type { Role } from "@/lib/types";
+import * as fs from "fs";
+import * as path from "path";
+import type { Role, MatchupDataset } from "@/lib/types";
 
-export const revalidate = 86400; // 24h cache
+export const revalidate = 86400;
 
 const VALID_ROLES = new Set<Role>(["top", "jungle", "mid", "bot", "support"]);
 
@@ -22,10 +23,17 @@ export async function GET(
   }
 
   try {
-    const dataset = await fetchMatchups(role as Role);
+    const filePath = path.join(
+      process.cwd(),
+      "data",
+      "matchups",
+      `${role}.json`,
+    );
+    const raw = fs.readFileSync(filePath, "utf-8");
+    const dataset: MatchupDataset = JSON.parse(raw);
     return NextResponse.json(dataset);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
