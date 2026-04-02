@@ -90,12 +90,23 @@ async function fetchUGGMatchups(
 
   const html = await res.text();
 
-  // U.GG embeds JSON data for all regions/tiers in the HTML.
-  // We want world_platinum_plus_{role} which has the best coverage.
+  // U.GG embeds JSON data twice per tier: once for /counter page (small),
+  // once for /matchups page (full). We need the LAST occurrence which has
+  // the complete matchup data.
   const uggRoleKey =
     role === "adc" ? "adc" : role === "support" ? "support" : role;
-  const dataKey = `"world_platinum_plus_${uggRoleKey}":{`;
-  const keyIdx = html.indexOf(dataKey);
+  const dataKey = `"world_emerald_plus_${uggRoleKey}":{`;
+
+  // Find the LAST occurrence (matchups page data, not counter page data)
+  let keyIdx = -1;
+  let searchFrom = 0;
+  while (true) {
+    const nextIdx = html.indexOf(dataKey, searchFrom);
+    if (nextIdx === -1) break;
+    keyIdx = nextIdx;
+    searchFrom = nextIdx + 1;
+  }
+
   if (keyIdx === -1) {
     console.warn(`  ⚠ ${championSlug}: key ${dataKey} not found`);
     return [];
