@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude project (runtime data)
+.project/sessions/
+.project/features/
+
+# Claude local config (per-device, not shared)
+.claude/paths.local.yaml
+
+# Symlinks/junctions (tracked via master repo, not this one)
+.claude/agents/
+.claude/hooks/
+.claude/skills/
+.claude/scripts/
