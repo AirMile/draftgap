@@ -38,6 +38,13 @@
       "status": "DONE",
       "summary": "Dynamische champion lijst per role via OP.GG tier list, vervangt statische role-mapping.json",
       "created": "2026-04-02"
+    },
+    {
+      "name": "single-champion-matchups",
+      "status": "DOING",
+      "stage": "built",
+      "summary": "Analyse beschikbaar bij 1 champion i.p.v. minimum 2. Bestaande suggesties als pairing-suggesties.",
+      "created": "2026-04-03"
     }
   ],
   "endpoints": [
@@ -81,6 +88,30 @@
       "title": "opgg-data-source",
       "summary": "OP.GG API/MCP als databron integreren. Eerst app werkend krijgen met OP.GG data, later converteren naar Riot API.",
       "newFeature": "opgg-data-source",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-02",
+      "title": "champ-select-advisor",
+      "summary": "Champ select modus: voer alle picks, bans en teamcomps in voor een optimale pick-berekening op basis van matchups, teamsynergy en counter-logica",
+      "newFeature": "champ-select-advisor",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-02",
+      "title": "single-champion-matchups",
+      "summary": "Matchups, matrix en analyse laden bij 1 champion in de pool — huidige minimum is 2. Bij 1 champion ook suggesties voor goede pairings",
+      "newFeature": "single-champion-matchups",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-03",
+      "title": "bot-support-combos",
+      "summary": "Bot + support duo lane support: combo-synergy, gezamenlijke matchup analyse en pool optimalisatie voor bot/support paren",
+      "newFeature": "bot-support-combos",
       "source": "/dev-todo"
     }
   ],
@@ -136,6 +167,65 @@
       "summary": "TDD voor pure engine functions + browser verify voor UI componenten = volledige coverage zonder component unit tests"
     }
   ],
+  "design": {
+    "pages": [
+      {
+        "name": "landing",
+        "purpose": "Role selectie, champion pool invoer, matchup analyse en matrix op één pagina",
+        "status": "BLT",
+        "sections": [
+          "pool-input",
+          "quick-pick",
+          "gap-analysis",
+          "matchup-matrix"
+        ],
+        "flows": ["pool-samenstellen", "quick-pick", "gap-analyse"],
+        "notes": ""
+      }
+    ],
+    "flows": [
+      {
+        "name": "pool-samenstellen",
+        "steps": [
+          "role-selectie",
+          "champion-zoeken",
+          "champion-toevoegen",
+          "pool-bevestigd",
+          "analyse-zichtbaar"
+        ],
+        "notes": ""
+      },
+      {
+        "name": "quick-pick",
+        "steps": ["tegenstander-zoeken", "ranking-bekijken", "best-pick-zien"],
+        "notes": ""
+      },
+      {
+        "name": "gap-analyse",
+        "steps": [
+          "pool-bevestigd",
+          "gaps-bekijken",
+          "suggestie",
+          "champion-toevoegen"
+        ],
+        "notes": ""
+      }
+    ],
+    "principles": [
+      {
+        "name": "Mobile-first",
+        "description": "Design voor mobile viewport eerst, progressive enhancement"
+      },
+      {
+        "name": "Consistent spacing",
+        "description": "Gebruik een spacing scale voor alle margins en padding"
+      },
+      {
+        "name": "Accessibility",
+        "description": "WCAG 2.1 AA compliance, semantische HTML, keyboard navigatie"
+      }
+    ]
+  },
   "architecture": {
     "layers": [
       {

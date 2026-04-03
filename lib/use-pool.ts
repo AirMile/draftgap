@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import type { PoolState, Role } from "@/lib/types";
 
 const STORAGE_KEY = "lol-pool-optimizer-pool";
-const MIN_CHAMPIONS = 2;
+const MIN_CHAMPIONS = 1;
 const MAX_CHAMPIONS = 5;
 
 function loadPool(): PoolState | null {
@@ -35,7 +35,8 @@ export function usePool() {
 
   const setRole = useCallback((role: Role) => {
     setPool((prev) => {
-      const next: PoolState = { role, champions: prev?.champions ?? [] };
+      if (prev?.role === role) return prev;
+      const next: PoolState = { role, champions: [] };
       savePool(next);
       return next;
     });

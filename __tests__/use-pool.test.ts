@@ -83,15 +83,12 @@ describe("usePool", () => {
     expect(result.current.pool?.champions).toEqual(["Garen"]);
   });
 
-  it("isValid requires minimum 2 champions", () => {
+  it("isValid requires minimum 1 champion", () => {
     const { result } = renderHook(() => usePool());
     act(() => result.current.setRole("top"));
     expect(result.current.isValid).toBe(false);
 
     act(() => result.current.addChampion("Darius"));
-    expect(result.current.isValid).toBe(false);
-
-    act(() => result.current.addChampion("Garen"));
     expect(result.current.isValid).toBe(true);
   });
 
