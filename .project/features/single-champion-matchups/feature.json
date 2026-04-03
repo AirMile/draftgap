@@ -1,0 +1,168 @@
+{
+  "name": "single-champion-matchups",
+  "created": "2026-04-03",
+  "status": "DONE",
+  "summary": "Matchups, matrix en analyse laden bij 1 champion in de pool — huidige minimum is 2. Bestaande suggesties fungeren als pairing-suggesties.",
+  "depends": [],
+  "choices": [
+    {
+      "question": "Core functie bij 1 champion",
+      "answer": "Minimale fix: MIN_CHAMPIONS naar 1, bestaande suggesties werken als pairing-suggesties met volledige U.GG dataset"
+    },
+    {
+      "question": "UI tekst bij 1 champion",
+      "answer": "Tekst verwijderen: bij 1+ champions direct analyse tonen, bij 0 champions 'Voeg een champion toe om je matchups te analyseren.'"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "description": "Minimum pool grootte verlagen naar 1",
+      "category": "data/state",
+      "status": "PASS",
+      "technique": "TDD",
+      "syncNote": "MIN_CHAMPIONS=1 in lib/use-pool.ts — isValid check, page.tsx analysisReady hangt hiervan af",
+      "acceptance": "isValid retourneert true bij 1 champion + role. MIN_CHAMPIONS = 1 in use-pool.ts"
+    },
+    {
+      "id": "REQ-002",
+      "description": "Analyse tonen bij 1 champion",
+      "category": "UI/output",
+      "status": "PASS",
+      "technique": "Implementation Only",
+      "skipTestReason": "visual-only",
+      "syncNote": "Covered by REQ-001: analysisReady = isValid && dataset werkt nu bij 1 champion",
+      "acceptance": "Matrix, quick pick, gap analysis en suggesties worden gerenderd wanneer pool 1 champion bevat"
+    },
+    {
+      "id": "REQ-003",
+      "description": "Placeholder tekst aanpassen",
+      "category": "UI/output",
+      "status": "PASS",
+      "technique": "Implementation Only",
+      "skipTestReason": "visual-only",
+      "syncNote": "Placeholder tekst in app/page.tsx — bij 0 champions instructie, bij 1+ analyse",
+      "acceptance": "Bij 0 champions + role: 'Voeg een champion toe om je matchups te analyseren.' Bij 1+ champions: geen placeholder, direct analyse"
+    },
+    {
+      "id": "REQ-004",
+      "description": "Bestaande tests updaten",
+      "category": "testing",
+      "status": "PASS",
+      "technique": "TDD",
+      "syncNote": "Test 'isValid requires minimum 1 champion' in __tests__/use-pool.test.ts",
+      "acceptance": "use-pool.test.ts test voor isValid minimum wordt aangepast van 2 naar 1. Alle tests slagen"
+    }
+  ],
+  "files": [
+    {
+      "path": "lib/use-pool.ts",
+      "type": "source",
+      "action": "modify",
+      "purpose": "MIN_CHAMPIONS constante van 2 naar 1",
+      "requirements": ["REQ-001"]
+    },
+    {
+      "path": "app/page.tsx",
+      "type": "source",
+      "action": "modify",
+      "purpose": "Placeholder tekst aanpassen voor 0 vs 1+ champions",
+      "requirements": ["REQ-002", "REQ-003"]
+    },
+    {
+      "path": "__tests__/use-pool.test.ts",
+      "type": "test",
+      "action": "modify",
+      "purpose": "Test isValid minimum van 2 naar 1 aanpassen",
+      "requirements": ["REQ-004"]
+    }
+  ],
+  "architecture": {
+    "componentTree": "use-pool.ts (MIN=1) → page.tsx (isValid check) → analyse componenten",
+    "interfaces": []
+  },
+  "buildSequence": [
+    {
+      "step": 1,
+      "requirements": ["REQ-001", "REQ-004"],
+      "description": "Verlaag MIN_CHAMPIONS naar 1 + update use-pool test",
+      "dependsOn": []
+    },
+    {
+      "step": 2,
+      "requirements": ["REQ-002", "REQ-003"],
+      "description": "Pas placeholder tekst aan in page.tsx",
+      "dependsOn": [1]
+    }
+  ],
+  "build": {
+    "started": "2026-04-03",
+    "completed": "2026-04-03",
+    "techniques": { "TDD": 2, "Implementation Only": 2 },
+    "testsPass": 67,
+    "testsTotal": 67,
+    "explanation": "MIN_CHAMPIONS van 2 naar 1 — bestaande analysisReady flow (isValid && dataset) toont automatisch alle analyse-componenten bij 1 champion. Suggesties fungeren als pairing-suggesties.",
+    "decisions": [
+      {
+        "decision": "MIN_CHAMPIONS constante wijzigen is voldoende — analysisReady in page.tsx hangt al af van isValid",
+        "reason": "Geen extra UI logic nodig, bestaande flow werkt bij 1 champion"
+      }
+    ]
+  },
+  "packages": [],
+  "tests": {
+    "checklist": [
+      {
+        "id": 1,
+        "title": "Analyse zichtbaar bij 1 champion",
+        "requirementId": "REQ-002",
+        "steps": ["Selecteer een role", "Voeg 1 champion toe aan je pool"],
+        "expected": "Matrix, quick pick, gap analysis en suggesties worden getoond",
+        "status": "PASS"
+      },
+      {
+        "id": 2,
+        "title": "Placeholder tekst bij 0 champions",
+        "requirementId": "REQ-003",
+        "steps": ["Selecteer een role", "Voeg geen champions toe"],
+        "expected": "Tekst 'Voeg een champion toe om je matchups te analyseren.' is zichtbaar",
+        "status": "PASS"
+      },
+      {
+        "id": 3,
+        "title": "Geen placeholder bij 1+ champions",
+        "requirementId": "REQ-003",
+        "steps": ["Selecteer een role", "Voeg 1 champion toe"],
+        "expected": "Geen placeholder tekst, direct analyse componenten",
+        "status": "PASS"
+      }
+    ],
+    "finalStatus": "PASSED",
+    "sessions": [{ "date": "2026-04-03", "pass": 5, "fail": 0, "skip": 0 }],
+    "verificationCheckpoint": { "gaps": [], "mismatches": [], "adjustments": "none" }
+  },
+  "testStrategy": {
+    "unit": [
+      {
+        "requirement": "REQ-001",
+        "file": "__tests__/use-pool.test.ts",
+        "description": "isValid = true bij 1 champion"
+      },
+      {
+        "requirement": "REQ-004",
+        "file": "__tests__/use-pool.test.ts",
+        "description": "Bestaande test aangepast, alle tests groen"
+      }
+    ],
+    "manual": [
+      {
+        "requirement": "REQ-002",
+        "description": "Browser verify: analyse componenten zichtbaar bij 1 champion"
+      },
+      {
+        "requirement": "REQ-003",
+        "description": "Browser verify: correcte placeholder bij 0 vs 1+ champions"
+      }
+    ]
+  }
+}

@@ -41,8 +41,7 @@
     },
     {
       "name": "single-champion-matchups",
-      "status": "DOING",
-      "stage": "built",
+      "status": "DONE",
       "summary": "Analyse beschikbaar bij 1 champion i.p.v. minimum 2. Bestaande suggesties als pairing-suggesties.",
       "created": "2026-04-03"
     }
