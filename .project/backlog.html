@@ -52,8 +52,7 @@
           {
             "name": "bot-support-combos",
             "type": "FEATURE",
-            "status": "DOING",
-            "stage": "defining",
+            "status": "TODO",
             "date": "2026-04-03",
             "phase": "P1",
             "description": "Bot + support duo lane support: combo-synergy data, gezamenlijke matchup analyse en pool optimalisatie voor bot/support paren. Complexer dan solo lanes door 2v2 dynamiek",
@@ -70,6 +69,34 @@
             "dependency": null
           },
           {
+            "name": "pick-rate-integration",
+            "type": "CHANGE",
+            "status": "TODO",
+            "date": "2026-04-03",
+            "phase": "P1",
+            "description": "Pick rate data integreren in bestaande berekeningen (matchup engine, matrix, gaps, suggesties). Winrate alleen is misleidend bij lage pick rate — weeg scores op basis van pick rate voor nauwkeurigere resultaten.",
+            "dependency": null
+          },
+          {
+            "name": "blind-pick-ban-suggestions",
+            "type": "FEATURE",
+            "status": "DOING",
+            "stage": "built",
+            "date": "2026-04-03",
+            "phase": "P2",
+            "description": "Beste blind pick suggestie en beste ban suggestie tonen op basis van pool matchup data en pick rates. Blind pick = champion met hoogste gewogen winrate over alle matchups, ban = tegenstander die het meeste schade doet aan je pool.",
+            "dependency": "pick-rate-integration"
+          },
+          {
+            "name": "always-show-suggestions",
+            "type": "CHANGE",
+            "status": "TODO",
+            "date": "2026-04-03",
+            "phase": "P1",
+            "description": "Suggesties altijd tonen, niet alleen bij gaps. Huidige logica toont alleen suggesties om gaps te dichten — nieuwe logica moet altijd pool-suggesties geven op basis van coverage, winrate en synergie, ongeacht of er gaps zijn.",
+            "dependency": null
+          },
+          {
             "name": "champ-select-advisor",
             "type": "FEATURE",
             "status": "TODO",
@@ -82,9 +109,18 @@
             "type": "PAGE",
             "status": "DOING",
             "stage": "built",
-            "date": "2026-04-02",
+            "date": "2026-04-03",
             "phase": "P3",
-            "description": "Role selectie, champion pool invoer, matchup analyse en matrix op één pagina",
+            "description": "Role selectie, pool invoer, blind pick/ban, quick pick en gap analyse op één pagina",
+            "dependency": null
+          },
+          {
+            "name": "build-suggestion",
+            "type": "FEATURE",
+            "status": "TODO",
+            "date": "2026-04-03",
+            "phase": "P1",
+            "description": "Build suggesties per champion: optimale item build, skill order en runes op basis van beste winrate data. Toont de hoogst scorende build path zodat spelers direct de juiste setup kunnen overnemen.",
             "dependency": null
           }
         ],

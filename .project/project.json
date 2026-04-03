@@ -2,7 +2,7 @@
   "name": "lol-pool-optimizer",
   "description": "LoL Champion Pool Optimizer — matchup matrix, coverage gaps & champion suggesties",
   "created": "2026-04-01",
-  "updated": "2026-04-02",
+  "updated": "2026-04-03",
   "stack": {
     "framework": "Next.js (App Router)",
     "language": "TypeScript",
@@ -112,6 +112,38 @@
       "summary": "Bot + support duo lane support: combo-synergy, gezamenlijke matchup analyse en pool optimalisatie voor bot/support paren",
       "newFeature": "bot-support-combos",
       "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-03",
+      "title": "always-show-suggestions",
+      "summary": "Suggesties altijd tonen, niet alleen bij gaps. Pool-suggesties op basis van coverage, winrate en synergie.",
+      "newFeature": "always-show-suggestions",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-03",
+      "title": "pick-rate-integration",
+      "summary": "Pick rate data integreren in bestaande berekeningen (matchup engine, matrix, gaps, suggesties) voor nauwkeurigere scores.",
+      "newFeature": "pick-rate-integration",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-03",
+      "title": "blind-pick-ban-suggestions",
+      "summary": "Beste blind pick suggestie en beste ban suggestie tonen op basis van pool matchup data en pick rates.",
+      "newFeature": "blind-pick-ban-suggestions",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-03",
+      "title": "build-suggestion",
+      "summary": "Build suggesties per champion: optimale item build, skill order en runes op basis van beste winrate data.",
+      "newFeature": "build-suggestion",
+      "source": "/dev-todo"
     }
   ],
   "context": {
@@ -121,7 +153,7 @@
       "app/api/champions/route.ts": "DDragon proxy met 24h cache",
       "app/api/matchups/[role]/route.ts": "OP.GG matchup data per role, 24h ISR cache",
       "components/pool-input.tsx": "Champion zoek + selectie met autocomplete",
-      "components/matchup-matrix.tsx": "Grid met kleurcodering + best pick highlight",
+      "components/blind-pick-ban.tsx": "Blind pick + beste ban kaarten",
       "components/quick-pick.tsx": "Zoekbalk + pool ranking + top counters",
       "components/gap-analysis.tsx": "Coverage gaps + champion suggesties",
       "components/champion-icon.tsx": "DDragon icon wrapper met fallback",
@@ -174,9 +206,9 @@
         "status": "BLT",
         "sections": [
           "pool-input",
+          "blind-pick-ban",
           "quick-pick",
-          "gap-analysis",
-          "matchup-matrix"
+          "gap-analysis"
         ],
         "flows": ["pool-samenstellen", "quick-pick", "gap-analyse"],
         "notes": ""

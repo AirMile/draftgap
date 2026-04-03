@@ -100,6 +100,35 @@ export function suggestChampions(
   return suggestions;
 }
 
+export function bestBlindPick(
+  pool: string[],
+  opponents: string[],
+  matchups: MatchupData[],
+): { champion: string; avgWinrate: number } | null {
+  let best: { champion: string; avgWinrate: number } | null = null;
+
+  for (const champ of pool) {
+    const champMatchups = opponents
+      .map((opp) => findMatchup(champ, opp, matchups))
+      .filter((m): m is MatchupData => m !== undefined);
+
+    if (champMatchups.length === 0) continue;
+
+    const avgWinrate =
+      Math.round(
+        (champMatchups.reduce((sum, m) => sum + m.winrate, 0) /
+          champMatchups.length) *
+          10,
+      ) / 10;
+
+    if (!best || avgWinrate > best.avgWinrate) {
+      best = { champion: champ, avgWinrate };
+    }
+  }
+
+  return best;
+}
+
 export function rankPoolVsEnemy(
   pool: string[],
   enemy: string,

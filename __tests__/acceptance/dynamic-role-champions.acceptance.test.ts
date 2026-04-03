@@ -9,21 +9,15 @@ import * as glob from "glob";
 const ROOT = path.resolve(__dirname, "../..");
 
 describe("dynamic-role-champions acceptance", () => {
-  // A1: pool/page.tsx fetcht /api/champions/{role}
-  it("A1: pool/page.tsx fetches /api/champions/", () => {
-    const source = fs.readFileSync(
-      path.join(ROOT, "app/pool/page.tsx"),
-      "utf-8",
-    );
+  // A1: page.tsx fetcht /api/champions/{role}
+  it("A1: page.tsx fetches /api/champions/", () => {
+    const source = fs.readFileSync(path.join(ROOT, "app/page.tsx"), "utf-8");
     expect(source).toContain("/api/champions/");
   });
 
-  // A2: pool/page.tsx importeert role-mapping.json niet
-  it("A2: pool/page.tsx does not import role-mapping", () => {
-    const source = fs.readFileSync(
-      path.join(ROOT, "app/pool/page.tsx"),
-      "utf-8",
-    );
+  // A2: page.tsx importeert role-mapping.json niet
+  it("A2: page.tsx does not import role-mapping", () => {
+    const source = fs.readFileSync(path.join(ROOT, "app/page.tsx"), "utf-8");
     expect(source).not.toContain("role-mapping");
   });
 

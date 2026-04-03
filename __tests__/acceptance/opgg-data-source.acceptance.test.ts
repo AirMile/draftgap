@@ -187,10 +187,10 @@ describe("REQ-002: Data shape validation", () => {
 // REQ-004: pool/page.tsx uses API, not mock import
 // ============================================================
 
-describe("REQ-004: pool/page.tsx uses API, not mock import", () => {
+describe("REQ-004: page.tsx uses API, not mock import", () => {
   const realFs = jest.requireActual<typeof import("fs")>("fs");
   const realPath = jest.requireActual<typeof import("path")>("path");
-  const poolPagePath = realPath.resolve(__dirname, "../../app/pool/page.tsx");
+  const poolPagePath = realPath.resolve(__dirname, "../../app/page.tsx");
 
   let poolPageSource: string;
 
