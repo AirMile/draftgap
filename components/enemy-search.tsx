@@ -58,7 +58,7 @@ export function EnemySearch({
             if (!selectedEnemy) setIsOpen(true);
           }}
           placeholder="Who are you playing against?"
-          className="w-full bg-card-border/30 border border-card-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+          className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
         />
         {selectedEnemy && (
           <button
@@ -75,7 +75,7 @@ export function EnemySearch({
         {isOpen && !selectedEnemy && filtered.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 mt-1 bg-card border border-card-border rounded-lg z-20 max-h-96 overflow-y-auto p-3"
+            className="absolute top-full left-0 right-0 mt-1 bg-input border border-input-border rounded-lg z-20 max-h-96 overflow-y-auto p-3"
           >
             <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
               {filtered.map((c) => (

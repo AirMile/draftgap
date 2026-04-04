@@ -85,12 +85,12 @@ export function PoolInput({
                 }}
                 onFocus={() => setIsOpen(true)}
                 placeholder="Expand your pool..."
-                className="w-full bg-card-border/30 border border-card-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+                className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
               />
               {isOpen && filtered.length > 0 && (
                 <div
                   ref={dropdownRef}
-                  className="absolute top-full left-0 right-0 mt-1 bg-card border border-card-border rounded-lg z-50 max-h-96 overflow-y-auto p-3"
+                  className="absolute top-full left-0 right-0 mt-1 bg-input border border-input-border rounded-lg z-50 max-h-96 overflow-y-auto p-3"
                 >
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
                     {filtered.map((c) => (
@@ -173,7 +173,7 @@ export function PoolInput({
             {champions.map((c) => (
               <div
                 key={c}
-                className="flex items-center gap-2 bg-card border border-card-border rounded-lg px-3 py-1.5"
+                className="flex items-center gap-2 bg-input border border-input-border rounded-lg px-3 py-1.5"
               >
                 <ChampionIcon championId={c} version={version} size={24} />
                 <span className="text-sm">{formatChampionName(c)}</span>
@@ -199,12 +199,12 @@ export function PoolInput({
                 }}
                 onFocus={() => setIsOpen(true)}
                 placeholder="Search champion..."
-                className="w-full bg-card border border-card-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+                className="w-full bg-input border border-input-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
               />
               {isOpen && filtered.length > 0 && (
                 <div
                   ref={dropdownRef}
-                  className="absolute top-full left-0 mt-1 bg-card border border-card-border rounded-lg z-10 max-h-80 overflow-y-auto p-2"
+                  className="absolute top-full left-0 mt-1 bg-input border border-input-border rounded-lg z-10 max-h-80 overflow-y-auto p-2"
                 >
                   <div className="grid grid-cols-4 gap-1">
                     {filtered.map((c) => (

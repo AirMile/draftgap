@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Original theme restored */
 :root {
   --background: #0f1118;
   --foreground: #e2e8f0;
@@ -13,6 +14,8 @@
   --gap: #dc2626;
   --muted: #64748b;
   --accent-glow: rgba(200, 155, 60, 0.15);
+  --input: #3a3d50;
+  --input-border: #3a3d4e;
 }
 
 @theme inline {
@@ -27,6 +30,8 @@
   --color-loss: var(--loss);
   --color-gap: var(--gap);
   --color-muted: var(--muted);
+  --color-input: var(--input);
+  --color-input-border: var(--input-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
