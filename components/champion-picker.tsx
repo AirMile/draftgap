@@ -58,16 +58,24 @@ export function ChampionPicker({
                   <button
                     key={c}
                     onClick={() => togglePick(c)}
-                    className={`flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors ${
+                    className={`flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-200 border ${
                       selected
-                        ? "bg-accent/20 ring-2 ring-accent"
-                        : "hover:bg-card"
+                        ? "bg-accent/8 border-accent/30 shadow-[0_0_8px_rgba(200,155,60,0.12)]"
+                        : "border-transparent hover:bg-card-border/20"
                     }`}
                   >
-                    <ChampionIcon championId={c} version={version} size={48} />
+                    <div
+                      className={`rounded-lg overflow-hidden transition-opacity duration-200 ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                    >
+                      <ChampionIcon
+                        championId={c}
+                        version={version}
+                        size={48}
+                      />
+                    </div>
                     <span
                       className={`text-[11px] leading-tight truncate w-full text-center ${
-                        selected ? "text-accent font-medium" : "text-muted"
+                        selected ? "text-foreground" : "text-muted"
                       }`}
                     >
                       {c}
@@ -101,7 +109,7 @@ export function ChampionPicker({
           <button
             onClick={handleConfirm}
             disabled={selection.length === 0}
-            className="w-full py-2.5 rounded-lg font-medium transition-colors bg-accent text-background hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-lg font-medium transition-all duration-200 bg-accent/15 border border-accent/25 text-accent hover:bg-accent/25 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Confirm ({selection.length})
           </button>
