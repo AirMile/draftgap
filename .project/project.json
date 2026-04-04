@@ -2,7 +2,7 @@
   "name": "lol-pool-optimizer",
   "description": "LoL Champion Pool Optimizer — matchup matrix, coverage gaps & champion suggesties",
   "created": "2026-04-01",
-  "updated": "2026-04-03",
+  "updated": "2026-04-04",
   "stack": {
     "framework": "Next.js (App Router)",
     "language": "TypeScript",
@@ -143,6 +143,22 @@
       "title": "build-suggestion",
       "summary": "Build suggesties per champion: optimale item build, skill order en runes op basis van beste winrate data.",
       "newFeature": "build-suggestion",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-04",
+      "title": "matchup-counter-tips",
+      "summary": "Bij het selecteren van een matchup counter-info tonen: welke items sterk zijn tegen die champion en tips hoe je de matchup wint.",
+      "newFeature": "matchup-counter-tips",
+      "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-04",
+      "title": "enemy-jungler-context",
+      "summary": "Bij lane matchups tonen wat voor type jungler de enemy heeft (gank-heavy, farm, invade) zodat je jungle pressure kunt inschatten.",
+      "newFeature": "enemy-jungler-context",
       "source": "/dev-todo"
     }
   ],

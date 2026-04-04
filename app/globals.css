@@ -12,6 +12,7 @@
   --loss: #ef4444;
   --gap: #dc2626;
   --muted: #64748b;
+  --accent-glow: rgba(200, 155, 60, 0.15);
 }
 
 @theme inline {
@@ -30,6 +31,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -38,4 +43,21 @@ body {
 * {
   scrollbar-color: var(--card-border) transparent;
   scrollbar-width: thin;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }

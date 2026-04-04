@@ -21,7 +21,7 @@ export function ChampionIcon({
     return (
       <div
         style={{ width: size, height: size }}
-        className="bg-gray-700 rounded flex items-center justify-center text-xs text-gray-400"
+        className="bg-card-border rounded flex items-center justify-center text-xs text-muted"
         title={championId}
       >
         ?

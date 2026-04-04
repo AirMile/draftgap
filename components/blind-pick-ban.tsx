@@ -43,7 +43,7 @@ export function BlindPickBan({
             size={32}
           />
           <div>
-            <span className="text-xs text-muted">Beste ban</span>
+            <span className="text-xs text-muted">Best ban</span>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">{banTarget.opponent}</span>
               <span className="text-xs font-mono text-loss">

@@ -3,14 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { Role } from "@/lib/types";
 import { ChampionIcon } from "@/components/champion-icon";
-
-const ROLES: { value: Role; label: string }[] = [
-  { value: "top", label: "Top" },
-  { value: "jungle", label: "Jungle" },
-  { value: "mid", label: "Mid" },
-  { value: "bot", label: "Bot" },
-  { value: "support", label: "Support" },
-];
+import { RoleSelector, ROLES } from "@/components/role-selector";
 
 interface PoolInputProps {
   role: Role | null;
@@ -72,21 +65,7 @@ export function PoolInput({
       <div className="space-y-4">
         {!hideRoleSelector && (
           <div className="flex justify-center">
-            <div className="inline-flex gap-1 bg-background border border-card-border rounded-lg p-1">
-              {ROLES.map((r) => (
-                <button
-                  key={r.value}
-                  onClick={() => onRoleChange(r.value)}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    role === r.value
-                      ? "bg-accent/15 text-accent"
-                      : "text-muted hover:text-foreground"
-                  }`}
-                >
-                  {r.label}
-                </button>
-              ))}
-            </div>
+            <RoleSelector role={role} onRoleChange={onRoleChange} />
           </div>
         )}
 
@@ -102,7 +81,7 @@ export function PoolInput({
                   setIsOpen(true);
                 }}
                 onFocus={() => setIsOpen(true)}
-                placeholder="+ Champion"
+                placeholder="Expand your pool..."
                 className="w-full bg-card-border/30 border border-card-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
               />
               {isOpen && filtered.length > 0 && (
@@ -143,8 +122,8 @@ export function PoolInput({
                     <span className="text-sm">{c}</span>
                     <button
                       onClick={() => onRemoveChampion(c)}
-                      className="text-muted hover:text-loss text-sm leading-none ml-0.5"
-                      aria-label={`${c} verwijderen`}
+                      className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
+                      aria-label={`Remove ${c}`}
                     >
                       ×
                     </button>
@@ -216,7 +195,7 @@ export function PoolInput({
                   setIsOpen(true);
                 }}
                 onFocus={() => setIsOpen(true)}
-                placeholder="Zoek champion..."
+                placeholder="Search champion..."
                 className="w-full bg-card border border-card-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
               />
               {isOpen && filtered.length > 0 && (

@@ -51,5 +51,6 @@ export function getChampionIconUrl(
   championId: string,
   version: string,
 ): string {
-  return `${DDRAGON_BASE}/cdn/${version}/img/champion/${championId}.png`;
+  const ddId = championId === "Wukong" ? "MonkeyKing" : championId;
+  return `${DDRAGON_BASE}/cdn/${version}/img/champion/${ddId}.png`;
 }

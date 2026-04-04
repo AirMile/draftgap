@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import type { MatchupData } from "@/lib/types";
 import { bestPick } from "@/lib/matchup-engine";
+import { winrateColor, winrateBg } from "@/lib/ui-utils";
 import { ChampionIcon } from "@/components/champion-icon";
 
 type SortMode = "hardest" | "easiest" | "alpha";
@@ -14,18 +15,6 @@ interface MatchupMatrixProps {
   matchups: MatchupData[];
   gapOpponents: string[];
   version: string;
-}
-
-function winrateColor(wr: number): string {
-  if (wr >= 52) return "text-win";
-  if (wr > 48) return "text-neutral";
-  return "text-loss";
-}
-
-function winrateBg(wr: number): string {
-  if (wr >= 52) return "bg-win/10";
-  if (wr > 48) return "bg-neutral/10";
-  return "bg-loss/10";
 }
 
 function getBestWinrate(
@@ -51,13 +40,13 @@ function getBestWinrate(
 }
 
 const SORT_OPTIONS: { value: SortMode; label: string }[] = [
-  { value: "hardest", label: "Hardst" },
-  { value: "easiest", label: "Makkelijkst" },
+  { value: "hardest", label: "Hardest" },
+  { value: "easiest", label: "Easiest" },
   { value: "alpha", label: "A-Z" },
 ];
 
 const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
-  { value: "all", label: "Alles" },
+  { value: "all", label: "All" },
   { value: "gaps", label: "Gaps" },
   { value: "unfavorable", label: "<50%" },
 ];
@@ -108,7 +97,7 @@ export function MatchupMatrix({
     <div className="space-y-3">
       <div className="flex items-center gap-4 flex-wrap">
         <div className="flex items-center gap-1.5">
-          <span className="text-muted text-xs">Sorteer:</span>
+          <span className="text-muted text-xs">Sort:</span>
           {SORT_OPTIONS.map((opt) => (
             <button
               key={opt.value}

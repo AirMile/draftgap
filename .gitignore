@@ -27,11 +27,19 @@ tsconfig.tsbuildinfo
 .playwright-mcp/
 
 # Claude project (runtime data)
+.project/session/
 .project/sessions/
 .project/features/
 
+# Dev tooling artifacts
+babel-plugin-inspector.js
+babel.config.js
+
 # Claude local config (per-device, not shared)
 .claude/paths.local.yaml
+
+# Screenshots (iterate workflow artifacts)
+*.png
 
 # Inspect overlay (synced from claude-config)
 public/_inspect/

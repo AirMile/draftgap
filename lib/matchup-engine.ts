@@ -100,6 +100,40 @@ export function suggestChampions(
   return suggestions;
 }
 
+export function suggestImprovements(
+  pool: string[],
+  gaps: GapResult[],
+  matchups: MatchupData[],
+  candidates: string[],
+): Suggestion[] {
+  const weakest = [...gaps]
+    .sort((a, b) => a.bestWinrate - b.bestWinrate)
+    .slice(0, 10);
+
+  const nonPool = candidates.filter((c) => !pool.includes(c));
+
+  return nonPool
+    .map((champion) => {
+      let improved = 0;
+      const relevantMatchups: MatchupData[] = [];
+
+      for (const weak of weakest) {
+        const m = findMatchup(champion, weak.opponent, matchups);
+        if (m) {
+          relevantMatchups.push(m);
+          if (m.winrate > weak.bestWinrate) {
+            improved++;
+          }
+        }
+      }
+
+      return { champion, gapsFixed: improved, matchups: relevantMatchups };
+    })
+    .filter((s) => s.gapsFixed > 0)
+    .sort((a, b) => b.gapsFixed - a.gapsFixed)
+    .slice(0, 5);
+}
+
 export function bestBlindPick(
   pool: string[],
   opponents: string[],

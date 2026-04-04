@@ -2,6 +2,7 @@
 
 import type { MatchupData } from "@/lib/types";
 import { rankPoolVsEnemy } from "@/lib/matchup-engine";
+import { winrateColor } from "@/lib/ui-utils";
 import { ChampionIcon } from "@/components/champion-icon";
 
 interface QuickPickProps {
@@ -10,12 +11,6 @@ interface QuickPickProps {
   matchups: MatchupData[];
   allChampions: string[];
   version: string;
-}
-
-function winrateColor(wr: number): string {
-  if (wr >= 52) return "text-win";
-  if (wr > 48) return "text-neutral";
-  return "text-loss";
 }
 
 export function QuickPick({
@@ -48,7 +43,7 @@ export function QuickPick({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div className="bg-card border border-card-border rounded-lg p-4">
         <h3 className="text-sm font-medium text-muted mb-3">
-          Jouw pool vs {selectedEnemy}
+          Your pool vs {selectedEnemy}
         </h3>
         {poolWithData.length > 0 || poolNoData.length > 0 ? (
           <div className="space-y-2">
@@ -73,19 +68,17 @@ export function QuickPick({
                 <span className="text-muted text-sm w-5">—</span>
                 <ChampionIcon championId={c} version={version} size={24} />
                 <span className="flex-1">{c}</span>
-                <span className="text-muted text-xs">geen data</span>
+                <span className="text-muted text-xs">no data</span>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-muted text-sm">Geen data beschikbaar</p>
+          <p className="text-muted text-sm">No data available</p>
         )}
       </div>
 
       <div className="bg-card border border-card-border rounded-lg p-4">
-        <h3 className="text-sm font-medium text-muted mb-3">
-          Top counters buiten pool
-        </h3>
+        <h3 className="text-sm font-medium text-muted mb-3">Top counters</h3>
         {topCounters.length > 0 ? (
           <div className="space-y-2">
             {topCounters.map((m) => (
@@ -101,14 +94,11 @@ export function QuickPick({
                 >
                   {m.winrate.toFixed(1)}%
                 </span>
-                {m.winrate > bestPoolWr && (
-                  <span className="text-xs text-win">beter</span>
-                )}
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-muted text-sm">Geen data beschikbaar</p>
+          <p className="text-muted text-sm">No data available</p>
         )}
       </div>
     </div>

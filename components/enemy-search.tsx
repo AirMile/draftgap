@@ -54,7 +54,7 @@ export function EnemySearch({
           onFocus={() => {
             if (!selectedEnemy) setIsOpen(true);
           }}
-          placeholder="Tegen wie speel je?"
+          placeholder="Who are you playing against?"
           className="w-full bg-card-border/30 border border-card-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
         />
         {selectedEnemy && (

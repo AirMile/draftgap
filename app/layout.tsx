@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LoL Pool Optimizer",
   description:
-    "Champion pool optimizer — matchup matrix, coverage gaps & champion suggesties",
+    "Champion pool optimizer — matchup matrix, coverage gaps & champion suggestions",
 };
 
 export default function RootLayout({

@@ -21,6 +21,7 @@ export function GapAnalysis({
   canAdd,
 }: GapAnalysisProps) {
   const gapList = gaps.filter((g) => g.isGap);
+  const hasGaps = gapList.length > 0;
   const covered = totalOpponents - gapList.length;
   const worstMatchups = [...gaps]
     .sort((a, b) => a.bestWinrate - b.bestWinrate)
@@ -32,9 +33,12 @@ export function GapAnalysis({
         {worstMatchups.length > 0 && (
           <div className="bg-card border border-card-border rounded-lg p-4">
             <span className="text-sm text-muted">Worst matchups</span>
-            <div className="mt-2 space-y-1">
+            <div className="mt-2 divide-y divide-card-border">
               {worstMatchups.map((g) => (
-                <div key={g.opponent} className="flex items-center gap-2">
+                <div
+                  key={g.opponent}
+                  className="flex items-center gap-2 py-1.5"
+                >
                   <ChampionIcon
                     championId={g.opponent}
                     version={version}
@@ -55,37 +59,45 @@ export function GapAnalysis({
         {suggestions.length > 0 && (
           <div className="bg-card border border-card-border rounded-lg p-4">
             <h3 className="text-sm font-medium text-muted mb-3">
-              Beste suggesties
+              Pool suggestions
             </h3>
             <div className="grid grid-cols-1 gap-1.5">
-              {suggestions.map((s) => (
-                <div
-                  key={s.champion}
-                  className="flex items-center gap-2 bg-card border border-card-border rounded-lg px-3 py-2"
-                >
-                  <ChampionIcon
-                    championId={s.champion}
-                    version={version}
-                    size={24}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">
-                      {s.champion}
+              {suggestions.map((s) => {
+                const isClickable = onAddChampion && canAdd;
+                const Wrapper = isClickable ? "button" : "div";
+                return (
+                  <Wrapper
+                    key={s.champion}
+                    {...(isClickable
+                      ? { onClick: () => onAddChampion(s.champion) }
+                      : {})}
+                    className={`flex items-center gap-2 bg-card border border-card-border rounded-lg px-3 py-2 transition-all duration-150 ${
+                      isClickable
+                        ? "cursor-pointer hover:border-accent/50 hover:bg-accent/5 active:scale-[0.98] group"
+                        : ""
+                    }`}
+                  >
+                    <ChampionIcon
+                      championId={s.champion}
+                      version={version}
+                      size={24}
+                    />
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="text-sm font-medium truncate">
+                        {s.champion}
+                      </div>
+                      <div className="text-muted text-xs">
+                        {`covers ${s.gapsFixed} weak matchup${s.gapsFixed !== 1 ? "s" : ""}`}
+                      </div>
                     </div>
-                    <div className="text-muted text-xs">
-                      {s.gapsFixed} gap{s.gapsFixed !== 1 ? "s" : ""} gedicht
-                    </div>
-                  </div>
-                  {onAddChampion && canAdd && (
-                    <button
-                      onClick={() => onAddChampion(s.champion)}
-                      className="px-2.5 py-1.5 bg-accent text-background rounded-md text-sm font-medium hover:bg-accent-dim transition-colors cursor-pointer shrink-0"
-                    >
-                      +
-                    </button>
-                  )}
-                </div>
-              ))}
+                    {isClickable && (
+                      <span className="text-muted group-hover:text-accent transition-colors shrink-0 text-lg leading-none">
+                        +
+                      </span>
+                    )}
+                  </Wrapper>
+                );
+              })}
             </div>
           </div>
         )}

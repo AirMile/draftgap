@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["micro-keyboards-current-warranties.trycloudflare.com"],
+  allowedDevOrigins: ["sites-figure-citizenship-duo.trycloudflare.com"],
   images: {
     remotePatterns: [
       {
