@@ -108,35 +108,58 @@ export function GapAnalysis({
                             e.stopPropagation();
                             onAddChampion(s.champion);
                           }}
-                          className="text-muted hover:text-accent transition-colors shrink-0 text-lg leading-none px-1"
+                          className="text-muted hover:text-accent hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-8 h-8 flex items-center justify-center rounded-md"
                         >
                           +
                         </button>
                       )}
                     </div>
                     {isExpanded && s.matchups.length > 0 && (
-                      <div className="px-3 pb-2 pt-1 border-t border-card-border space-y-1">
-                        {s.matchups.map((m) => (
-                          <div
-                            key={`${m.champion}-${m.opponent}`}
-                            className="flex items-center gap-2 text-xs"
-                          >
-                            <span className="text-muted">vs</span>
-                            <ChampionIcon
-                              championId={m.opponent}
-                              version={version}
-                              size={16}
-                            />
-                            <span className="flex-1">
-                              {formatChampionName(m.opponent)}
-                            </span>
-                            <span
-                              className={`font-mono ${winrateColor(m.winrate)}`}
-                            >
-                              {m.winrate.toFixed(1)}%
-                            </span>
-                          </div>
-                        ))}
+                      <div className="px-3 pb-2 pt-1 border-t border-card-border divide-y divide-card-border">
+                        {[...s.matchups]
+                          .sort((a, b) => {
+                            const gA = gaps.find(
+                              (g) => g.opponent === a.opponent,
+                            );
+                            const gB = gaps.find(
+                              (g) => g.opponent === b.opponent,
+                            );
+                            return (
+                              (gA?.bestWinrate ?? 0) - (gB?.bestWinrate ?? 0)
+                            );
+                          })
+                          .map((m) => {
+                            const current = gaps.find(
+                              (g) => g.opponent === m.opponent,
+                            );
+                            return (
+                              <div
+                                key={`${m.champion}-${m.opponent}`}
+                                className="flex items-center gap-2 text-xs py-1.5"
+                              >
+                                <span className="text-muted">vs</span>
+                                <ChampionIcon
+                                  championId={m.opponent}
+                                  version={version}
+                                  size={16}
+                                />
+                                <span className="flex-1">
+                                  {formatChampionName(m.opponent)}
+                                </span>
+                                {current && (
+                                  <span className="font-mono text-xs text-muted">
+                                    {current.bestWinrate.toFixed(1)}%
+                                  </span>
+                                )}
+                                <span className="text-muted text-xs">→</span>
+                                <span
+                                  className={`font-mono font-medium ${winrateColor(m.winrate)}`}
+                                >
+                                  {m.winrate.toFixed(1)}%
+                                </span>
+                              </div>
+                            );
+                          })}
                       </div>
                     )}
                   </div>
