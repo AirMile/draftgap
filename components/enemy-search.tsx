@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChampionIcon } from "@/components/champion-icon";
+import { formatChampionName } from "@/lib/ui-utils";
 
 interface EnemySearchProps {
   opponents: string[];
@@ -21,8 +22,10 @@ export function EnemySearch({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filtered = opponents.filter((c) =>
-    c.toLowerCase().includes(query.toLowerCase()),
+  const filtered = opponents.filter(
+    (c) =>
+      c.toLowerCase().includes(query.toLowerCase()) ||
+      formatChampionName(c).toLowerCase().includes(query.toLowerCase()),
   );
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -45,7 +48,7 @@ export function EnemySearch({
         <input
           ref={inputRef}
           type="text"
-          value={selectedEnemy ?? query}
+          value={selectedEnemy ? formatChampionName(selectedEnemy) : query}
           onChange={(e) => {
             setQuery(e.target.value);
             onSelectEnemy(null);
@@ -87,7 +90,7 @@ export function EnemySearch({
                 >
                   <ChampionIcon championId={c} version={version} size={48} />
                   <span className="text-xs text-muted truncate w-full text-center leading-tight">
-                    {c}
+                    {formatChampionName(c)}
                   </span>
                 </button>
               ))}

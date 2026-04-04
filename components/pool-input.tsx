@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import type { Role } from "@/lib/types";
 import { ChampionIcon } from "@/components/champion-icon";
 import { RoleSelector, ROLES } from "@/components/role-selector";
+import { formatChampionName } from "@/lib/ui-utils";
 
 interface PoolInputProps {
   role: Role | null;
@@ -35,7 +36,9 @@ export function PoolInput({
 
   const filtered = allChampions.filter(
     (c) =>
-      c.toLowerCase().includes(query.toLowerCase()) && !champions.includes(c),
+      (c.toLowerCase().includes(query.toLowerCase()) ||
+        formatChampionName(c).toLowerCase().includes(query.toLowerCase())) &&
+      !champions.includes(c),
   );
   // No auto-focus — champion picker handles initial selection
 
@@ -102,7 +105,7 @@ export function PoolInput({
                           size={48}
                         />
                         <span className="text-xs text-muted truncate w-full text-center leading-tight">
-                          {c}
+                          {formatChampionName(c)}
                         </span>
                       </button>
                     ))}
@@ -119,7 +122,7 @@ export function PoolInput({
                     className="flex items-center gap-2 bg-background border border-card-border rounded-lg px-2.5 py-1"
                   >
                     <ChampionIcon championId={c} version={version} size={24} />
-                    <span className="text-sm">{c}</span>
+                    <span className="text-sm">{formatChampionName(c)}</span>
                     <button
                       onClick={() => onRemoveChampion(c)}
                       className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
@@ -173,7 +176,7 @@ export function PoolInput({
                 className="flex items-center gap-2 bg-card border border-card-border rounded-lg px-3 py-1.5"
               >
                 <ChampionIcon championId={c} version={version} size={24} />
-                <span className="text-sm">{c}</span>
+                <span className="text-sm">{formatChampionName(c)}</span>
                 <button
                   onClick={() => onRemoveChampion(c)}
                   className="text-muted hover:text-loss ml-1"
@@ -216,7 +219,7 @@ export function PoolInput({
                           size={48}
                         />
                         <span className="text-xs text-muted truncate w-full text-center leading-tight">
-                          {c}
+                          {formatChampionName(c)}
                         </span>
                       </button>
                     ))}

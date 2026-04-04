@@ -1,6 +1,7 @@
 "use client";
 
 import { ChampionIcon } from "@/components/champion-icon";
+import { formatChampionName } from "@/lib/ui-utils";
 
 interface BlindPickBanProps {
   blindPick: { champion: string; avgWinrate: number } | null;
@@ -27,7 +28,9 @@ export function BlindPickBan({
           <div>
             <span className="text-xs text-muted">Blind pick</span>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">{blindPick.champion}</span>
+              <span className="text-sm font-medium">
+                {formatChampionName(blindPick.champion)}
+              </span>
               <span className="text-xs font-mono text-win">
                 {blindPick.avgWinrate.toFixed(1)}%
               </span>
@@ -45,7 +48,9 @@ export function BlindPickBan({
           <div>
             <span className="text-xs text-muted">Best ban</span>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">{banTarget.opponent}</span>
+              <span className="text-sm font-medium">
+                {formatChampionName(banTarget.opponent)}
+              </span>
               <span className="text-xs font-mono text-loss">
                 {banTarget.bestWinrate.toFixed(1)}%
               </span>
