@@ -35,14 +35,14 @@ export default function Home() {
   const [matchupLoading, setMatchupLoading] = useState(false);
   const [matchupError, setMatchupError] = useState<string | null>(null);
 
-  // Reset confirmed state when role changes
+  // When role changes, go to dashboard if pool has champions, otherwise picker
   useEffect(() => {
     if (pool?.role !== prevRole.current) {
       prevRole.current = pool?.role;
-      setConfirmed(false);
+      setConfirmed(pool !== null && pool.champions.length > 0);
       setSelectedEnemy(null);
     }
-  }, [pool?.role]);
+  }, [pool?.role, pool?.champions.length]);
 
   // Back to champion picker when pool is emptied
   useEffect(() => {
@@ -263,14 +263,16 @@ export default function Home() {
             )}
 
             {analysisReady ? (
-              <GapAnalysis
-                gaps={gaps}
-                suggestions={suggestions}
-                totalOpponents={opponents.length}
-                version={DDRAGON_VERSION}
-                onAddChampion={addChampion}
-                canAdd={true}
-              />
+              <>
+                <GapAnalysis
+                  gaps={gaps}
+                  suggestions={suggestions}
+                  totalOpponents={opponents.length}
+                  version={DDRAGON_VERSION}
+                  onAddChampion={addChampion}
+                  canAdd={true}
+                />
+              </>
             ) : championsLoading || matchupLoading ? (
               <DashboardSkeleton />
             ) : (

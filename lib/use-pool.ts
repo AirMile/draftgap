@@ -1,19 +1,46 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { PoolState, Role } from "@/lib/types";
 
 const MIN_CHAMPIONS = 1;
+const STORAGE_KEY = "lol-pool-optimizer-pools";
+
+type PerRolePools = Partial<Record<Role, string[]>>;
+
+function loadPools(): PerRolePools {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as PerRolePools) : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePools(pools: PerRolePools) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pools));
+  } catch {
+    // quota exceeded, silently ignore
+  }
+}
 
 export function usePool() {
   const [pool, setPool] = useState<PoolState | null>(null);
-  const loaded = true;
+  const [loaded, setLoaded] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
   const setRole = useCallback((role: Role) => {
     setPool((prev) => {
       if (prev?.role === role) return prev;
-      const next: PoolState = { role, champions: [] };
-      return next;
+      const pools = loadPools();
+      const savedChampions = pools[role] ?? [];
+      return { role, champions: savedChampions };
     });
   }, []);
 
@@ -26,6 +53,9 @@ export function usePool() {
         ...prev,
         champions: [...prev.champions, championId],
       };
+      const pools = loadPools();
+      pools[next.role] = next.champions;
+      savePools(pools);
       added = true;
       return next;
     });
@@ -39,7 +69,20 @@ export function usePool() {
         ...prev,
         champions: prev.champions.filter((c) => c !== championId),
       };
+      const pools = loadPools();
+      pools[next.role] = next.champions;
+      savePools(pools);
       return next;
+    });
+  }, []);
+
+  const clearPool = useCallback(() => {
+    setPool((prev) => {
+      if (!prev) return null;
+      const pools = loadPools();
+      delete pools[prev.role];
+      savePools(pools);
+      return null;
     });
   }, []);
 
@@ -52,6 +95,7 @@ export function usePool() {
     setRole,
     addChampion,
     removeChampion,
+    clearPool,
     minChampions: MIN_CHAMPIONS,
   };
 }
