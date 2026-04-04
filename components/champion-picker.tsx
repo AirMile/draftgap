@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import type { Role } from "@/lib/types";
 import { ChampionIcon } from "@/components/champion-icon";
+import { formatChampionName } from "@/lib/ui-utils";
 
 interface ChampionPickerProps {
   role: Role;
@@ -20,14 +21,26 @@ export function ChampionPicker({
   onConfirm,
 }: ChampionPickerProps) {
   const [selection, setSelection] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
   const prevRole = useRef(role);
 
   useEffect(() => {
     if (role !== prevRole.current) {
       prevRole.current = role;
       setSelection([]);
+      setSearch("");
     }
   }, [role]);
+
+  const filteredChampions = useMemo(() => {
+    if (!search) return champions;
+    const q = search.toLowerCase();
+    return champions.filter(
+      (c) =>
+        c.toLowerCase().includes(q) ||
+        formatChampionName(c).toLowerCase().includes(q),
+    );
+  }, [champions, search]);
 
   const togglePick = (id: string) => {
     setSelection((prev) =>
@@ -42,6 +55,13 @@ export function ChampionPicker({
   return (
     <div className="flex flex-col animate-fade-in">
       <div className="max-w-5xl w-full flex flex-col">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search champions..."
+          className="w-full bg-card-border/30 border border-card-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent text-sm"
+        />
         <div
           className={`bg-card border border-card-border rounded-xl p-4 grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start ${championsLoading && champions.length > 0 ? "opacity-40 pointer-events-none transition-opacity duration-200" : ""}`}
         >
@@ -52,7 +72,7 @@ export function ChampionPicker({
                   <div className="w-10 h-3 rounded bg-card-border/30 animate-pulse" />
                 </div>
               ))
-            : champions.map((c) => {
+            : filteredChampions.map((c) => {
                 const selected = selection.includes(c);
                 return (
                   <button
@@ -78,7 +98,7 @@ export function ChampionPicker({
                         selected ? "text-foreground" : "text-muted"
                       }`}
                     >
-                      {c}
+                      {formatChampionName(c)}
                     </span>
                   </button>
                 );
@@ -90,10 +110,10 @@ export function ChampionPicker({
             {selection.map((c) => (
               <div
                 key={c}
-                className="flex items-center gap-1.5 bg-card border border-card-border rounded-lg px-2 py-1"
+                className="flex items-center gap-2 bg-background border border-card-border rounded-lg px-2.5 py-1"
               >
                 <ChampionIcon championId={c} version={version} size={24} />
-                <span className="text-sm">{c}</span>
+                <span className="text-sm">{formatChampionName(c)}</span>
                 <button
                   onClick={() => togglePick(c)}
                   className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
