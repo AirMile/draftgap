@@ -32,9 +32,15 @@ export interface Suggestion {
   matchups: MatchupData[];
 }
 
+export interface ChampionMeta {
+  champion: string;
+  pickRate: number;
+}
+
 export interface MatchupDataset {
   patch: string;
   role: Role;
   champions: string[];
   matchups: MatchupData[];
+  championMeta?: ChampionMeta[];
 }

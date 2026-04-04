@@ -143,7 +143,12 @@ async function fetchUGGMatchups(
 
 // --- OP.GG MCP for champion lists per role ---
 
-async function fetchRoleChampions(role: string): Promise<string[]> {
+interface RoleChampionResult {
+  champions: string[];
+  pickRates: Map<string, number>;
+}
+
+async function fetchRoleChampions(role: string): Promise<RoleChampionResult> {
   const OPGG_MCP_URL = "https://mcp-api.op.gg/mcp";
   const ROLE_TO_OPGG: Record<string, string> = {
     top: "top",
@@ -186,13 +191,40 @@ async function fetchRoleChampions(role: string): Promise<string[]> {
       contentArr?.[0]?.type === "text" ? (contentArr[0].text ?? "") : "";
 
     const champions: string[] = [];
-    const entryRegex = /\w+\("([^"]+)"/g;
+    const pickRates = new Map<string, number>();
+
+    // Parse entries: ClassName("ChampName",playCount,winRate)
+    const entryRegex = /\w+\("([^"]+)",(\d+),/g;
     let match: RegExpExecArray | null;
+    const playEntries: { id: string; play: number }[] = [];
     while ((match = entryRegex.exec(text)) !== null) {
       const id = nameToId.get(match[1]) ?? match[1];
+      const play = parseInt(match[2], 10);
       champions.push(id);
+      playEntries.push({ id, play });
     }
-    return champions;
+
+    // If regex didn't capture play counts, fallback to name-only
+    if (playEntries.length === 0) {
+      const nameOnly = /\w+\("([^"]+)"/g;
+      while ((match = nameOnly.exec(text)) !== null) {
+        const id = nameToId.get(match[1]) ?? match[1];
+        champions.push(id);
+      }
+    }
+
+    // Normalize play counts to pick rate percentages
+    const totalPlay = playEntries.reduce((sum, e) => sum + e.play, 0);
+    if (totalPlay > 0) {
+      for (const entry of playEntries) {
+        pickRates.set(
+          entry.id,
+          Math.round((entry.play / totalPlay) * 1000) / 10,
+        );
+      }
+    }
+
+    return { champions, pickRates };
   } finally {
     await client.close();
   }
@@ -226,9 +258,14 @@ async function main() {
 
     // Get champion list for this role
     let champions: string[];
+    let pickRates: Map<string, number>;
     try {
-      champions = await fetchRoleChampions(role);
-      console.log(`Champions from OP.GG: ${champions.length}`);
+      const result = await fetchRoleChampions(role);
+      champions = result.champions;
+      pickRates = result.pickRates;
+      console.log(
+        `Champions from OP.GG: ${champions.length} (${pickRates.size} with pick rates)`,
+      );
     } catch (err) {
       console.error(`Failed to get champions for ${role}:`, err);
       continue;
@@ -284,10 +321,15 @@ async function main() {
       }
     }
 
+    const championMeta = champions
+      .filter((c) => pickRates.has(c))
+      .map((c) => ({ champion: c, pickRate: pickRates.get(c)! }));
+
     const dataset = {
       patch: patchShort,
       role,
       champions,
+      ...(championMeta.length > 0 ? { championMeta } : {}),
       matchups: allMatchups,
     };
 

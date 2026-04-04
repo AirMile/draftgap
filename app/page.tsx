@@ -7,7 +7,6 @@ import {
   findGaps,
   suggestChampions,
   suggestImprovements,
-  bestBlindPick,
 } from "@/lib/matchup-engine";
 import { QuickPick } from "@/components/quick-pick";
 import { EnemySearch } from "@/components/enemy-search";
@@ -20,6 +19,58 @@ import { DashboardSkeleton } from "@/components/dashboard-skeleton";
 import type { MatchupDataset } from "@/lib/types";
 
 const DDRAGON_VERSION = "16.7.1";
+
+const TIERS = [{ value: "platinum_plus", label: "Platinum+" }];
+
+function TierSelector({ patch }: { patch: string | null }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(TIERS[0]);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="absolute right-0 flex items-center gap-3" ref={ref}>
+      {patch && <span className="text-xs text-muted">{patch}</span>}
+      <div className="relative">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-background border border-card-border rounded-lg px-3 py-1 text-sm text-muted font-medium h-[38px] flex items-center gap-1.5 hover:border-accent/30 transition-colors"
+        >
+          {selected.label}
+        </button>
+        {isOpen && (
+          <div className="absolute top-full right-0 mt-1 bg-card border border-card-border rounded-lg z-20 min-w-full overflow-hidden">
+            {TIERS.map((tier) => (
+              <button
+                key={tier.value}
+                onClick={() => {
+                  setSelected(tier);
+                  setIsOpen(false);
+                }}
+                className={`w-full px-3 py-2 text-sm text-left transition-colors ${
+                  selected.value === tier.value
+                    ? "text-accent bg-accent/10"
+                    : "text-muted hover:bg-card-border/30 hover:text-foreground"
+                }`}
+              >
+                {tier.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const { pool, loaded, isValid, setRole, addChampion, removeChampion } =
@@ -166,15 +217,73 @@ export default function Home() {
     );
   }, [pool, gapOpponents, gaps, dataset]);
 
-  const blindPick = useMemo(() => {
-    if (!pool || !dataset) return null;
-    return bestBlindPick(pool.champions, opponents, dataset.matchups);
+  const pickRateMap = useMemo(() => {
+    const map = new Map<string, number>();
+    if (dataset?.championMeta) {
+      for (const m of dataset.championMeta) {
+        map.set(m.champion, m.pickRate);
+      }
+    }
+    return map;
+  }, [dataset]);
+
+  const blindPicks = useMemo(() => {
+    if (!pool || !dataset) return [];
+    return pool.champions
+      .map((champ) => {
+        const champMatchups = opponents
+          .map((opp) => {
+            const direct = dataset.matchups.find(
+              (m) => m.champion === champ && m.opponent === opp,
+            );
+            if (direct) return direct;
+            const reverse = dataset.matchups.find(
+              (m) => m.champion === opp && m.opponent === champ,
+            );
+            if (reverse)
+              return {
+                ...reverse,
+                champion: champ,
+                opponent: opp,
+                winrate: Math.round((100 - reverse.winrate) * 10) / 10,
+              };
+            return undefined;
+          })
+          .filter((m) => m !== undefined);
+        if (champMatchups.length === 0) return null;
+        const avgWinrate =
+          Math.round(
+            (champMatchups.reduce((sum, m) => sum + m.winrate, 0) /
+              champMatchups.length) *
+              10,
+          ) / 10;
+        return { champion: champ, avgWinrate };
+      })
+      .filter((p) => p !== null)
+      .sort((a, b) => b.avgWinrate - a.avgWinrate)
+      .slice(0, 3);
   }, [pool, opponents, dataset]);
 
-  const banTarget = useMemo(() => {
+  const banTargets = useMemo(() => {
+    if (gaps.length === 0) return [];
+    return [...gaps]
+      .sort((a, b) => a.bestWinrate - b.bestWinrate)
+      .slice(0, 3)
+      .map((g) => ({
+        opponent: g.opponent,
+        bestWinrate: g.bestWinrate,
+        pickRate: pickRateMap.get(g.opponent),
+      }));
+  }, [gaps, pickRateMap]);
+
+  const coverage = useMemo(() => {
     if (gaps.length === 0) return null;
-    const worst = [...gaps].sort((a, b) => a.bestWinrate - b.bestWinrate)[0];
-    return { opponent: worst.opponent, bestWinrate: worst.bestWinrate };
+    const favorable = gaps.filter((g) => g.bestWinrate >= 50).length;
+    const avg =
+      Math.round(
+        (gaps.reduce((sum, g) => sum + g.bestWinrate, 0) / gaps.length) * 10,
+      ) / 10;
+    return { favorable, total: gaps.length, avg };
   }, [gaps]);
 
   if (!loaded) {
@@ -198,8 +307,9 @@ export default function Home() {
       <div
         className={`max-w-5xl mx-auto w-full ${!confirmed ? "flex flex-col flex-1 gap-6" : "space-y-6"}`}
       >
-        <div className="flex justify-center">
+        <div className="flex items-center justify-center relative">
           <RoleSelector role={pool.role} onRoleChange={setRole} />
+          {confirmed && <TierSelector patch={dataset?.patch ?? null} />}
         </div>
 
         {!confirmed ? (
@@ -236,7 +346,9 @@ export default function Home() {
               />
             )}
 
-            <hr className="border-card-border max-w-xs mx-auto" />
+            {selectedEnemy && (
+              <hr className="border-card-border max-w-xs mx-auto" />
+            )}
 
             <PoolInput
               role={pool.role}
@@ -252,8 +364,8 @@ export default function Home() {
 
             {analysisReady && (
               <BlindPickBan
-                blindPick={blindPick}
-                banTarget={banTarget}
+                blindPicks={blindPicks}
+                banTargets={banTargets}
                 version={DDRAGON_VERSION}
               />
             )}
