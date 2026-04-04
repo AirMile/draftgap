@@ -160,6 +160,14 @@
       "summary": "Bij lane matchups tonen wat voor type jungler de enemy heeft (gank-heavy, farm, invade) zodat je jungle pressure kunt inschatten.",
       "newFeature": "enemy-jungler-context",
       "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-04",
+      "title": "champion-page",
+      "summary": "Champion detail pagina per champion zoals u.gg — matchup overzicht, winrates, counters, builds en statistieken.",
+      "newFeature": "champion-page",
+      "source": "/dev-todo"
     }
   ],
   "context": {
@@ -214,6 +222,175 @@
       "summary": "TDD voor pure engine functions + browser verify voor UI componenten = volledige coverage zonder component unit tests"
     }
   ],
+  "theme": {
+    "colors": {
+      "main": [
+        { "token": "dark", "value": "#0f1118", "usage": "Primary background" },
+        { "token": "light", "value": "#e2e8f0", "usage": "Foreground text" },
+        {
+          "token": "mid-gray",
+          "value": "#2a2d3e",
+          "usage": "Borders, card borders"
+        },
+        {
+          "token": "light-gray",
+          "value": "#1a1d2e",
+          "usage": "Card backgrounds, subtle surfaces"
+        }
+      ],
+      "accent": [
+        {
+          "token": "accent-primary",
+          "value": "#c89b3c",
+          "usage": "LoL gold — CTAs, links, focus rings"
+        },
+        {
+          "token": "accent-secondary",
+          "value": "#785a28",
+          "usage": "Dimmed gold — hover states, subtle accents"
+        },
+        {
+          "token": "accent-tertiary",
+          "value": "rgba(200, 155, 60, 0.15)",
+          "usage": "Gold glow — highlights, decorative backgrounds"
+        }
+      ],
+      "semantic": [
+        {
+          "token": "success",
+          "value": "#22c55e",
+          "usage": "Positive winrates, confirmations"
+        },
+        {
+          "token": "warning",
+          "value": "#eab308",
+          "usage": "Neutral winrates, caution"
+        },
+        {
+          "token": "error",
+          "value": "#ef4444",
+          "usage": "Negative winrates, errors"
+        },
+        {
+          "token": "info",
+          "value": "#64748b",
+          "usage": "Muted text, metadata, secondary info"
+        }
+      ]
+    },
+    "typography": {
+      "families": {
+        "heading": "Geist Sans, system-ui, sans-serif",
+        "body": "Geist Sans, system-ui, sans-serif",
+        "mono": "Geist Mono, ui-monospace, monospace"
+      },
+      "sizes": [
+        { "token": "text-xs", "size": "0.75rem", "lineHeight": "1rem" },
+        { "token": "text-sm", "size": "0.875rem", "lineHeight": "1.25rem" },
+        { "token": "text-base", "size": "1rem", "lineHeight": "1.5rem" },
+        { "token": "text-lg", "size": "1.125rem", "lineHeight": "1.75rem" },
+        { "token": "text-xl", "size": "1.25rem", "lineHeight": "1.75rem" },
+        { "token": "text-2xl", "size": "1.5rem", "lineHeight": "2rem" },
+        { "token": "text-3xl", "size": "1.875rem", "lineHeight": "2.25rem" },
+        { "token": "text-4xl", "size": "2.25rem", "lineHeight": "2.5rem" }
+      ]
+    },
+    "spacing": {
+      "base": "4px",
+      "scale": [
+        {
+          "token": "spacing-1",
+          "value": "4px",
+          "usage": "Tight spacing (icons, inline)"
+        },
+        { "token": "spacing-2", "value": "8px", "usage": "Compact spacing" },
+        {
+          "token": "spacing-3",
+          "value": "12px",
+          "usage": "Default element spacing"
+        },
+        { "token": "spacing-4", "value": "16px", "usage": "Component padding" },
+        { "token": "spacing-5", "value": "20px", "usage": "Medium gaps" },
+        { "token": "spacing-6", "value": "24px", "usage": "Section spacing" },
+        { "token": "spacing-8", "value": "32px", "usage": "Large gaps" },
+        { "token": "spacing-12", "value": "48px", "usage": "Section margins" },
+        { "token": "spacing-16", "value": "64px", "usage": "Page sections" }
+      ]
+    },
+    "breakpoints": [
+      {
+        "token": "screen-sm",
+        "value": "640px",
+        "target": "Small devices (phones)"
+      },
+      {
+        "token": "screen-md",
+        "value": "768px",
+        "target": "Medium devices (tablets)"
+      },
+      {
+        "token": "screen-lg",
+        "value": "1024px",
+        "target": "Large devices (desktops)"
+      },
+      {
+        "token": "screen-xl",
+        "value": "1280px",
+        "target": "Extra large screens"
+      }
+    ],
+    "borderRadius": [
+      {
+        "token": "rounded-sm",
+        "value": "0.125rem",
+        "usage": "Subtle rounding"
+      },
+      { "token": "rounded", "value": "0.25rem", "usage": "Default rounding" },
+      {
+        "token": "rounded-md",
+        "value": "0.375rem",
+        "usage": "Buttons, inputs"
+      },
+      { "token": "rounded-lg", "value": "0.5rem", "usage": "Cards, modals" },
+      { "token": "rounded-xl", "value": "0.75rem", "usage": "Large cards" },
+      {
+        "token": "rounded-full",
+        "value": "9999px",
+        "usage": "Pills, avatars, champion icons"
+      }
+    ],
+    "shadows": [
+      {
+        "token": "shadow-sm",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "usage": "Subtle depth"
+      },
+      {
+        "token": "shadow",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "usage": "Default elevation"
+      },
+      {
+        "token": "shadow-md",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "usage": "Cards"
+      },
+      {
+        "token": "shadow-lg",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "usage": "Dropdowns, modals"
+      },
+      {
+        "token": "shadow-glow",
+        "value": "0 0 20px rgba(200, 155, 60, 0.15)",
+        "usage": "LoL gold glow effect"
+      }
+    ],
+    "modes": {
+      "dark": ":root { --background: #0f1118; --foreground: #e2e8f0; --card: #1a1d2e; --card-border: #2a2d3e; --accent: #c89b3c; --accent-dim: #785a28; --win: #22c55e; --neutral: #eab308; --loss: #ef4444; --gap: #dc2626; --muted: #64748b; --accent-glow: rgba(200, 155, 60, 0.15); }"
+    },
+    "cssVars": ":root {\n  /* Main Colors */\n  --background: #0f1118;\n  --foreground: #e2e8f0;\n  --card: #1a1d2e;\n  --card-border: #2a2d3e;\n  --muted: #64748b;\n\n  /* Accent Colors */\n  --accent: #c89b3c;\n  --accent-dim: #785a28;\n  --accent-glow: rgba(200, 155, 60, 0.15);\n\n  /* Semantic Colors */\n  --win: #22c55e;\n  --neutral: #eab308;\n  --loss: #ef4444;\n  --gap: #dc2626;\n\n  /* Typography */\n  --font-sans: 'Geist Sans', system-ui, sans-serif;\n  --font-mono: 'Geist Mono', ui-monospace, monospace;\n\n  /* Spacing Base */\n  --spacing-base: 4px;\n}"
+  },
   "design": {
     "pages": [
       {
@@ -270,6 +447,18 @@
       {
         "name": "Accessibility",
         "description": "WCAG 2.1 AA compliance, semantische HTML, keyboard navigatie"
+      },
+      {
+        "name": "4px spacing scale",
+        "description": "Base unit 4px, scale: 4, 8, 12, 16, 20, 24, 32, 48, 64"
+      },
+      {
+        "name": "Font: Geist Sans + Geist Mono",
+        "description": "Headings & body: Geist Sans, Code: Geist Mono"
+      },
+      {
+        "name": "Color palette: LoL Dark",
+        "description": "Dark-only theme. Primary: #c89b3c (gold), Background: #0f1118, Semantic: green/yellow/red winrates"
       }
     ]
   },
