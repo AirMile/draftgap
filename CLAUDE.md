@@ -58,23 +58,6 @@ Dashboard bestanden in `.project/`:
 - `project.json` — stack, features, endpoints
 - `project-context.json` — structure, routing, patterns, architecture, learnings
 
-### Animation & Transitions
-
-Apple-geïnspireerde motion design. Consistente patronen:
-
-- **View transitions** (`animate-fade-in` in `globals.css`): `opacity + scale(0.97) + blur(4px)`, 450ms, `cubic-bezier(0.16, 1, 0.3, 1)` — voor schermwissels (role picker → champion picker → dashboard)
-- **Hover/interactive**: `transition-colors` of `transition-all` met `duration-200` voor buttons, cards, interactieve elementen
-- **Hover emphasis** (role picker cards): `duration-300` voor hover states met meerdere properties (scale, glow, color)
-- **Image zoom** (role picker): `duration-500` voor subtiele achtergrond-zoom op hover
-- **Loading states**: `transition-opacity duration-200` voor dim/undim, `animate-pulse` voor skeleton placeholders
-- **Click feedback**: `active:scale-95` of `active:scale-[0.98]` voor tactiele feedback
-
-**Principes:**
-
-- Geen `translateY` voor view transitions — scale + blur geeft diepte zonder "webby" gevoel
-- Easing: altijd `ease-out` of Apple's `cubic-bezier(0.16, 1, 0.3, 1)` — nooit linear
-- Snelheid: interactieve feedback (150-200ms) < hover states (200-300ms) < view transitions (400-500ms)
-
 ## User Preferences
 
 - Language: Nederlands

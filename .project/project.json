@@ -225,17 +225,25 @@
   "theme": {
     "colors": {
       "main": [
-        { "token": "dark", "value": "#0f1118", "usage": "Primary background" },
-        { "token": "light", "value": "#e2e8f0", "usage": "Foreground text" },
+        {
+          "token": "dark",
+          "value": "#0f1118",
+          "usage": "Deep navy background"
+        },
+        {
+          "token": "light",
+          "value": "#e2e8f0",
+          "usage": "Foreground text"
+        },
         {
           "token": "mid-gray",
           "value": "#2a2d3e",
-          "usage": "Borders, card borders"
+          "usage": "Blue-tinted borders"
         },
         {
           "token": "light-gray",
           "value": "#1a1d2e",
-          "usage": "Card backgrounds, subtle surfaces"
+          "usage": "Navy card backgrounds"
         }
       ],
       "accent": [
@@ -383,13 +391,74 @@
       {
         "token": "shadow-glow",
         "value": "0 0 20px rgba(200, 155, 60, 0.15)",
-        "usage": "LoL gold glow effect"
+        "usage": "Gold glow effect"
       }
     ],
     "modes": {
       "dark": ":root { --background: #0f1118; --foreground: #e2e8f0; --card: #1a1d2e; --card-border: #2a2d3e; --accent: #c89b3c; --accent-dim: #785a28; --win: #22c55e; --neutral: #eab308; --loss: #ef4444; --gap: #dc2626; --muted: #64748b; --accent-glow: rgba(200, 155, 60, 0.15); }"
     },
-    "cssVars": ":root {\n  /* Main Colors */\n  --background: #0f1118;\n  --foreground: #e2e8f0;\n  --card: #1a1d2e;\n  --card-border: #2a2d3e;\n  --muted: #64748b;\n\n  /* Accent Colors */\n  --accent: #c89b3c;\n  --accent-dim: #785a28;\n  --accent-glow: rgba(200, 155, 60, 0.15);\n\n  /* Semantic Colors */\n  --win: #22c55e;\n  --neutral: #eab308;\n  --loss: #ef4444;\n  --gap: #dc2626;\n\n  /* Typography */\n  --font-sans: 'Geist Sans', system-ui, sans-serif;\n  --font-mono: 'Geist Mono', ui-monospace, monospace;\n\n  /* Spacing Base */\n  --spacing-base: 4px;\n}"
+    "motion": {
+      "durations": [
+        {
+          "token": "duration-instant",
+          "value": "150ms",
+          "usage": "Click feedback, active states"
+        },
+        {
+          "token": "duration-fast",
+          "value": "200ms",
+          "usage": "Hover, interactive feedback, loading states"
+        },
+        {
+          "token": "duration-normal",
+          "value": "300ms",
+          "usage": "Hover emphasis, multi-property transitions"
+        },
+        {
+          "token": "duration-slow",
+          "value": "450ms",
+          "usage": "View transitions (fade-in, schermwissels)"
+        },
+        {
+          "token": "duration-slower",
+          "value": "500ms",
+          "usage": "Image zoom, background effects"
+        }
+      ],
+      "easings": [
+        {
+          "token": "ease-apple",
+          "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+          "usage": "View transitions, schermwissels — Apple-geïnspireerd"
+        },
+        {
+          "token": "ease-out",
+          "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+          "usage": "Elements entering, hover states"
+        },
+        {
+          "token": "ease-in",
+          "value": "cubic-bezier(0.7, 0, 0.84, 0)",
+          "usage": "Elements exiting"
+        }
+      ]
+    },
+    "interactions": {
+      "focusRing": {
+        "width": "2px",
+        "style": "solid",
+        "color": "var(--color-accent-primary)",
+        "offset": "2px"
+      },
+      "hover": {
+        "transition": "var(--duration-fast) var(--ease-out)",
+        "transform": "none"
+      },
+      "active": {
+        "transform": "scale(0.98)"
+      }
+    },
+    "cssVars": ":root {\n  /* Main Colors */\n  --background: #0f1118;\n  --foreground: #e2e8f0;\n  --card: #1a1d2e;\n  --card-border: #2a2d3e;\n  --muted: #64748b;\n\n  /* Accent Colors */\n  --accent: #c89b3c;\n  --accent-dim: #785a28;\n  --accent-glow: rgba(200, 155, 60, 0.15);\n\n  /* Semantic Colors */\n  --win: #22c55e;\n  --neutral: #eab308;\n  --loss: #ef4444;\n  --gap: #dc2626;\n\n  /* Typography */\n  --font-sans: 'Geist Sans', system-ui, sans-serif;\n  --font-mono: 'Geist Mono', ui-monospace, monospace;\n\n  /* Spacing Base */\n  --spacing-base: 4px;\n\n  /* Interactions */\n  --focus-ring-width: 2px;\n  --focus-ring-color: var(--accent);\n  --focus-ring-offset: 2px;\n}"
   },
   "design": {
     "pages": [
@@ -457,8 +526,8 @@
         "description": "Headings & body: Geist Sans, Code: Geist Mono"
       },
       {
-        "name": "Color palette: LoL Dark",
-        "description": "Dark-only theme. Primary: #c89b3c (gold), Background: #0f1118, Semantic: green/yellow/red winrates"
+        "name": "Color palette: LoL Gold",
+        "description": "Dark-only theme. Primary: #c89b3c (LoL gold), Background: #0f1118, Semantic: green/yellow/red winrates"
       }
     ]
   },
