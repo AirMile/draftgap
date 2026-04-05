@@ -1,5 +1,7 @@
 export type Role = "top" | "jungle" | "mid" | "bot" | "support";
 
+export type Tier = "emerald_plus" | "platinum_plus" | "overall";
+
 export interface Champion {
   id: string;
   name: string;
@@ -37,10 +39,30 @@ export interface ChampionMeta {
   pickRate: number;
 }
 
+export interface DuoData {
+  champion: string;
+  partner: string;
+  winrate: number;
+  games: number;
+}
+
 export interface MatchupDataset {
   patch: string;
+  tier: Tier;
   role: Role;
   champions: string[];
   matchups: MatchupData[];
   championMeta?: ChampionMeta[];
+  duos?: DuoData[];
+}
+
+export interface ChampionInfo {
+  id: string;
+  adaptiveType: "PHYSICAL_DAMAGE" | "MAGIC_DAMAGE";
+  attackType: "MELEE" | "RANGED";
+  roles: string[];
+  damageRating: number;
+  toughnessRating: number;
+  controlRating: number;
+  mobilityRating: number;
 }
