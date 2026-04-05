@@ -59,16 +59,18 @@ export function ChampionPicker({
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onFocus={(e) =>
-            setTimeout(
-              () =>
-                e.target.scrollIntoView({
-                  block: "start",
-                  behavior: "smooth",
-                }),
-              300,
-            )
-          }
+          onFocus={(e) => {
+            if (window.innerWidth < 640) {
+              setTimeout(
+                () =>
+                  e.target.scrollIntoView({
+                    block: "start",
+                    behavior: "smooth",
+                  }),
+                300,
+              );
+            }
+          }}
           placeholder="Search champions..."
           aria-label="Search champions"
           className="w-full bg-input border border-input-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 text-sm"

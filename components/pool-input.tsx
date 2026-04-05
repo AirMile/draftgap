@@ -134,14 +134,16 @@ export function PoolInput({
                 }}
                 onFocus={(e) => {
                   setIsOpen(true);
-                  const el = e.target;
-                  setTimeout(() => {
-                    const parent = el.closest(".bg-card");
-                    (parent ?? el).scrollIntoView({
-                      block: "start",
-                      behavior: "smooth",
-                    });
-                  }, 300);
+                  if (window.innerWidth < 640) {
+                    const el = e.target;
+                    setTimeout(() => {
+                      const parent = el.closest(".bg-card");
+                      (parent ?? el).scrollIntoView({
+                        block: "start",
+                        behavior: "smooth",
+                      });
+                    }, 300);
+                  }
                 }}
                 placeholder="Expand your pool..."
                 aria-label="Expand your pool"
