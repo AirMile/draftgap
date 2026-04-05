@@ -31,9 +31,9 @@ app/pool/page.tsx         → Matrix view + quick pick + gaps + suggesties
 app/api/matchups/[role]   → Serveert data/matchups/{role}.json
 app/api/champions/[role]  → Serveert champions[] uit matchup JSON
 app/api/champions         → DDragon champion proxy (24h cache)
-lib/matchup-engine.ts     → Pure functions: bestPick, findGaps, suggestChampions
+lib/matchup-engine.ts     → Pure functions: findGaps, suggestChampions, rankPoolVsEnemy
 lib/ddragon.ts            → DDragon fetch + MonkeyKing mapping
-lib/opgg.ts               → OP.GG MCP client (used by generate script)
+lib/constants.ts          → Gedeelde constanten (GAP_THRESHOLD)
 data/matchups/*.json      → Statische matchup data per role
 scripts/generate-matchup-data.ts → U.GG data scraper
 ```

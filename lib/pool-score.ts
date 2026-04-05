@@ -1,6 +1,5 @@
 import type { GapResult } from "@/lib/types";
-
-const GAP_THRESHOLD = 48;
+import { GAP_THRESHOLD } from "@/lib/constants";
 
 export interface PoolScoreBreakdown {
   coverage: number;

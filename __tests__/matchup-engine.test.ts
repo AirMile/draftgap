@@ -1,6 +1,5 @@
-import type { MatchupData, GapResult, Suggestion } from "@/lib/types";
+import type { MatchupData } from "@/lib/types";
 import {
-  bestPick,
   findGaps,
   suggestChampions,
   rankPoolVsEnemy,
@@ -16,27 +15,6 @@ const matchups: MatchupData[] = [
   { champion: "Darius", opponent: "Sett", winrate: 52.0, games: 3000 },
   { champion: "Garen", opponent: "Sett", winrate: 52.0, games: 2800 },
 ];
-
-describe("bestPick", () => {
-  it("returns champion with highest winrate vs opponent", () => {
-    const pool = ["Darius", "Garen"];
-    const result = bestPick(pool, "Irelia", matchups);
-    expect(result).toBe("Darius");
-  });
-
-  it("breaks ties by higher game count", () => {
-    const pool = ["Darius", "Garen"];
-    // Both have 52.0% vs Sett, Darius has more games
-    const result = bestPick(pool, "Sett", matchups);
-    expect(result).toBe("Darius");
-  });
-
-  it("returns null when no matchup data exists", () => {
-    const pool = ["Darius"];
-    const result = bestPick(pool, "UnknownChamp", matchups);
-    expect(result).toBeNull();
-  });
-});
 
 describe("findGaps", () => {
   it("detects opponents where no pool champion has >48% WR", () => {

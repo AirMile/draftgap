@@ -52,13 +52,7 @@ const ROLE_CHAMPIONS: Record<Role, string[]> = {
   ],
 };
 
-const ROLES: { value: Role; label: string }[] = [
-  { value: "top", label: "Top" },
-  { value: "jungle", label: "Jungle" },
-  { value: "mid", label: "Mid" },
-  { value: "bot", label: "Bot" },
-  { value: "support", label: "Support" },
-];
+import { ROLES } from "@/components/role-selector";
 
 function pickRandom(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
