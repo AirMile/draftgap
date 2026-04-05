@@ -371,6 +371,24 @@ export default function Home() {
     return { favorable, total: gaps.length, avg };
   }, [gaps]);
 
+  // Keep last rendered enemy detail for collapse animation
+  const lastEnemyRef = useRef<{
+    enemyId: string;
+    pickRate: number | undefined;
+    pool: string[];
+    matchups: import("@/lib/types").MatchupData[];
+    allChampions: string[];
+  } | null>(null);
+  if (selectedEnemy && dataset) {
+    lastEnemyRef.current = {
+      enemyId: selectedEnemy,
+      pickRate: pickRateMap.get(selectedEnemy),
+      pool: activePool?.champions ?? [],
+      matchups: dataset.matchups,
+      allChampions: championsForRole,
+    };
+  }
+
   // Keep last valid analysis data to avoid skeleton flash during role switch
   const stableBlindPicksRef = useRef(blindPicks);
   const stableBanTargetsRef = useRef(banTargets);
@@ -519,22 +537,32 @@ export default function Home() {
                 onSelectEnemy={setSelectedEnemy}
                 connected={!!selectedEnemy}
               />
-              {selectedEnemy && analysisReady && (
-                <>
-                  <EnemyProfile
-                    enemyId={selectedEnemy}
-                    version={DDRAGON_VERSION}
-                    pickRate={pickRateMap.get(selectedEnemy)}
-                  />
-                  <QuickPick
-                    pool={activePool.champions}
-                    selectedEnemy={selectedEnemy}
-                    matchups={dataset.matchups}
-                    allChampions={championsForRole}
-                    version={DDRAGON_VERSION}
-                  />
-                </>
-              )}
+              <div
+                className={`grid transition-[grid-template-rows] duration-200 ease-in-out ${
+                  selectedEnemy && analysisReady
+                    ? "grid-rows-[1fr]"
+                    : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  {lastEnemyRef.current && (
+                    <>
+                      <EnemyProfile
+                        enemyId={lastEnemyRef.current.enemyId}
+                        version={DDRAGON_VERSION}
+                        pickRate={lastEnemyRef.current.pickRate}
+                      />
+                      <QuickPick
+                        pool={lastEnemyRef.current.pool}
+                        selectedEnemy={lastEnemyRef.current.enemyId}
+                        matchups={lastEnemyRef.current.matchups}
+                        allChampions={lastEnemyRef.current.allChampions}
+                        version={DDRAGON_VERSION}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div aria-live="polite">
