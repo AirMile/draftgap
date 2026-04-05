@@ -74,12 +74,12 @@ export function ShareButton({
         <span className={labelColor}>{label}</span>
       </button>
 
-      {/* Mobile: floating pill bottom-right with toast */}
-      <div className="sm:hidden fixed bottom-4 right-4 z-40 flex items-center gap-2">
+      {/* Mobile: floating pill bottom-right with toast above */}
+      <div className="sm:hidden fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2">
         <div
-          className={`bg-card border border-win/40 text-win text-sm font-medium rounded-lg px-3 py-2 shadow-lg shadow-black/30 transition-all duration-200 ${copied ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"}`}
+          className={`bg-card border border-win/40 text-win text-sm font-medium rounded-lg px-3 py-2 shadow-lg shadow-black/30 transition-all duration-200 ${copied ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}
         >
-          Link copied!
+          Pool copied — share it with friends!
         </div>
         <button
           onClick={handleCopy}
