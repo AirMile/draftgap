@@ -45,6 +45,34 @@ body {
   color: var(--foreground);
 }
 
+@media (min-width: 640px) {
+  body {
+    background:
+      radial-gradient(
+        ellipse at 100% 0%,
+        rgba(35, 50, 100, 0.3) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        ellipse at 0% 0%,
+        rgba(30, 40, 85, 0.25) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        ellipse at 0% 100%,
+        rgba(35, 45, 90, 0.35) 0%,
+        transparent 45%
+      ),
+      radial-gradient(
+        ellipse at 100% 100%,
+        rgba(30, 40, 80, 0.3) 0%,
+        transparent 45%
+      ),
+      var(--background);
+    background-attachment: fixed;
+  }
+}
+
 * {
   scrollbar-color: var(--card-border) transparent;
   scrollbar-width: thin;

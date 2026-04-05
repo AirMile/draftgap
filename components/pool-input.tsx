@@ -1,10 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import type { Role } from "@/lib/types";
 import { ChampionIcon } from "@/components/champion-icon";
 import { RoleSelector, ROLES } from "@/components/role-selector";
 import { formatChampionName } from "@/lib/ui-utils";
+import { getChampionIconUrl } from "@/lib/ddragon";
+
+// Track loaded image URLs across renders — survives memory cache eviction
+const loadedImageUrls = new Set<string>();
 
 interface PoolInputProps {
   role: Role | null;
@@ -33,8 +37,51 @@ export function PoolInput({
 }: PoolInputProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [loadedChampionsKey, setLoadedChampionsKey] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Preload champion icons — show skeleton tags until all images are loaded
+  const championsKey = champions.join(",");
+
+  // Sync check: if all images have been loaded before, skip skeleton entirely
+  const allImagesCached =
+    champions.length === 0 ||
+    champions.every((c) => loadedImageUrls.has(getChampionIconUrl(c, version)));
+
+  const tagImagesReady = championsKey === loadedChampionsKey || allImagesCached;
+
+  useEffect(() => {
+    if (allImagesCached) {
+      setLoadedChampionsKey(championsKey);
+      return;
+    }
+    let cancelled = false;
+    const promises = champions.map(
+      (c) =>
+        new Promise<void>((resolve) => {
+          const url = getChampionIconUrl(c, version);
+          if (loadedImageUrls.has(url)) {
+            resolve();
+            return;
+          }
+          const img = new window.Image();
+          img.onload = () => {
+            loadedImageUrls.add(url);
+            resolve();
+          };
+          img.onerror = () => resolve();
+          img.src = url;
+        }),
+    );
+    Promise.all(promises).then(() => {
+      if (!cancelled) setLoadedChampionsKey(championsKey);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- championsKey is a stable serialization of champions
+  }, [championsKey, version, allImagesCached]);
 
   const filtered = allChampions.filter(
     (c) =>
@@ -118,24 +165,49 @@ export function PoolInput({
             </div>
 
             {champions.length > 0 && (
-              <div className="flex items-center gap-2 flex-wrap">
-                {champions.map((c) => (
-                  <div
-                    key={c}
-                    className="flex items-center gap-2 bg-background border border-card-border rounded-lg px-2.5 py-1"
-                  >
-                    <ChampionIcon championId={c} version={version} size={24} />
-                    <span className="text-sm">{formatChampionName(c)}</span>
-                    <button
-                      onClick={() => onRemoveChampion(c)}
-                      className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
-                      aria-label={`Remove ${c}`}
-                    >
-                      ×
-                    </button>
+              <div className="space-y-2">
+                {tagImagesReady ? (
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    {champions.map((c) => (
+                      <div
+                        key={c}
+                        className="flex items-center gap-1 sm:gap-2 bg-background border border-card-border rounded-lg px-1.5 sm:px-2.5 py-0.5 sm:py-1"
+                      >
+                        <ChampionIcon
+                          championId={c}
+                          version={version}
+                          size={20}
+                        />
+                        <span className="text-xs sm:text-sm">
+                          {formatChampionName(c)}
+                        </span>
+                        <button
+                          onClick={() => onRemoveChampion(c)}
+                          className="text-muted hover:text-loss text-xs sm:text-sm leading-none -mr-0.5 sm:-mr-1 p-1 sm:p-1.5 -my-1"
+                          aria-label={`Remove ${c}`}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {gradeSlot && <div className="ml-auto">{gradeSlot}</div>}
+                ) : (
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    {champions.map((c) => (
+                      <div
+                        key={c}
+                        className="flex items-center gap-1 sm:gap-2 border border-card-border rounded-lg px-1.5 sm:px-2.5 py-0.5 sm:py-1"
+                      >
+                        <div className="skeleton !rounded-full w-5 h-5 shrink-0" />
+                        <div className="skeleton h-3 sm:h-3.5 w-12 sm:w-16" />
+                        <div className="w-4 sm:w-5" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {gradeSlot && (
+                  <div className="flex justify-end">{gradeSlot}</div>
+                )}
               </div>
             )}
           </div>

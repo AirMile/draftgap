@@ -214,7 +214,6 @@ export default function Home() {
     }
 
     let cancelled = false;
-    setDataset(null);
     setMatchupLoading(true);
     setMatchupError(null);
 
@@ -372,6 +371,42 @@ export default function Home() {
     return { favorable, total: gaps.length, avg };
   }, [gaps]);
 
+  // Keep last valid analysis data to avoid skeleton flash during role switch
+  const stableBlindPicksRef = useRef(blindPicks);
+  const stableBanTargetsRef = useRef(banTargets);
+  const stableGapsRef = useRef(gaps);
+  const stableSuggestionsRef = useRef(suggestions);
+  const stableOpponentsRef = useRef(opponents);
+  const stablePoolScoreRef = useRef(poolScore);
+  const stableDuoRef = useRef<{
+    champions: string[];
+    duos: import("@/lib/types").DuoData[];
+  } | null>(null);
+  const hadDuoRef = useRef(false);
+  const isStale =
+    matchupLoading || (dataset !== null && dataset.role !== activePool?.role);
+  if (!isStale && dataset) {
+    stableBlindPicksRef.current = blindPicks;
+    stableBanTargetsRef.current = banTargets;
+    stableGapsRef.current = gaps;
+    stableSuggestionsRef.current = suggestions;
+    stableOpponentsRef.current = opponents;
+    stablePoolScoreRef.current = poolScore;
+    const hasDuo =
+      (activePool?.role === "bot" || activePool?.role === "support") &&
+      !!dataset.duos &&
+      dataset.duos.length > 0;
+    if (hasDuo) {
+      stableDuoRef.current = {
+        champions: activePool.champions,
+        duos: dataset.duos!,
+      };
+    } else {
+      stableDuoRef.current = null;
+    }
+    hadDuoRef.current = hasDuo;
+  }
+
   if (!loaded) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -385,6 +420,7 @@ export default function Home() {
   }
 
   const analysisReady = activeIsValid && dataset;
+  const dataStale = isStale;
 
   return (
     <div className="min-h-screen flex flex-col px-4 py-4">
@@ -466,7 +502,11 @@ export default function Home() {
                 compact
                 hideRoleSelector
                 gradeSlot={
-                  poolScore ? <PoolGrade result={poolScore} /> : undefined
+                  stablePoolScoreRef.current ? (
+                    <PoolGrade result={stablePoolScoreRef.current} />
+                  ) : activePool.champions.length >= 2 ? (
+                    <div className="skeleton !rounded-lg w-[53px] h-[30px]" />
+                  ) : undefined
                 }
               />
             )}
@@ -505,35 +545,44 @@ export default function Home() {
 
             {analysisReady ? (
               <div className="bg-card border border-card-border rounded-lg overflow-hidden divide-y divide-card-border">
-                {(blindPicks.length > 0 || banTargets.length > 0) && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
-                    {blindPicks.length > 0 && (
-                      <BlindPickBan
-                        blindPicks={blindPicks}
-                        version={DDRAGON_VERSION}
-                      />
-                    )}
-                    {banTargets.length > 0 && (
-                      <BanTargets
-                        targets={banTargets}
+                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
+                  <BlindPickBan
+                    blindPicks={stableBlindPicksRef.current}
+                    version={DDRAGON_VERSION}
+                  />
+                  <BanTargets
+                    targets={stableBanTargetsRef.current}
+                    version={DDRAGON_VERSION}
+                  />
+                </div>
+                <div
+                  className={`grid ${
+                    // Skip animation when switching between bot↔support (both have duos)
+                    dataStale &&
+                    hadDuoRef.current &&
+                    (activePool.role === "bot" || activePool.role === "support")
+                      ? "grid-rows-[1fr]"
+                      : `transition-[grid-template-rows,border-color] duration-200 ease-in-out ${
+                          !dataStale && stableDuoRef.current
+                            ? "grid-rows-[1fr]"
+                            : "grid-rows-[0fr] !border-transparent"
+                        }`
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    {stableDuoRef.current && (
+                      <DuoSynergy
+                        poolChampions={stableDuoRef.current.champions}
+                        duos={stableDuoRef.current.duos}
                         version={DDRAGON_VERSION}
                       />
                     )}
                   </div>
-                )}
-                {(activePool.role === "bot" || activePool.role === "support") &&
-                  dataset.duos &&
-                  dataset.duos.length > 0 && (
-                    <DuoSynergy
-                      poolChampions={activePool.champions}
-                      duos={dataset.duos}
-                      version={DDRAGON_VERSION}
-                    />
-                  )}
+                </div>
                 <GapAnalysis
-                  gaps={gaps}
-                  suggestions={suggestions}
-                  totalOpponents={opponents.length}
+                  gaps={stableGapsRef.current}
+                  suggestions={stableSuggestionsRef.current}
+                  totalOpponents={stableOpponentsRef.current.length}
                   version={DDRAGON_VERSION}
                   onAddChampion={sharedPool ? undefined : addChampion}
                   canAdd={!sharedPool}

@@ -110,22 +110,24 @@ export function RolePicker({ onSelectRole }: RolePickerProps) {
             Select your role to get started
           </p>
         </div>
-        {ROLES.map((r) => (
+        {ROLES.map((r, i) => (
           <button
             key={r.value}
             onClick={() => onSelectRole(r.value)}
             className="group relative overflow-hidden rounded-2xl aspect-[16/9] sm:aspect-[2/5] transition-all duration-300 ease-out hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(201,169,101,0.25)]"
           >
-            <img
-              src={splashUrl(champions[r.value])}
-              alt={r.label}
-              className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 sm:hidden"
-            />
-            <img
-              src={loadingUrl(champions[r.value])}
-              alt={r.label}
-              className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 hidden sm:block"
-            />
+            <picture>
+              <source
+                media="(min-width: 640px)"
+                srcSet={loadingUrl(champions[r.value])}
+              />
+              <img
+                src={splashUrl(champions[r.value])}
+                alt={`${r.label} — ${champions[r.value]}`}
+                loading={i >= 3 ? "lazy" : "eager"}
+                className="absolute inset-0 w-full h-full object-cover object-center sm:object-top transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+              />
+            </picture>
             <div className="absolute inset-x-0 -bottom-1 bg-black/60 backdrop-blur-sm py-2.5 sm:py-3 flex justify-center rounded-b-2xl">
               <span className="text-base sm:text-xl font-bold text-white tracking-wide group-hover:text-accent transition-colors duration-300">
                 {r.label}

@@ -6,10 +6,15 @@ import { formatChampionName } from "@/lib/ui-utils";
 interface BlindPickBanProps {
   blindPicks: { champion: string; avgWinrate: number }[];
   version: string;
+  loading?: boolean;
 }
 
-export function BlindPickBan({ blindPicks, version }: BlindPickBanProps) {
-  if (blindPicks.length === 0) return null;
+export function BlindPickBan({
+  blindPicks,
+  version,
+  loading,
+}: BlindPickBanProps) {
+  if (!loading && blindPicks.length === 0) return null;
 
   return (
     <div className="p-4">
@@ -23,22 +28,31 @@ export function BlindPickBan({ blindPicks, version }: BlindPickBanProps) {
         </span>
       </div>
       <div className="mt-2 space-y-1">
-        {blindPicks.map((pick, i) => (
-          <div key={pick.champion} className="flex items-center gap-2">
-            <span className="text-xs text-muted w-4">#{i + 1}</span>
-            <ChampionIcon
-              championId={pick.champion}
-              version={version}
-              size={20}
-            />
-            <span className="text-sm flex-1">
-              {formatChampionName(pick.champion)}
-            </span>
-            <span className="text-xs font-mono text-win">
-              {pick.avgWinrate.toFixed(1)}%
-            </span>
-          </div>
-        ))}
+        {loading
+          ? Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className="skeleton w-4 h-3" />
+                <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
+                <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
+                <div className="skeleton w-10 h-3.5 ml-auto" />
+              </div>
+            ))
+          : blindPicks.map((pick, i) => (
+              <div key={pick.champion} className="flex items-center gap-2">
+                <span className="text-xs text-muted w-4">#{i + 1}</span>
+                <ChampionIcon
+                  championId={pick.champion}
+                  version={version}
+                  size={20}
+                />
+                <span className="text-sm flex-1">
+                  {formatChampionName(pick.champion)}
+                </span>
+                <span className="text-xs font-mono text-win">
+                  {pick.avgWinrate.toFixed(1)}%
+                </span>
+              </div>
+            ))}
       </div>
     </div>
   );

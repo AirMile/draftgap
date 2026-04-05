@@ -12,6 +12,7 @@ interface GapAnalysisProps {
   version: string;
   onAddChampion?: (id: string) => void;
   canAdd?: boolean;
+  loading?: boolean;
 }
 
 export function GapAnalysis({
@@ -21,6 +22,7 @@ export function GapAnalysis({
   version,
   onAddChampion,
   canAdd,
+  loading,
 }: GapAnalysisProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const gapList = gaps.filter((g) => g.isGap);
@@ -32,148 +34,167 @@ export function GapAnalysis({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
-      {worstMatchups.length > 0 && (
-        <div className="p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">Weakest pool matchups</span>
-            <span
-              className="text-[10px] text-muted uppercase tracking-wide cursor-help"
-              title="Best Win Rate from your pool against this opponent"
-            >
-              Best WR
-            </span>
-          </div>
-          <div className="mt-2 divide-y divide-card-border">
-            {worstMatchups.map((g) => (
-              <div key={g.opponent} className="flex items-center gap-2 py-1.5">
-                <ChampionIcon
-                  championId={g.opponent}
-                  version={version}
-                  size={20}
-                />
-                <span className="text-sm flex-1">
-                  {formatChampionName(g.opponent)}
-                </span>
-                {g.bestChampion && (
-                  <ChampionIcon
-                    championId={g.bestChampion}
-                    version={version}
-                    size={16}
-                  />
-                )}
-                <span
-                  className={`text-xs font-mono ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
-                >
-                  {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
-                </span>
-              </div>
-            ))}
-          </div>
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-muted">Weakest pool matchups</span>
+          <span
+            className="text-[10px] text-muted uppercase tracking-wide cursor-help"
+            title="Best Win Rate from your pool against this opponent"
+          >
+            Best WR
+          </span>
         </div>
-      )}
-
-      {suggestions.length > 0 && (
-        <div className="p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">Pool suggestions</span>
-          </div>
-          <div className="mt-2 grid grid-cols-1 gap-1">
-            {suggestions.map((s) => {
-              const isExpanded = expanded === s.champion;
-              return (
+        <div className="mt-2 divide-y divide-card-border">
+          {loading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-2 py-1.5">
+                  <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
+                  <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
+                  <div className="skeleton w-4 h-4 !rounded-full shrink-0" />
+                  <div className="skeleton w-10 h-3.5" />
+                </div>
+              ))
+            : worstMatchups.map((g) => (
                 <div
-                  key={s.champion}
-                  className="rounded-md transition-all duration-150"
+                  key={g.opponent}
+                  className="flex items-center gap-2 py-1.5"
                 >
-                  <div className="flex items-center gap-0">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setExpanded(isExpanded ? null : s.champion)
-                      }
-                      className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md flex-1 min-w-0 text-left"
-                      aria-expanded={isExpanded}
-                    >
-                      <ChampionIcon
-                        championId={s.champion}
-                        version={version}
-                        size={20}
-                      />
-                      <div className="flex-1 min-w-0 text-left">
-                        <div className="text-sm truncate">
-                          {formatChampionName(s.champion)}
-                        </div>
-                        <div className="text-muted text-xs">
-                          {`improves ${s.matchups.length} matchup${s.matchups.length !== 1 ? "s" : ""}`}
-                        </div>
-                      </div>
-                    </button>
-                    {onAddChampion && canAdd && (
+                  <ChampionIcon
+                    championId={g.opponent}
+                    version={version}
+                    size={20}
+                  />
+                  <span className="text-sm flex-1">
+                    {formatChampionName(g.opponent)}
+                  </span>
+                  {g.bestChampion && (
+                    <ChampionIcon
+                      championId={g.bestChampion}
+                      version={version}
+                      size={16}
+                    />
+                  )}
+                  <span
+                    className={`text-xs font-mono ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
+                  >
+                    {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
+                  </span>
+                </div>
+              ))}
+        </div>
+      </div>
+
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-muted">Pool suggestions</span>
+        </div>
+        <div className="mt-2 grid grid-cols-1 gap-1">
+          {loading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-2 px-2 py-1.5">
+                  <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <div className="skeleton h-3.5 w-20" />
+                    <div className="skeleton h-2.5 w-28" />
+                  </div>
+                  <div className="skeleton w-7 h-7 !rounded-md" />
+                </div>
+              ))
+            : suggestions.map((s) => {
+                const isExpanded = expanded === s.champion;
+                return (
+                  <div
+                    key={s.champion}
+                    className="rounded-md transition-all duration-150"
+                  >
+                    <div className="flex items-center gap-0">
                       <button
-                        onClick={() => onAddChampion(s.champion)}
-                        className="text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md"
-                        aria-label={`Add ${formatChampionName(s.champion)} to pool`}
+                        type="button"
+                        onClick={() =>
+                          setExpanded(isExpanded ? null : s.champion)
+                        }
+                        className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md flex-1 min-w-0 text-left"
+                        aria-expanded={isExpanded}
                       >
-                        +
+                        <ChampionIcon
+                          championId={s.champion}
+                          version={version}
+                          size={20}
+                        />
+                        <div className="flex-1 min-w-0 text-left">
+                          <div className="text-sm truncate">
+                            {formatChampionName(s.champion)}
+                          </div>
+                          <div className="text-muted text-xs">
+                            {`improves ${s.matchups.length} matchup${s.matchups.length !== 1 ? "s" : ""}`}
+                          </div>
+                        </div>
                       </button>
+                      {onAddChampion && canAdd && (
+                        <button
+                          onClick={() => onAddChampion(s.champion)}
+                          className="text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md"
+                          aria-label={`Add ${formatChampionName(s.champion)} to pool`}
+                        >
+                          +
+                        </button>
+                      )}
+                    </div>
+                    {isExpanded && s.matchups.length > 0 && (
+                      <div className="px-2 pb-2 pt-1 ml-7 divide-y divide-card-border/50">
+                        {[...s.matchups]
+                          .sort((a, b) => {
+                            const gA = gaps.find(
+                              (g) => g.opponent === a.opponent,
+                            );
+                            const gB = gaps.find(
+                              (g) => g.opponent === b.opponent,
+                            );
+                            return (
+                              (gA?.bestWinrate ?? 0) - (gB?.bestWinrate ?? 0)
+                            );
+                          })
+                          .map((m) => {
+                            const current = gaps.find(
+                              (g) => g.opponent === m.opponent,
+                            );
+                            const currentWr = current?.bestWinrate ?? 0;
+                            const stillLosing = m.winrate < 50;
+                            return (
+                              <div
+                                key={`${m.champion}-${m.opponent}`}
+                                className="flex items-center gap-2 text-xs py-1.5"
+                              >
+                                <span className="text-muted">vs</span>
+                                <ChampionIcon
+                                  championId={m.opponent}
+                                  version={version}
+                                  size={16}
+                                />
+                                <span className="flex-1">
+                                  {formatChampionName(m.opponent)}
+                                </span>
+                                {current && (
+                                  <span className="font-mono text-xs text-muted">
+                                    {currentWr.toFixed(1)}%
+                                  </span>
+                                )}
+                                <span className="text-muted text-xs">→</span>
+                                <span
+                                  className={`font-mono font-medium ${stillLosing ? "text-neutral" : winrateColor(m.winrate)}`}
+                                >
+                                  {m.winrate.toFixed(1)}%
+                                </span>
+                              </div>
+                            );
+                          })}
+                      </div>
                     )}
                   </div>
-                  {isExpanded && s.matchups.length > 0 && (
-                    <div className="px-2 pb-2 pt-1 ml-7 divide-y divide-card-border/50">
-                      {[...s.matchups]
-                        .sort((a, b) => {
-                          const gA = gaps.find(
-                            (g) => g.opponent === a.opponent,
-                          );
-                          const gB = gaps.find(
-                            (g) => g.opponent === b.opponent,
-                          );
-                          return (
-                            (gA?.bestWinrate ?? 0) - (gB?.bestWinrate ?? 0)
-                          );
-                        })
-                        .map((m) => {
-                          const current = gaps.find(
-                            (g) => g.opponent === m.opponent,
-                          );
-                          const currentWr = current?.bestWinrate ?? 0;
-                          const stillLosing = m.winrate < 50;
-                          return (
-                            <div
-                              key={`${m.champion}-${m.opponent}`}
-                              className="flex items-center gap-2 text-xs py-1.5"
-                            >
-                              <span className="text-muted">vs</span>
-                              <ChampionIcon
-                                championId={m.opponent}
-                                version={version}
-                                size={16}
-                              />
-                              <span className="flex-1">
-                                {formatChampionName(m.opponent)}
-                              </span>
-                              {current && (
-                                <span className="font-mono text-xs text-muted">
-                                  {currentWr.toFixed(1)}%
-                                </span>
-                              )}
-                              <span className="text-muted text-xs">→</span>
-                              <span
-                                className={`font-mono font-medium ${stillLosing ? "text-neutral" : winrateColor(m.winrate)}`}
-                              >
-                                {m.winrate.toFixed(1)}%
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
         </div>
-      )}
+      </div>
     </div>
   );
 }
