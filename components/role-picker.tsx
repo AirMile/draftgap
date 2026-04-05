@@ -91,9 +91,7 @@ export function RolePicker({ onSelectRole }: RolePickerProps) {
         <h1>
           <Logo />
         </h1>
-        <p className="text-muted text-sm mt-2">
-          Select your role to get started
-        </p>
+        <p className="text-muted text-sm mt-2">Select your role</p>
       </div>
       <div className="relative grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-5 w-full max-w-md sm:max-w-4xl">
         <div className="absolute inset-x-0 -top-28 text-center pointer-events-none hidden sm:block">
@@ -101,7 +99,7 @@ export function RolePicker({ onSelectRole }: RolePickerProps) {
             <Logo />
           </h1>
           <p className="text-muted text-lg mt-2 tracking-wide">
-            Select your role to get started
+            Select your role
           </p>
         </div>
         {ROLES.map((r, i) => (

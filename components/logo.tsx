@@ -16,8 +16,7 @@ export function Logo({ size = "lg" }: LogoProps) {
       <span
         className={`font-bold tracking-tight text-foreground ${isLarge ? "text-3xl sm:text-4xl" : "text-lg"}`}
       >
-        Pool
-        <span className="text-accent"> Optimizer</span>
+        DraftGap<span className="text-accent">.gg</span>
       </span>
     </div>
   );
