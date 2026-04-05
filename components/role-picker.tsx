@@ -1,24 +1,91 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { Role } from "@/lib/types";
 
 interface RolePickerProps {
   onSelectRole: (role: Role) => void;
 }
 
-const ROLE_CARDS: { value: Role; label: string; champion: string }[] = [
-  { value: "top", label: "Top", champion: "Darius" },
-  { value: "jungle", label: "Jungle", champion: "LeeSin" },
-  { value: "mid", label: "Mid", champion: "Ahri" },
-  { value: "bot", label: "Bot", champion: "Jinx" },
-  { value: "support", label: "Support", champion: "Thresh" },
+const ROLE_CHAMPIONS: Record<Role, string[]> = {
+  top: [
+    "Darius",
+    "Garen",
+    "Camille",
+    "Fiora",
+    "Aatrox",
+    "Sett",
+    "Jax",
+    "Mordekaiser",
+  ],
+  jungle: [
+    "LeeSin",
+    "Viego",
+    "Khazix",
+    "Hecarim",
+    "Graves",
+    "Vi",
+    "Elise",
+    "JarvanIV",
+  ],
+  mid: ["Ahri", "Zed", "Yasuo", "Syndra", "Orianna", "Akali", "Viktor", "Yone"],
+  bot: [
+    "Jinx",
+    "Kaisa",
+    "Ezreal",
+    "Jhin",
+    "Caitlyn",
+    "Lucian",
+    "Vayne",
+    "MissFortune",
+  ],
+  support: [
+    "Thresh",
+    "Lulu",
+    "Nautilus",
+    "Leona",
+    "Pyke",
+    "Morgana",
+    "Blitzcrank",
+    "Nami",
+  ],
+};
+
+const ROLES: { value: Role; label: string }[] = [
+  { value: "top", label: "Top" },
+  { value: "jungle", label: "Jungle" },
+  { value: "mid", label: "Mid" },
+  { value: "bot", label: "Bot" },
+  { value: "support", label: "Support" },
 ];
+
+function pickRandom(arr: string[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+const DEFAULTS: Record<Role, string> = {
+  top: "Darius",
+  jungle: "LeeSin",
+  mid: "Ahri",
+  bot: "Jinx",
+  support: "Thresh",
+};
 
 function splashUrl(champion: string) {
   return `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion}_0.jpg`;
 }
 
 export function RolePicker({ onSelectRole }: RolePickerProps) {
+  const [champions, setChampions] = useState(DEFAULTS);
+
+  useEffect(() => {
+    const picked = {} as Record<Role, string>;
+    for (const role of ROLES) {
+      picked[role.value] = pickRandom(ROLE_CHAMPIONS[role.value]);
+    }
+    setChampions(picked);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 gap-6 sm:gap-0 animate-fade-in">
       <div className="text-center sm:hidden">
@@ -36,14 +103,14 @@ export function RolePicker({ onSelectRole }: RolePickerProps) {
             Select your role to get started
           </p>
         </div>
-        {ROLE_CARDS.map((r) => (
+        {ROLES.map((r) => (
           <button
             key={r.value}
             onClick={() => onSelectRole(r.value)}
             className="group relative overflow-hidden rounded-2xl aspect-[5/2] sm:aspect-[2/5] transition-all duration-300 ease-out hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(201,169,101,0.25)]"
           >
             <img
-              src={splashUrl(r.champion)}
+              src={splashUrl(champions[r.value])}
               alt={r.label}
               className="absolute inset-0 w-full h-full object-cover object-[center_20%] sm:object-top transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
             />

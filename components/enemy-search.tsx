@@ -9,6 +9,7 @@ interface EnemySearchProps {
   version: string;
   selectedEnemy: string | null;
   onSelectEnemy: (enemy: string | null) => void;
+  connected?: boolean;
 }
 
 export function EnemySearch({
@@ -16,6 +17,7 @@ export function EnemySearch({
   version,
   selectedEnemy,
   onSelectEnemy,
+  connected,
 }: EnemySearchProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +45,9 @@ export function EnemySearch({
   }, []);
 
   return (
-    <div className="bg-card border border-card-border rounded-xl p-4">
+    <div
+      className={`bg-card border border-card-border p-4 ${connected ? "rounded-t-xl border-b-0 pb-3" : "rounded-xl"}`}
+    >
       <div className="relative">
         <input
           ref={inputRef}
@@ -65,9 +69,10 @@ export function EnemySearch({
             onClick={() => {
               onSelectEnemy(null);
               setQuery("");
+              setIsOpen(true);
               inputRef.current?.focus();
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground size-9 rounded-md hover:bg-white/5 flex items-center justify-center"
           >
             ×
           </button>

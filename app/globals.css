@@ -66,3 +66,24 @@ body {
 .animate-fade-in {
   animation: fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--card-border) 25%,
+    rgba(255, 255, 255, 0.06) 50%,
+    var(--card-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 4px;
+}

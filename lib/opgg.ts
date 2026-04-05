@@ -399,6 +399,7 @@ export async function fetchMatchups(role: Role): Promise<MatchupDataset> {
 
     return {
       patch: "current",
+      tier: "emerald_plus" as const,
       role,
       champions,
       matchups: allMatchups,
