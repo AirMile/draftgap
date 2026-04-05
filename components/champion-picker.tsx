@@ -95,7 +95,7 @@ export function ChampionPicker({
                       />
                     </div>
                     <span
-                      className={`text-[11px] leading-tight truncate w-full text-center ${
+                      className={`text-xs leading-tight truncate w-full text-center ${
                         selected ? "text-foreground" : "text-muted"
                       }`}
                     >

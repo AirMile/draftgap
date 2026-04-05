@@ -16,7 +16,7 @@ export function BlindPickBan({ blindPicks, version }: BlindPickBanProps) {
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted">Best pool blind picks</span>
         <span
-          className="text-[10px] text-muted/60 uppercase tracking-wide cursor-help"
+          className="text-[10px] text-muted uppercase tracking-wide cursor-help"
           title="Average Win Rate across all matchups"
         >
           Avg WR

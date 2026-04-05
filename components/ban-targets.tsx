@@ -21,18 +21,18 @@ export function BanTargets({ targets, version }: BanTargetsProps) {
     <div className="p-4">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted">Pool ban targets</span>
-        <div className="flex">
+        <div className="flex gap-2">
           <span
-            className="text-[10px] text-muted/60 uppercase tracking-wide w-14 text-right cursor-help"
+            className="text-[10px] text-muted uppercase tracking-wide w-12 text-right cursor-help"
             title="Pick Rate — how often this champion is picked"
           >
-            PR
+            pick
           </span>
           <span
-            className="text-[10px] text-muted/60 uppercase tracking-wide w-14 text-right cursor-help"
+            className="text-[10px] text-muted uppercase tracking-wide w-12 text-right cursor-help"
             title="Win Rate against your best pool counter"
           >
-            vs pool
+            vs best
           </span>
         </div>
       </div>
@@ -44,11 +44,11 @@ export function BanTargets({ targets, version }: BanTargetsProps) {
             <span className="text-sm flex-1">
               {formatChampionName(t.champion)}
             </span>
-            <div className="flex shrink-0">
-              <span className="text-xs font-mono text-muted w-14 text-right">
+            <div className="flex shrink-0 gap-2">
+              <span className="text-xs font-mono text-muted w-12 text-right">
                 {t.pickRate.toFixed(1)}%
               </span>
-              <span className="text-xs font-mono text-loss w-14 text-right">
+              <span className="text-xs font-mono text-loss w-12 text-right">
                 {(100 - t.bestWinrate).toFixed(1)}%
               </span>
             </div>

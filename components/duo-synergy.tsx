@@ -67,7 +67,7 @@ export function DuoSynergy({ poolChampions, duos, version }: DuoSynergyProps) {
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted">Duo synergy</span>
           <span
-            className="text-[10px] text-muted/60 uppercase tracking-wide cursor-help"
+            className="text-[10px] text-muted uppercase tracking-wide cursor-help"
             title="Win Rate when paired with this duo partner"
           >
             Duo WR
@@ -88,7 +88,7 @@ export function DuoSynergy({ poolChampions, duos, version }: DuoSynergyProps) {
         <div className="p-4">
           <div className="flex items-center justify-end h-[20px]">
             <span
-              className="text-[10px] text-muted/60 uppercase tracking-wide cursor-help"
+              className="text-[10px] text-muted uppercase tracking-wide cursor-help"
               title="Win Rate when paired with this duo partner"
             >
               Duo WR

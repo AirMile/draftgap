@@ -37,7 +37,7 @@ export function GapAnalysis({
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted">Weakest pool matchups</span>
             <span
-              className="text-[10px] text-muted/60 uppercase tracking-wide cursor-help"
+              className="text-[10px] text-muted uppercase tracking-wide cursor-help"
               title="Best Win Rate from your pool against this opponent"
             >
               Best WR
