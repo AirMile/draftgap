@@ -107,13 +107,13 @@ export function GapAnalysis({
                     key={s.champion}
                     className="rounded-md transition-all duration-150"
                   >
-                    <div className="flex items-center gap-0">
+                    <div className="relative">
                       <button
                         type="button"
                         onClick={() =>
                           setExpanded(isExpanded ? null : s.champion)
                         }
-                        className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md flex-1 min-w-0 text-left"
+                        className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md w-full min-w-0 text-left"
                         aria-expanded={isExpanded}
                       >
                         <ChampionIcon
@@ -133,7 +133,7 @@ export function GapAnalysis({
                       {onAddChampion && canAdd && (
                         <button
                           onClick={() => onAddChampion(s.champion)}
-                          className="text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md"
+                          className="absolute right-1 top-1/2 -translate-y-1/2 text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md z-10"
                           aria-label={`Add ${formatChampionName(s.champion)} to pool`}
                         >
                           +

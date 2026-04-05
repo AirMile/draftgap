@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DraftGap",
   description:
-    "Find gaps in your champion pool — matchup matrix, coverage analysis & suggestions",
+    "Optimize your champion pool. Analyze matchups, find bad matchups and get data-driven suggestions.",
 };
 
 export default function RootLayout({

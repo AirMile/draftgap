@@ -58,8 +58,13 @@ export function EnemySearch({
             onSelectEnemy(null);
             setIsOpen(true);
           }}
-          onFocus={() => {
+          onFocus={(e) => {
             if (!selectedEnemy) setIsOpen(true);
+            setTimeout(
+              () =>
+                e.target.scrollIntoView({ block: "start", behavior: "smooth" }),
+              300,
+            );
           }}
           placeholder="Who are you playing against?"
           aria-label="Search enemy champion"

@@ -59,6 +59,16 @@ export function ChampionPicker({
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onFocus={(e) =>
+            setTimeout(
+              () =>
+                e.target.scrollIntoView({
+                  block: "start",
+                  behavior: "smooth",
+                }),
+              300,
+            )
+          }
           placeholder="Search champions..."
           aria-label="Search champions"
           className="w-full bg-input border border-input-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 text-sm"
@@ -107,7 +117,7 @@ export function ChampionPicker({
         </div>
 
         <div className="flex flex-col gap-3 pt-4">
-          <div className="flex items-center gap-2 flex-wrap min-h-[34px]">
+          <div className="hidden sm:flex items-center gap-2 flex-wrap min-h-[34px]">
             {selection.map((c) => (
               <div
                 key={c}

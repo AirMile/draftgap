@@ -132,7 +132,17 @@ export function PoolInput({
                   setQuery(e.target.value);
                   setIsOpen(true);
                 }}
-                onFocus={() => setIsOpen(true)}
+                onFocus={(e) => {
+                  setIsOpen(true);
+                  const el = e.target;
+                  setTimeout(() => {
+                    const parent = el.closest(".bg-card");
+                    (parent ?? el).scrollIntoView({
+                      block: "start",
+                      behavior: "smooth",
+                    });
+                  }, 300);
+                }}
                 placeholder="Expand your pool..."
                 aria-label="Expand your pool"
                 className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
@@ -171,16 +181,14 @@ export function PoolInput({
                     {champions.map((c) => (
                       <div
                         key={c}
-                        className="flex items-center gap-1 sm:gap-2 bg-background border border-card-border rounded-lg px-1.5 sm:px-2.5 py-0.5 sm:py-1"
+                        className="flex items-center gap-1.5 sm:gap-2 bg-background border border-card-border rounded-lg px-2 sm:px-2.5 py-1 sm:py-1"
                       >
                         <ChampionIcon
                           championId={c}
                           version={version}
                           size={20}
                         />
-                        <span className="text-xs sm:text-sm">
-                          {formatChampionName(c)}
-                        </span>
+                        <span className="text-sm">{formatChampionName(c)}</span>
                         <button
                           onClick={() => onRemoveChampion(c)}
                           className="text-muted hover:text-loss text-xs sm:text-sm leading-none -mr-0.5 sm:-mr-1 p-1 sm:p-1.5 -my-1"
