@@ -168,6 +168,14 @@
       "summary": "Champion detail pagina per champion zoals u.gg — matchup overzicht, winrates, counters, builds en statistieken.",
       "newFeature": "champion-page",
       "source": "/dev-todo"
+    },
+    {
+      "type": "todo",
+      "date": "2026-04-04",
+      "title": "riot-api-data-pipeline",
+      "summary": "Riot API als legale databron ter vervanging van U.GG scraping. Match crawling, aggregatie pipeline, database en background worker.",
+      "newFeature": "riot-api-data-pipeline",
+      "source": "/dev-todo"
     }
   ],
   "context": {
