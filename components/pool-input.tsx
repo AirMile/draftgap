@@ -16,6 +16,7 @@ interface PoolInputProps {
   onRemoveChampion: (id: string) => void;
   compact?: boolean;
   hideRoleSelector?: boolean;
+  gradeSlot?: React.ReactNode;
 }
 
 export function PoolInput({
@@ -28,6 +29,7 @@ export function PoolInput({
   onRemoveChampion,
   compact = false,
   hideRoleSelector = false,
+  gradeSlot,
 }: PoolInputProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -133,6 +135,7 @@ export function PoolInput({
                     </button>
                   </div>
                 ))}
+                {gradeSlot && <div className="ml-auto">{gradeSlot}</div>}
               </div>
             )}
           </div>
