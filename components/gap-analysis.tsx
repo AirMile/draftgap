@@ -85,30 +85,34 @@ export function GapAnalysis({
                   key={s.champion}
                   className="rounded-md transition-all duration-150"
                 >
-                  <div
-                    onClick={() => setExpanded(isExpanded ? null : s.champion)}
-                    className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md"
-                  >
-                    <ChampionIcon
-                      championId={s.champion}
-                      version={version}
-                      size={20}
-                    />
-                    <div className="flex-1 min-w-0 text-left">
-                      <div className="text-sm truncate">
-                        {formatChampionName(s.champion)}
+                  <div className="flex items-center gap-0">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setExpanded(isExpanded ? null : s.champion)
+                      }
+                      className="flex items-center gap-2 px-2 py-1.5 cursor-pointer hover:bg-white/5 rounded-md flex-1 min-w-0 text-left"
+                      aria-expanded={isExpanded}
+                    >
+                      <ChampionIcon
+                        championId={s.champion}
+                        version={version}
+                        size={20}
+                      />
+                      <div className="flex-1 min-w-0 text-left">
+                        <div className="text-sm truncate">
+                          {formatChampionName(s.champion)}
+                        </div>
+                        <div className="text-muted text-xs">
+                          {`improves ${s.matchups.length} matchup${s.matchups.length !== 1 ? "s" : ""}`}
+                        </div>
                       </div>
-                      <div className="text-muted text-xs">
-                        {`improves ${s.matchups.length} matchup${s.matchups.length !== 1 ? "s" : ""}`}
-                      </div>
-                    </div>
+                    </button>
                     {onAddChampion && canAdd && (
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onAddChampion(s.champion);
-                        }}
+                        onClick={() => onAddChampion(s.champion)}
                         className="text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md"
+                        aria-label={`Add ${formatChampionName(s.champion)} to pool`}
                       >
                         +
                       </button>

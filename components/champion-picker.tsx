@@ -60,7 +60,8 @@ export function ChampionPicker({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search champions..."
-          className="w-full bg-input border border-input-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent text-sm"
+          aria-label="Search champions"
+          className="w-full bg-input border border-input-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 text-sm"
         />
         <div
           className={`bg-card border border-card-border rounded-xl p-4 grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start ${championsLoading && champions.length > 0 ? "opacity-40 pointer-events-none transition-opacity duration-200" : ""}`}
@@ -117,6 +118,7 @@ export function ChampionPicker({
                 <button
                   onClick={() => togglePick(c)}
                   className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
+                  aria-label={`Remove ${formatChampionName(c)}`}
                 >
                   ×
                 </button>

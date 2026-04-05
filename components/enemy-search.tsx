@@ -62,7 +62,8 @@ export function EnemySearch({
             if (!selectedEnemy) setIsOpen(true);
           }}
           placeholder="Who are you playing against?"
-          className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+          aria-label="Search enemy champion"
+          className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
         />
         {selectedEnemy && (
           <button
@@ -73,6 +74,7 @@ export function EnemySearch({
               inputRef.current?.focus();
             }}
             className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground size-9 rounded-md hover:bg-white/5 flex items-center justify-center"
+            aria-label="Clear enemy selection"
           >
             ×
           </button>

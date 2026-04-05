@@ -85,7 +85,8 @@ export function PoolInput({
                 }}
                 onFocus={() => setIsOpen(true)}
                 placeholder="Expand your pool..."
-                className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+                aria-label="Expand your pool"
+                className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
               />
               {isOpen && filtered.length > 0 && (
                 <div
@@ -180,6 +181,7 @@ export function PoolInput({
                 <button
                   onClick={() => onRemoveChampion(c)}
                   className="text-muted hover:text-loss ml-1"
+                  aria-label={`Remove ${formatChampionName(c)}`}
                 >
                   ×
                 </button>
@@ -199,7 +201,8 @@ export function PoolInput({
                 }}
                 onFocus={() => setIsOpen(true)}
                 placeholder="Search champion..."
-                className="w-full bg-input border border-input-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+                aria-label="Search champion"
+                className="w-full bg-input border border-input-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
               />
               {isOpen && filtered.length > 0 && (
                 <div

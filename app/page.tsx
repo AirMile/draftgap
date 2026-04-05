@@ -64,6 +64,8 @@ function TierSelector({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-background border border-card-border rounded-lg px-3 py-1 text-sm text-muted font-medium h-[38px] flex items-center gap-1.5 hover:border-accent/30 transition-colors"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
         >
           {selected.label}
         </button>
@@ -412,9 +414,11 @@ export default function Home() {
               )}
             </div>
 
-            {matchupError && (
-              <p className="text-loss text-sm">{matchupError}</p>
-            )}
+            <div aria-live="polite">
+              {matchupError && (
+                <p className="text-loss text-sm">{matchupError}</p>
+              )}
+            </div>
 
             {analysisReady ? (
               <div className="bg-card border border-card-border rounded-lg overflow-hidden divide-y divide-card-border">
