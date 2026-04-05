@@ -74,14 +74,21 @@ export function ShareButton({
         <span className={labelColor}>{label}</span>
       </button>
 
-      {/* Mobile: floating pill bottom-right */}
-      <button
-        onClick={handleCopy}
-        className={`sm:hidden fixed bottom-4 right-4 z-40 rounded-full p-3 shadow-lg shadow-black/30 transition-colors ${copied ? "bg-card border border-win/40 text-win" : "bg-card border border-accent/40 text-accent"}`}
-        aria-label={copied ? "Link copied" : "Share pool link"}
-      >
-        {icon}
-      </button>
+      {/* Mobile: floating pill bottom-right with toast */}
+      <div className="sm:hidden fixed bottom-4 right-4 z-40 flex items-center gap-2">
+        <div
+          className={`bg-card border border-win/40 text-win text-sm font-medium rounded-lg px-3 py-2 shadow-lg shadow-black/30 transition-all duration-200 ${copied ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"}`}
+        >
+          Link copied!
+        </div>
+        <button
+          onClick={handleCopy}
+          className={`rounded-full p-3 shadow-lg shadow-black/30 transition-colors ${copied ? "bg-card border border-win/40 text-win" : "bg-card border border-accent/40 text-accent"}`}
+          aria-label={copied ? "Link copied" : "Share pool link"}
+        >
+          {icon}
+        </button>
+      </div>
     </>
   );
 }
