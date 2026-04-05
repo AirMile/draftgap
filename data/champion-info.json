@@ -1,0 +1,3362 @@
+[
+  {
+    "id": "Aatrox",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup",
+      "Fear",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Ahri",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Charm"
+    ]
+  },
+  {
+    "id": "Akali",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Akshan",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Ground"
+    ]
+  },
+  {
+    "id": "Alistar",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Ambessa",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Suppress",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Amumu",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "True",
+      "AP"
+    ],
+    "traits": [
+      "True dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Anivia",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Annie",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Aphelios",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Ashe",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "AurelionSol",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Aurora",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Azir",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Bard",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Belveth",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Blitzcrank",
+    "attackType": "MELEE",
+    "roles": [
+      "CATCHER",
+      "SUPPORT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Silence",
+      "Slow",
+      "Knockup",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Brand",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Braum",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Briar",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Caitlyn",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Root",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Camille",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "True",
+      "AP"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Cassiopeia",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Chogath",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "SPECIALIST",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "Sustain",
+      "True dmg"
+    ],
+    "cc": [
+      "Silence",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Corki",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "True",
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "True dmg"
+    ],
+    "cc": []
+  },
+  {
+    "id": "Darius",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup",
+      "Fear",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Diana",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Draven",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "DrMundo",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Ekko",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Elise",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Evelynn",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Charm"
+    ]
+  },
+  {
+    "id": "Ezreal",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": []
+  },
+  {
+    "id": "Fiddlesticks",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "SPECIALIST",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Silence",
+      "Slow",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Fiora",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "True",
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Fizz",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Slow",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Galio",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Taunt"
+    ]
+  },
+  {
+    "id": "Gangplank",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "True",
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Garen",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "Sustain",
+      "True dmg",
+      "Shield"
+    ],
+    "cc": [
+      "Silence",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Gnar",
+    "attackType": "RANGED",
+    "roles": [
+      "FIGHTER",
+      "SPECIALIST",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Gragas",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "MAGE",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Graves",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup",
+      "Nearsight"
+    ]
+  },
+  {
+    "id": "Gwen",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Hecarim",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Heimerdinger",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "SPECIALIST",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Hwei",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow",
+      "Fear",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Illaoi",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Irelia",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Ivern",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Janna",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "JarvanIV",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Jax",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Jayce",
+    "attackType": "MELEE",
+    "roles": [
+      "ARTILLERY",
+      "FIGHTER",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Root",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Jhin",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Jinx",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Kaisa",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": []
+  },
+  {
+    "id": "Kalista",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Silence",
+      "Slow",
+      "Knockup",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Karma",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Karthus",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Kassadin",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Katarina",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Ground"
+    ]
+  },
+  {
+    "id": "Kayle",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Kayn",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Kennen",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Khazix",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Kindred",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Kled",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "SKIRMISHER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Fear",
+      "Pull"
+    ]
+  },
+  {
+    "id": "KogMaw",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "True",
+      "AP"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "KSante",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "SKIRMISHER",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Knockup",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Leblanc",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root"
+    ]
+  },
+  {
+    "id": "LeeSin",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Leona",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Lillia",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "MAGE",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Ground",
+      "Sleep"
+    ]
+  },
+  {
+    "id": "Lissandra",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Lucian",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": []
+  },
+  {
+    "id": "Lulu",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Lux",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "BURST",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Malphite",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Malzahar",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "BATTLEMAGE",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Silence",
+      "Suppress"
+    ]
+  },
+  {
+    "id": "Maokai",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "MasterYi",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Mel",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Milio",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "MissFortune",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Wukong",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Mordekaiser",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Morgana",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Naafiri",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Nami",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Nasus",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Nautilus",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Neeko",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "CATCHER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Root",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Nidalee",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MAGE",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": []
+  },
+  {
+    "id": "Nilah",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Nocturne",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Fear",
+      "Nearsight"
+    ]
+  },
+  {
+    "id": "Nunu",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Olaf",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Orianna",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Ornn",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Pantheon",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Poppy",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Pyke",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "CATCHER",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Qiyana",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Quinn",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [],
+    "cc": [
+      "Silence",
+      "Slow",
+      "Ground",
+      "Blind",
+      "Nearsight"
+    ]
+  },
+  {
+    "id": "Rakan",
+    "attackType": "MELEE",
+    "roles": [
+      "CATCHER",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Charm"
+    ]
+  },
+  {
+    "id": "Rammus",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Taunt"
+    ]
+  },
+  {
+    "id": "RekSai",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Silence",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Rell",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Renata",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Renekton",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Rengar",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Riven",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Rumble",
+    "attackType": "MELEE",
+    "roles": [
+      "BATTLEMAGE",
+      "FIGHTER",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Ryze",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "FIGHTER",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Root",
+      "Silence",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Samira",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Sejuani",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Senna",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MARKSMAN",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Root",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Seraphine",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Charm",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Sett",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Suppress",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Shaco",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Shen",
+    "attackType": "MELEE",
+    "roles": [
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Taunt"
+    ]
+  },
+  {
+    "id": "Shyvana",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": []
+  },
+  {
+    "id": "Singed",
+    "attackType": "MELEE",
+    "roles": [
+      "MAGE",
+      "SPECIALIST",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Sion",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Sivir",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Fear"
+    ]
+  },
+  {
+    "id": "Skarner",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Silence",
+      "Slow",
+      "Suppress",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Smolder",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Sona",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Soraka",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Silence",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Swain",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Slow",
+      "Knockup",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Sylas",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "BURST",
+      "MAGE",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Syndra",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Ground"
+    ]
+  },
+  {
+    "id": "TahmKench",
+    "attackType": "MELEE",
+    "roles": [
+      "SUPPORT",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup",
+      "Suppress",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Taliyah",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Silence",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Talon",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Taric",
+    "attackType": "MELEE",
+    "roles": [
+      "ENCHANTER",
+      "SUPPORT",
+      "TANK",
+      "WARDEN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Teemo",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "MARKSMAN",
+      "SPECIALIST"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Blind"
+    ]
+  },
+  {
+    "id": "Thresh",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "SUPPORT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Silence",
+      "Slow",
+      "Knockup",
+      "Ground",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Tristana",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Trundle",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Tryndamere",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "TwistedFate",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Twitch",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "True",
+      "AD"
+    ],
+    "traits": [
+      "True dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Udyr",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Urgot",
+    "attackType": "RANGED",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Fear",
+      "Suppress"
+    ]
+  },
+  {
+    "id": "Varus",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Root",
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Vayne",
+    "attackType": "RANGED",
+    "roles": [
+      "ASSASSIN",
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD",
+      "True"
+    ],
+    "traits": [
+      "True dmg"
+    ],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Veigar",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun"
+    ]
+  },
+  {
+    "id": "Velkoz",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "True",
+      "AP"
+    ],
+    "traits": [
+      "True dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Vex",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Slow",
+      "Fear"
+    ]
+  },
+  {
+    "id": "Vi",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "DIVER",
+      "FIGHTER"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Viego",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Viktor",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Vladimir",
+    "attackType": "RANGED",
+    "roles": [
+      "BATTLEMAGE",
+      "FIGHTER",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Volibear",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Warwick",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Fear",
+      "Suppress"
+    ]
+  },
+  {
+    "id": "Xayah",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AD"
+    ],
+    "traits": [],
+    "cc": [
+      "Root",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Xerath",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "XinZhao",
+    "attackType": "MELEE",
+    "roles": [
+      "DIVER",
+      "FIGHTER",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Yasuo",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Shield"
+    ],
+    "cc": [
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Yone",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN",
+      "FIGHTER",
+      "SKIRMISHER"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP",
+      "True"
+    ],
+    "traits": [
+      "True dmg",
+      "Shield"
+    ],
+    "cc": [
+      "Stun",
+      "Knockup",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Yorick",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "JUGGERNAUT",
+      "TANK"
+    ],
+    "damageTypes": [
+      "AD",
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Pull"
+    ]
+  },
+  {
+    "id": "Yuumi",
+    "attackType": "RANGED",
+    "roles": [
+      "ENCHANTER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain",
+      "Shield"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Zac",
+    "attackType": "MELEE",
+    "roles": [
+      "FIGHTER",
+      "TANK",
+      "VANGUARD"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Root",
+      "Slow",
+      "Knockup"
+    ]
+  },
+  {
+    "id": "Zed",
+    "attackType": "MELEE",
+    "roles": [
+      "ASSASSIN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Zeri",
+    "attackType": "RANGED",
+    "roles": [
+      "MARKSMAN"
+    ],
+    "damageTypes": [
+      "AP",
+      "AD"
+    ],
+    "traits": [
+      "Sustain",
+      "%HP dmg"
+    ],
+    "cc": [
+      "Slow"
+    ]
+  },
+  {
+    "id": "Ziggs",
+    "attackType": "RANGED",
+    "roles": [
+      "ARTILLERY",
+      "MAGE"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Slow",
+      "Ground"
+    ]
+  },
+  {
+    "id": "Zilean",
+    "attackType": "RANGED",
+    "roles": [
+      "MAGE",
+      "SPECIALIST",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Stun",
+      "Slow"
+    ]
+  },
+  {
+    "id": "Zoe",
+    "attackType": "RANGED",
+    "roles": [
+      "BURST",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [],
+    "cc": [
+      "Slow",
+      "Ground",
+      "Sleep"
+    ]
+  },
+  {
+    "id": "Zyra",
+    "attackType": "RANGED",
+    "roles": [
+      "CATCHER",
+      "MAGE",
+      "SUPPORT"
+    ],
+    "damageTypes": [
+      "AP"
+    ],
+    "traits": [
+      "Sustain"
+    ],
+    "cc": [
+      "Root",
+      "Knockup"
+    ]
+  }
+]

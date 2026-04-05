@@ -11,21 +11,36 @@ import {
 import { QuickPick } from "@/components/quick-pick";
 import { EnemySearch } from "@/components/enemy-search";
 import { BlindPickBan } from "@/components/blind-pick-ban";
+import { BanTargets } from "@/components/ban-targets";
+import { EnemyProfile } from "@/components/enemy-profile";
 import { GapAnalysis } from "@/components/gap-analysis";
 import { RolePicker } from "@/components/role-picker";
 import { ChampionPicker } from "@/components/champion-picker";
 import { RoleSelector } from "@/components/role-selector";
 import { DashboardSkeleton } from "@/components/dashboard-skeleton";
-import type { MatchupDataset } from "@/lib/types";
+import { DuoSynergy } from "@/components/duo-synergy";
+import type { MatchupDataset, Tier } from "@/lib/types";
 
 const DDRAGON_VERSION = "16.7.1";
 
-const TIERS = [{ value: "platinum_plus", label: "Platinum+" }];
+const TIERS: { value: Tier; label: string }[] = [
+  { value: "emerald_plus", label: "Emerald+" },
+  { value: "platinum_plus", label: "Platinum+" },
+  { value: "overall", label: "All Ranks" },
+];
 
-function TierSelector({ patch }: { patch: string | null }) {
+function TierSelector({
+  patch,
+  tier,
+  onTierChange,
+}: {
+  patch: string | null;
+  tier: Tier;
+  onTierChange: (tier: Tier) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(TIERS[0]);
   const ref = useRef<HTMLDivElement>(null);
+  const selected = TIERS.find((t) => t.value === tier) ?? TIERS[0];
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -38,8 +53,13 @@ function TierSelector({ patch }: { patch: string | null }) {
   }, []);
 
   return (
-    <div className="absolute right-0 flex items-center gap-3" ref={ref}>
-      {patch && <span className="text-xs text-muted">{patch}</span>}
+    <div
+      className="absolute right-0 hidden sm:flex items-center gap-2"
+      ref={ref}
+    >
+      {patch && (
+        <span className="text-xs text-muted hidden sm:inline">{patch}</span>
+      )}
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -49,20 +69,20 @@ function TierSelector({ patch }: { patch: string | null }) {
         </button>
         {isOpen && (
           <div className="absolute top-full right-0 mt-1 bg-card border border-card-border rounded-lg z-20 min-w-full overflow-hidden">
-            {TIERS.map((tier) => (
+            {TIERS.map((t) => (
               <button
-                key={tier.value}
+                key={t.value}
                 onClick={() => {
-                  setSelected(tier);
+                  onTierChange(t.value);
                   setIsOpen(false);
                 }}
                 className={`w-full px-3 py-2 text-sm text-left transition-colors ${
-                  selected.value === tier.value
+                  tier === t.value
                     ? "text-accent bg-accent/10"
                     : "text-muted hover:bg-card-border/30 hover:text-foreground"
                 }`}
               >
-                {tier.label}
+                {t.label}
               </button>
             ))}
           </div>
@@ -82,9 +102,19 @@ export default function Home() {
 
   const [championsForRole, setChampionsForRole] = useState<string[]>([]);
   const [championsLoading, setChampionsLoading] = useState(false);
+  const [tier, setTier] = useState<Tier>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("tier") as Tier | null;
+      if (saved && TIERS.some((t) => t.value === saved)) return saved;
+    }
+    return "emerald_plus";
+  });
   const [dataset, setDataset] = useState<MatchupDataset | null>(null);
   const [matchupLoading, setMatchupLoading] = useState(false);
   const [matchupError, setMatchupError] = useState<string | null>(null);
+  const patchRef = useRef<string | null>(null);
+
+  if (dataset?.patch) patchRef.current = dataset.patch;
 
   // When role changes, go to dashboard if pool has champions, otherwise picker
   useEffect(() => {
@@ -141,10 +171,11 @@ export default function Home() {
     }
 
     let cancelled = false;
+    setDataset(null);
     setMatchupLoading(true);
     setMatchupError(null);
 
-    fetch(`/api/matchups/${pool.role}`)
+    fetch(`/api/matchups/${pool.role}?tier=${tier}`)
       .then((res) => {
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         return res.json() as Promise<MatchupDataset>;
@@ -162,7 +193,7 @@ export default function Home() {
     return () => {
       cancelled = true;
     };
-  }, [pool?.role]);
+  }, [pool?.role, tier]);
 
   const roleChampions = useMemo(
     () => new Set(dataset?.champions ?? []),
@@ -207,6 +238,8 @@ export default function Home() {
         gapOpponents,
         dataset.matchups,
         dataset.champions,
+        gaps,
+        dataset.championMeta ?? [],
       );
     }
     return suggestImprovements(
@@ -261,19 +294,24 @@ export default function Home() {
       })
       .filter((p) => p !== null)
       .sort((a, b) => b.avgWinrate - a.avgWinrate)
-      .slice(0, 3);
+      .slice(0, 5);
   }, [pool, opponents, dataset]);
 
   const banTargets = useMemo(() => {
-    if (gaps.length === 0) return [];
-    return [...gaps]
-      .sort((a, b) => a.bestWinrate - b.bestWinrate)
-      .slice(0, 3)
-      .map((g) => ({
-        opponent: g.opponent,
-        bestWinrate: g.bestWinrate,
-        pickRate: pickRateMap.get(g.opponent),
-      }));
+    if (gaps.length === 0 || !pickRateMap.size) return [];
+    return gaps
+      .filter((g) => g.bestWinrate < 50 && pickRateMap.has(g.opponent))
+      .map((g) => {
+        const pickRate = pickRateMap.get(g.opponent)!;
+        return {
+          champion: g.opponent,
+          pickRate,
+          bestWinrate: g.bestWinrate,
+          score: pickRate * (50 - g.bestWinrate),
+        };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
   }, [gaps, pickRateMap]);
 
   const coverage = useMemo(() => {
@@ -309,7 +347,16 @@ export default function Home() {
       >
         <div className="flex items-center justify-center relative">
           <RoleSelector role={pool.role} onRoleChange={setRole} />
-          {confirmed && <TierSelector patch={dataset?.patch ?? null} />}
+          {confirmed && (
+            <TierSelector
+              patch={patchRef.current}
+              tier={tier}
+              onTierChange={(t) => {
+                setTier(t);
+                localStorage.setItem("tier", t);
+              }}
+            />
+          )}
         </div>
 
         {!confirmed ? (
@@ -327,29 +374,6 @@ export default function Home() {
           />
         ) : (
           <>
-            {analysisReady && (
-              <EnemySearch
-                opponents={opponents}
-                version={DDRAGON_VERSION}
-                selectedEnemy={selectedEnemy}
-                onSelectEnemy={setSelectedEnemy}
-              />
-            )}
-
-            {analysisReady && (
-              <QuickPick
-                pool={pool.champions}
-                selectedEnemy={selectedEnemy}
-                matchups={dataset.matchups}
-                allChampions={championsForRole}
-                version={DDRAGON_VERSION}
-              />
-            )}
-
-            {selectedEnemy && (
-              <hr className="border-card-border max-w-xs mx-auto" />
-            )}
-
             <PoolInput
               role={pool.role}
               champions={pool.champions}
@@ -362,20 +386,63 @@ export default function Home() {
               hideRoleSelector
             />
 
-            {analysisReady && (
-              <BlindPickBan
-                blindPicks={blindPicks}
-                banTargets={banTargets}
+            <div>
+              <EnemySearch
+                opponents={opponents}
                 version={DDRAGON_VERSION}
+                selectedEnemy={selectedEnemy}
+                onSelectEnemy={setSelectedEnemy}
+                connected={!!selectedEnemy}
               />
-            )}
+              {selectedEnemy && analysisReady && (
+                <>
+                  <EnemyProfile
+                    enemyId={selectedEnemy}
+                    version={DDRAGON_VERSION}
+                    pickRate={pickRateMap.get(selectedEnemy)}
+                  />
+                  <QuickPick
+                    pool={pool.champions}
+                    selectedEnemy={selectedEnemy}
+                    matchups={dataset.matchups}
+                    allChampions={championsForRole}
+                    version={DDRAGON_VERSION}
+                  />
+                </>
+              )}
+            </div>
 
             {matchupError && (
               <p className="text-loss text-sm">{matchupError}</p>
             )}
 
             {analysisReady ? (
-              <>
+              <div className="bg-card border border-card-border rounded-lg overflow-hidden divide-y divide-card-border">
+                {(blindPicks.length > 0 || banTargets.length > 0) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
+                    {blindPicks.length > 0 && (
+                      <BlindPickBan
+                        blindPicks={blindPicks}
+                        version={DDRAGON_VERSION}
+                      />
+                    )}
+                    {banTargets.length > 0 && (
+                      <BanTargets
+                        targets={banTargets}
+                        version={DDRAGON_VERSION}
+                      />
+                    )}
+                  </div>
+                )}
+                {(pool.role === "bot" || pool.role === "support") &&
+                  dataset.duos &&
+                  dataset.duos.length > 0 && (
+                    <DuoSynergy
+                      poolChampions={pool.champions}
+                      duos={dataset.duos}
+                      version={DDRAGON_VERSION}
+                    />
+                  )}
                 <GapAnalysis
                   gaps={gaps}
                   suggestions={suggestions}
@@ -384,7 +451,7 @@ export default function Home() {
                   onAddChampion={addChampion}
                   canAdd={true}
                 />
-              </>
+              </div>
             ) : championsLoading || matchupLoading ? (
               <DashboardSkeleton />
             ) : (
