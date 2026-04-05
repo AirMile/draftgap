@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { usePool } from "@/lib/use-pool";
 import { PoolInput } from "@/components/pool-input";
 import {
@@ -19,7 +19,12 @@ import { ChampionPicker } from "@/components/champion-picker";
 import { RoleSelector } from "@/components/role-selector";
 import { DashboardSkeleton } from "@/components/dashboard-skeleton";
 import { DuoSynergy } from "@/components/duo-synergy";
-import type { MatchupDataset, Tier } from "@/lib/types";
+import { PoolGrade } from "@/components/pool-grade";
+import { ShareButton } from "@/components/share-button";
+import { Logo } from "@/components/logo";
+import { computePoolScore } from "@/lib/pool-score";
+import { parseShareParams } from "@/lib/url-sharing";
+import type { MatchupDataset, PoolState, Role, Tier } from "@/lib/types";
 
 const DDRAGON_VERSION = "16.7.1";
 
@@ -98,6 +103,7 @@ export default function Home() {
   const { pool, loaded, isValid, setRole, addChampion, removeChampion } =
     usePool();
 
+  const [sharedPool, setSharedPool] = useState<PoolState | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [selectedEnemy, setSelectedEnemy] = useState<string | null>(null);
   const prevRole = useRef(pool?.role);
@@ -118,14 +124,49 @@ export default function Home() {
 
   if (dataset?.patch) patchRef.current = dataset.patch;
 
+  // Parse shared pool from URL params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shared = parseShareParams(params);
+    if (shared) {
+      setSharedPool({ role: shared.role, champions: shared.champions });
+      setTier(shared.tier);
+      setConfirmed(true);
+    }
+  }, []);
+
+  // The effective pool: shared pool overrides local pool
+  const activePool = sharedPool ?? pool;
+  const activeIsValid = activePool !== null && activePool.champions.length >= 1;
+
+  const saveSharedPool = useCallback(() => {
+    if (!sharedPool) return;
+    setRole(sharedPool.role);
+    for (const c of sharedPool.champions) {
+      addChampion(c);
+    }
+    setSharedPool(null);
+    window.history.replaceState({}, "", window.location.pathname);
+  }, [sharedPool, setRole, addChampion]);
+
+  const dismissSharedPool = useCallback(() => {
+    setSharedPool(null);
+    setConfirmed(false);
+    window.history.replaceState({}, "", window.location.pathname);
+  }, []);
+
   // When role changes, go to dashboard if pool has champions, otherwise picker
   useEffect(() => {
     if (pool?.role !== prevRole.current) {
       prevRole.current = pool?.role;
+      if (sharedPool) {
+        setSharedPool(null);
+        window.history.replaceState({}, "", window.location.pathname);
+      }
       setConfirmed(pool !== null && pool.champions.length > 0);
       setSelectedEnemy(null);
     }
-  }, [pool?.role, pool?.champions.length]);
+  }, [pool?.role, pool?.champions.length, sharedPool]);
 
   // Back to champion picker when pool is emptied
   useEffect(() => {
@@ -135,7 +176,7 @@ export default function Home() {
   }, [confirmed, pool?.champions.length]);
 
   useEffect(() => {
-    if (!pool?.role) {
+    if (!activePool?.role) {
       setChampionsForRole([]);
       return;
     }
@@ -143,7 +184,7 @@ export default function Home() {
     let cancelled = false;
     setChampionsLoading(true);
 
-    fetch(`/api/champions/${pool.role}`)
+    fetch(`/api/champions/${activePool.role}`)
       .then((res) => {
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         return res.json();
@@ -164,10 +205,10 @@ export default function Home() {
     return () => {
       cancelled = true;
     };
-  }, [pool?.role]);
+  }, [activePool?.role]);
 
   useEffect(() => {
-    if (!pool?.role) {
+    if (!activePool?.role) {
       setDataset(null);
       return;
     }
@@ -177,7 +218,7 @@ export default function Home() {
     setMatchupLoading(true);
     setMatchupError(null);
 
-    fetch(`/api/matchups/${pool.role}?tier=${tier}`)
+    fetch(`/api/matchups/${activePool.role}?tier=${tier}`)
       .then((res) => {
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         return res.json() as Promise<MatchupDataset>;
@@ -195,7 +236,7 @@ export default function Home() {
     return () => {
       cancelled = true;
     };
-  }, [pool?.role, tier]);
+  }, [activePool?.role, tier]);
 
   const roleChampions = useMemo(
     () => new Set(dataset?.champions ?? []),
@@ -203,29 +244,29 @@ export default function Home() {
   );
 
   const opponents = useMemo(() => {
-    if (!pool || !dataset) return [];
+    if (!activePool || !dataset) return [];
     const knownOpponents = new Set<string>();
     for (const m of dataset.matchups) {
       if (
-        pool.champions.includes(m.champion) &&
+        activePool.champions.includes(m.champion) &&
         roleChampions.has(m.opponent)
       ) {
         knownOpponents.add(m.opponent);
       }
       if (
-        pool.champions.includes(m.opponent) &&
+        activePool.champions.includes(m.opponent) &&
         roleChampions.has(m.champion)
       ) {
         knownOpponents.add(m.champion);
       }
     }
     return [...knownOpponents];
-  }, [pool, dataset, roleChampions]);
+  }, [activePool, dataset, roleChampions]);
 
   const gaps = useMemo(() => {
-    if (!pool || !dataset) return [];
-    return findGaps(pool.champions, opponents, dataset.matchups);
-  }, [pool, opponents, dataset]);
+    if (!activePool || !dataset) return [];
+    return findGaps(activePool.champions, opponents, dataset.matchups);
+  }, [activePool, opponents, dataset]);
 
   const gapOpponents = useMemo(
     () => gaps.filter((g) => g.isGap).map((g) => g.opponent),
@@ -233,10 +274,10 @@ export default function Home() {
   );
 
   const suggestions = useMemo(() => {
-    if (!pool || !dataset) return [];
+    if (!activePool || !dataset) return [];
     if (gapOpponents.length > 0) {
       return suggestChampions(
-        pool.champions,
+        activePool.champions,
         gapOpponents,
         dataset.matchups,
         dataset.champions,
@@ -245,12 +286,12 @@ export default function Home() {
       );
     }
     return suggestImprovements(
-      pool.champions,
+      activePool.champions,
       gaps,
       dataset.matchups,
       dataset.champions,
     );
-  }, [pool, gapOpponents, gaps, dataset]);
+  }, [activePool, gapOpponents, gaps, dataset]);
 
   const pickRateMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -263,8 +304,8 @@ export default function Home() {
   }, [dataset]);
 
   const blindPicks = useMemo(() => {
-    if (!pool || !dataset) return [];
-    return pool.champions
+    if (!activePool || !dataset) return [];
+    return activePool.champions
       .map((champ) => {
         const champMatchups = opponents
           .map((opp) => {
@@ -297,7 +338,7 @@ export default function Home() {
       .filter((p) => p !== null)
       .sort((a, b) => b.avgWinrate - a.avgWinrate)
       .slice(0, 5);
-  }, [pool, opponents, dataset]);
+  }, [activePool, opponents, dataset]);
 
   const banTargets = useMemo(() => {
     if (gaps.length === 0 || !pickRateMap.size) return [];
@@ -314,6 +355,11 @@ export default function Home() {
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, 5);
+  }, [gaps, pickRateMap]);
+
+  const poolScore = useMemo(() => {
+    if (gaps.length === 0) return null;
+    return computePoolScore(gaps, pickRateMap);
   }, [gaps, pickRateMap]);
 
   const coverage = useMemo(() => {
@@ -334,21 +380,33 @@ export default function Home() {
     );
   }
 
-  if (!pool?.role) {
+  if (!activePool?.role) {
     return <RolePicker onSelectRole={setRole} />;
   }
 
-  const analysisReady = isValid && dataset;
+  const analysisReady = activeIsValid && dataset;
 
   return (
     <div className="min-h-screen flex flex-col px-4 py-4">
-      <h1 className="sr-only">LoL Pool Optimizer</h1>
-
       <div
         className={`max-w-5xl mx-auto w-full ${!confirmed ? "flex flex-col flex-1 gap-6" : "space-y-6"}`}
       >
         <div className="flex items-center justify-center relative">
-          <RoleSelector role={pool.role} onRoleChange={setRole} />
+          {confirmed && (
+            <div className="absolute left-0">
+              <ShareButton
+                role={activePool.role}
+                champions={activePool.champions}
+                tier={tier}
+              />
+            </div>
+          )}
+          {!confirmed && (
+            <h1 className="absolute -top-10">
+              <Logo size="sm" />
+            </h1>
+          )}
+          <RoleSelector role={activePool.role} onRoleChange={setRole} />
           {confirmed && (
             <TierSelector
               patch={patchRef.current}
@@ -361,9 +419,29 @@ export default function Home() {
           )}
         </div>
 
+        {sharedPool && confirmed && (
+          <div className="bg-accent/10 border border-accent/30 rounded-lg px-4 py-2 flex items-center justify-between text-sm">
+            <span className="text-foreground">Viewing a shared pool</span>
+            <div className="flex gap-2">
+              <button
+                onClick={saveSharedPool}
+                className="text-accent hover:text-accent/80 font-medium transition-colors"
+              >
+                Save to my pools
+              </button>
+              <button
+                onClick={dismissSharedPool}
+                className="text-muted hover:text-foreground transition-colors"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
+
         {!confirmed ? (
           <ChampionPicker
-            role={pool.role}
+            role={activePool.role}
             champions={championsForRole}
             championsLoading={championsLoading}
             version={DDRAGON_VERSION}
@@ -376,17 +454,22 @@ export default function Home() {
           />
         ) : (
           <>
-            <PoolInput
-              role={pool.role}
-              champions={pool.champions}
-              allChampions={championsForRole}
-              version={DDRAGON_VERSION}
-              onRoleChange={setRole}
-              onAddChampion={addChampion}
-              onRemoveChampion={removeChampion}
-              compact
-              hideRoleSelector
-            />
+            {!sharedPool && (
+              <PoolInput
+                role={activePool.role}
+                champions={activePool.champions}
+                allChampions={championsForRole}
+                version={DDRAGON_VERSION}
+                onRoleChange={setRole}
+                onAddChampion={addChampion}
+                onRemoveChampion={removeChampion}
+                compact
+                hideRoleSelector
+                gradeSlot={
+                  poolScore ? <PoolGrade result={poolScore} /> : undefined
+                }
+              />
+            )}
 
             <div>
               <EnemySearch
@@ -404,7 +487,7 @@ export default function Home() {
                     pickRate={pickRateMap.get(selectedEnemy)}
                   />
                   <QuickPick
-                    pool={pool.champions}
+                    pool={activePool.champions}
                     selectedEnemy={selectedEnemy}
                     matchups={dataset.matchups}
                     allChampions={championsForRole}
@@ -438,11 +521,11 @@ export default function Home() {
                     )}
                   </div>
                 )}
-                {(pool.role === "bot" || pool.role === "support") &&
+                {(activePool.role === "bot" || activePool.role === "support") &&
                   dataset.duos &&
                   dataset.duos.length > 0 && (
                     <DuoSynergy
-                      poolChampions={pool.champions}
+                      poolChampions={activePool.champions}
                       duos={dataset.duos}
                       version={DDRAGON_VERSION}
                     />
@@ -452,15 +535,15 @@ export default function Home() {
                   suggestions={suggestions}
                   totalOpponents={opponents.length}
                   version={DDRAGON_VERSION}
-                  onAddChampion={addChampion}
-                  canAdd={true}
+                  onAddChampion={sharedPool ? undefined : addChampion}
+                  canAdd={!sharedPool}
                 />
               </div>
             ) : championsLoading || matchupLoading ? (
               <DashboardSkeleton />
             ) : (
               <p className="text-muted text-sm py-8 text-center">
-                {!pool?.role
+                {!activePool?.role
                   ? "Select a role to get started."
                   : "Add a champion to analyze your matchups."}
               </p>
