@@ -76,7 +76,7 @@ export function EnemyProfile({ enemyId, version }: EnemyProfileProps) {
   const tips = deriveItemTips(info);
 
   return (
-    <div className="bg-card border-x border-card-border px-4 py-4">
+    <div className="bg-card border-x border-card-border px-4 py-8">
       <div className="flex items-start gap-4">
         <ChampionIcon championId={enemyId} version={version} size={72} />
 

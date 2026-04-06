@@ -46,12 +46,10 @@ export function EnemySearch({
 
   return (
     <div
-      className={`bg-card border border-card-border p-4 min-h-[70px] flex flex-col justify-center cursor-text ${connected ? "pb-0 rounded-t-xl border-b-transparent" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-transparent" : "rounded-xl"}`}
+      className={`bg-card border border-card-border p-4 min-h-[70px] flex flex-col justify-center cursor-text ${connected ? "rounded-t-xl" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-transparent" : "rounded-xl"}`}
       onClick={() => inputRef.current?.focus()}
     >
-      <div
-        className={`relative -mx-4 px-4 ${connected ? "border-b border-card-border pb-2" : ""}`}
-      >
+      <div className="relative -mx-4 px-4">
         <input
           ref={inputRef}
           type="text"
