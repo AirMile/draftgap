@@ -49,3 +49,4 @@ public/_inspect/
 .claude/hooks/
 .claude/skills/
 .claude/scripts/
+logs/
