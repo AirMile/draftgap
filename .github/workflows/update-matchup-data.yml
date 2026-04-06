@@ -29,6 +29,18 @@ jobs:
         run: |
           git diff --quiet data/ && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
 
+      - name: Validate data size
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          # Check that no matchup JSON is under 10KB (healthy files are 100KB+)
+          SMALL_FILES=$(find data/matchups -name '*.json' -size -10k | wc -l)
+          if [ "$SMALL_FILES" -gt 0 ]; then
+            echo "✗ Found $SMALL_FILES matchup files under 10KB — data likely incomplete"
+            find data/matchups -name '*.json' -size -10k -exec ls -lh {} \;
+            exit 1
+          fi
+          echo "✓ All matchup files are ≥10KB"
+
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
         run: |

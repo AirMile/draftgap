@@ -553,6 +553,7 @@ async function main() {
   }
 
   const roles = ["top", "jungle", "mid", "bot", "support"];
+  const matchupTotals: { role: string; tier: string; count: number }[] = [];
 
   for (const role of roles) {
     console.log(`\n--- ${role.toUpperCase()} ---`);
@@ -669,8 +670,33 @@ async function main() {
       console.log(
         `  ✓ ${td.tier.key}/${role}: ${champions.length} champs, ${td.matchups.length} matchups${duos ? `, ${duos.length} duos` : ""}`,
       );
+      matchupTotals.push({
+        role,
+        tier: td.tier.key,
+        count: td.matchups.length,
+      });
     }
   }
+
+  // Sanity check: abort if matchup data is (nearly) empty
+  const emptySlots = matchupTotals.filter((t) => t.count === 0);
+  if (emptySlots.length > 0) {
+    console.error(
+      `\n✗ Sanity check failed: ${emptySlots.length}/${matchupTotals.length} tier/role combos have 0 matchups:`,
+    );
+    for (const slot of emptySlots) {
+      console.error(`  - ${slot.tier}/${slot.role}`);
+    }
+    console.error(
+      "Aborting to prevent overwriting existing data with empty results.",
+    );
+    process.exit(1);
+  }
+
+  const totalMatchups = matchupTotals.reduce((sum, t) => sum + t.count, 0);
+  console.log(
+    `\n✓ Sanity check passed: ${totalMatchups} total matchups across ${matchupTotals.length} tier/role combos`,
+  );
 
   // Fetch Meraki champion info
   const championInfo = await fetchMerakiChampionInfo(ddChampions);
