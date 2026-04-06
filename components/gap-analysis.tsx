@@ -44,16 +44,15 @@ export function GapAnalysis({
       <div className="p-4">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted">Weakest pool matchups</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span
-              className="text-[10px] text-muted uppercase tracking-wide w-10 text-right cursor-help"
+              className="text-[10px] text-muted uppercase tracking-wide w-12 text-right mr-1 cursor-help"
               title="Pick Rate — how often this champion is picked"
             >
               pick
             </span>
-            <div className="w-4 shrink-0" />
             <span
-              className="text-[10px] text-muted uppercase tracking-wide w-10 text-right cursor-help"
+              className="text-[10px] text-muted uppercase tracking-wide w-[62px] text-right cursor-help"
               title="Best Win Rate from your pool against this opponent"
             >
               Best WR
@@ -84,23 +83,21 @@ export function GapAnalysis({
                   <span className="text-sm flex-1">
                     {formatChampionName(g.opponent)}
                   </span>
-                  <span className="text-[11px] font-mono text-muted w-10 text-right">
+                  <span className="text-[11px] font-mono text-muted w-12 text-right mr-1">
                     {g.pickRate > 0 ? `${g.pickRate.toFixed(1)}%` : "—"}
                   </span>
-                  <div className="flex items-center gap-1.5 ml-1">
-                    {g.bestChampion && (
-                      <ChampionIcon
-                        championId={g.bestChampion}
-                        version={version}
-                        size={18}
-                      />
-                    )}
-                    <span
-                      className={`text-xs font-mono w-10 text-right ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
-                    >
-                      {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
-                    </span>
-                  </div>
+                  {g.bestChampion && (
+                    <ChampionIcon
+                      championId={g.bestChampion}
+                      version={version}
+                      size={18}
+                    />
+                  )}
+                  <span
+                    className={`text-xs font-mono w-10 text-right ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
+                  >
+                    {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
+                  </span>
                 </div>
               ))}
         </div>

@@ -93,6 +93,7 @@ export function PoolInput({
     setPending([]);
     setQuery("");
     setIsOpen(false);
+    inputRef.current?.blur();
   };
 
   if (compact) {
@@ -106,10 +107,14 @@ export function PoolInput({
 
         {role && (
           <div
-            className={`relative bg-card border border-card-border rounded-xl p-4 min-h-[70px] flex flex-col justify-center ${isOpen && (filtered.length > 0 || poolFiltered.length > 0) ? "rounded-b-none border-b-0" : ""}`}
+            className={`relative bg-card border border-card-border rounded-xl p-4 min-h-[70px] flex flex-col justify-center cursor-text ${isOpen && (filtered.length > 0 || poolFiltered.length > 0) ? "rounded-b-none border-b-transparent" : ""}`}
+            onClick={() => inputRef.current?.focus()}
           >
             {gradeSlot && (
-              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <div
+                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {gradeSlot}
               </div>
             )}
@@ -232,7 +237,10 @@ export function PoolInput({
                   {pending.length > 0 && (
                     <div className="px-3 pb-3 pt-3 border-t border-card-border">
                       <button
-                        onClick={confirmPending}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          confirmPending();
+                        }}
                         className="w-full py-3 rounded-lg font-medium text-sm bg-accent/15 border border-accent/25 text-accent hover:bg-accent/30 hover:border-accent/50 transition-colors"
                       >
                         Add {pending.length} champion
