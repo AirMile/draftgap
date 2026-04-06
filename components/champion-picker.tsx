@@ -81,8 +81,8 @@ export function ChampionPicker({
           {champions.length === 0 && championsLoading
             ? Array.from({ length: 48 }).map((_, i) => (
                 <div key={i} className="flex flex-col items-center gap-1.5 p-2">
-                  <div className="w-12 h-12 rounded-lg bg-card-border/40 animate-pulse" />
-                  <div className="w-10 h-3 rounded bg-card-border/30 animate-pulse" />
+                  <div className="skeleton w-12 h-12 !rounded-lg" />
+                  <div className="skeleton w-10 h-3" />
                 </div>
               ))
             : filteredChampions.map((c) => {

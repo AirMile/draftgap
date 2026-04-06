@@ -28,6 +28,29 @@ import type { MatchupDataset, PoolState, Role, Tier } from "@/lib/types";
 
 const DDRAGON_VERSION = "16.7.1";
 
+function RolePickerSkeleton() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 gap-6 sm:gap-0">
+      <div className="text-center sm:hidden">
+        <div className="skeleton mx-auto w-40 h-8" />
+        <div className="skeleton mx-auto w-28 h-4 mt-2" />
+      </div>
+      <div className="relative grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-5 w-full max-w-md sm:max-w-4xl">
+        <div className="absolute inset-x-0 -top-28 text-center pointer-events-none hidden sm:block">
+          <div className="skeleton mx-auto w-52 h-10" />
+          <div className="skeleton mx-auto w-32 h-5 mt-2" />
+        </div>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="skeleton !rounded-2xl aspect-[16/9] sm:aspect-[2/5]"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const TIERS: { value: Tier; label: string }[] = [
   { value: "emerald_plus", label: "Emerald+" },
   { value: "platinum_plus", label: "Platinum+" },
@@ -426,11 +449,7 @@ export default function Home() {
   }
 
   if (!loaded) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-muted">Loading...</div>
-      </div>
-    );
+    return <RolePickerSkeleton />;
   }
 
   if (!activePool?.role) {

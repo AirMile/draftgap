@@ -37,22 +37,32 @@ export function BlindPickBan({
                 <div className="skeleton w-10 h-3.5 ml-auto" />
               </div>
             ))
-          : blindPicks.map((pick, i) => (
-              <div key={pick.champion} className="flex items-center gap-2">
-                <span className="text-xs text-muted w-4">#{i + 1}</span>
-                <ChampionIcon
-                  championId={pick.champion}
-                  version={version}
-                  size={20}
-                />
-                <span className="text-sm flex-1">
-                  {formatChampionName(pick.champion)}
-                </span>
-                <span className="text-xs font-mono text-win">
-                  {pick.avgWinrate.toFixed(1)}%
-                </span>
-              </div>
-            ))}
+          : Array.from({ length: 5 }).map((_, i) => {
+              const pick = blindPicks[i];
+              return pick ? (
+                <div key={pick.champion} className="flex items-center gap-2">
+                  <span className="text-xs text-muted w-4">#{i + 1}</span>
+                  <ChampionIcon
+                    championId={pick.champion}
+                    version={version}
+                    size={20}
+                  />
+                  <span className="text-sm flex-1">
+                    {formatChampionName(pick.champion)}
+                  </span>
+                  <span className="text-xs font-mono text-win">
+                    {pick.avgWinrate.toFixed(1)}%
+                  </span>
+                </div>
+              ) : (
+                <div key={i} className="flex items-center gap-2 invisible">
+                  <span className="text-xs w-4">#</span>
+                  <div className="w-5 h-5 shrink-0" />
+                  <span className="text-sm flex-1">—</span>
+                  <span className="text-xs w-10">—</span>
+                </div>
+              );
+            })}
       </div>
     </div>
   );
