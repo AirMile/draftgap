@@ -147,7 +147,7 @@ export function PoolInput({
                 }}
                 placeholder="Expand your pool..."
                 aria-label="Expand your pool"
-                className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
+                className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
               />
               {isOpen && filtered.length > 0 && (
                 <div

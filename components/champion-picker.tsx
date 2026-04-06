@@ -74,9 +74,9 @@ export function ChampionPicker({
             }}
             placeholder="Search champions..."
             aria-label="Search champions"
-            className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
+            className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
           />
-          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start">
+          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-scroll content-start">
             {championsLoading
               ? Array.from({ length: 48 }).map((_, i) => (
                   <div

@@ -73,7 +73,7 @@ export function EnemySearch({
           }}
           placeholder="Who are you playing against?"
           aria-label="Search enemy champion"
-          className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
+          className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
         />
         {selectedEnemy && (
           <button

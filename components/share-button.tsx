@@ -79,7 +79,7 @@ export function ShareButton({
         <div
           className={`bg-card border border-win/40 text-win text-sm font-medium rounded-lg px-3 py-2 shadow-lg shadow-black/30 transition-all duration-200 ${copied ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}
         >
-          Pool copied — share it with friends!
+          Share your pool with friends!
         </div>
         <button
           onClick={handleCopy}
