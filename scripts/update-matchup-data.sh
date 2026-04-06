@@ -6,9 +6,23 @@ set -euo pipefail
 # Cron has minimal PATH — ensure node/npm are found
 export PATH="/usr/local/bin:$PATH"
 
+NTFY_TOPIC="draftgap-data-updates"
+
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_FILE="$PROJECT_DIR/logs/update-matchup-data.log"
 mkdir -p "$(dirname "$LOG_FILE")"
+
+notify() {
+  local title="$1" msg="$2" tags="${3:-}"
+  curl -s -o /dev/null \
+    -H "Title: $title" \
+    -H "Tags: $tags" \
+    -d "$msg" \
+    "ntfy.sh/$NTFY_TOPIC"
+}
+
+# Notify on any failure
+trap 'notify "DraftGap update failed" "Script failed at line $LINENO — check logs" "warning,x"' ERR
 
 exec > >(tee -a "$LOG_FILE") 2>&1
 echo ""
@@ -42,3 +56,4 @@ git commit -m "data: update matchup data $(date -u +%Y-%m-%d)"
 git push
 
 echo "✓ Data updated and pushed"
+notify "DraftGap data updated" "Matchup data $(date -u +%Y-%m-%d) pushed successfully" "white_check_mark"
