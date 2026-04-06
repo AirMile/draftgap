@@ -55,67 +55,72 @@ export function ChampionPicker({
   return (
     <div className="flex flex-col animate-fade-in">
       <div className="max-w-5xl w-full flex flex-col">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onFocus={(e) => {
-            if (window.innerWidth < 640) {
-              setTimeout(
-                () =>
-                  e.target.scrollIntoView({
+        <div className="bg-card border border-card-border rounded-xl p-4 space-y-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onFocus={(e) => {
+              if (window.innerWidth < 640) {
+                const el = e.target;
+                setTimeout(() => {
+                  const parent = el.closest(".bg-card");
+                  (parent ?? el).scrollIntoView({
                     block: "start",
                     behavior: "smooth",
-                  }),
-                300,
-              );
-            }
-          }}
-          placeholder="Search champions..."
-          aria-label="Search champions"
-          className="w-full bg-input border border-input-border rounded-lg px-3 py-2 mb-2 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50 text-sm"
-        />
-        <div
-          className={`bg-card border border-card-border rounded-xl p-4 grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start ${championsLoading && champions.length > 0 ? "opacity-40 pointer-events-none transition-opacity duration-200" : ""}`}
-        >
-          {champions.length === 0 && championsLoading
-            ? Array.from({ length: 48 }).map((_, i) => (
-                <div key={i} className="flex flex-col items-center gap-1.5 p-2">
-                  <div className="skeleton w-12 h-12 !rounded-lg" />
-                  <div className="skeleton w-10 h-3" />
-                </div>
-              ))
-            : filteredChampions.map((c) => {
-                const selected = selection.includes(c);
-                return (
-                  <button
-                    key={c}
-                    onClick={() => togglePick(c)}
-                    className={`flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-200 border ${
-                      selected
-                        ? "bg-accent/8 border-accent/30 shadow-[0_0_8px_rgba(200,155,60,0.12)]"
-                        : "border-transparent hover:bg-card-border/20"
-                    }`}
+                  });
+                }, 300);
+              }
+            }}
+            placeholder="Search champions..."
+            aria-label="Search champions"
+            className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
+          />
+          <div
+            className={`grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start ${championsLoading && champions.length > 0 ? "opacity-40 pointer-events-none transition-opacity duration-200" : ""}`}
+          >
+            {champions.length === 0 && championsLoading
+              ? Array.from({ length: 48 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center gap-1.5 p-2"
                   >
-                    <div
-                      className={`rounded-lg overflow-hidden transition-opacity duration-200 ${selected ? "" : "opacity-70 hover:opacity-100"}`}
-                    >
-                      <ChampionIcon
-                        championId={c}
-                        version={version}
-                        size={48}
-                      />
-                    </div>
-                    <span
-                      className={`text-xs leading-tight truncate w-full text-center ${
-                        selected ? "text-foreground" : "text-muted"
+                    <div className="skeleton w-12 h-12 !rounded-lg" />
+                    <div className="skeleton w-10 h-3" />
+                  </div>
+                ))
+              : filteredChampions.map((c) => {
+                  const selected = selection.includes(c);
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => togglePick(c)}
+                      className={`flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-200 border ${
+                        selected
+                          ? "bg-accent/8 border-accent/30 shadow-[0_0_8px_rgba(200,155,60,0.12)]"
+                          : "border-transparent hover:bg-card-border/20"
                       }`}
                     >
-                      {formatChampionName(c)}
-                    </span>
-                  </button>
-                );
-              })}
+                      <div
+                        className={`rounded-lg overflow-hidden transition-opacity duration-200 ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                      >
+                        <ChampionIcon
+                          championId={c}
+                          version={version}
+                          size={48}
+                        />
+                      </div>
+                      <span
+                        className={`text-xs leading-tight truncate w-full text-center ${
+                          selected ? "text-foreground" : "text-muted"
+                        }`}
+                      >
+                        {formatChampionName(c)}
+                      </span>
+                    </button>
+                  );
+                })}
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 pt-4">
