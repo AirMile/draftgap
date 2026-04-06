@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChampionIcon } from "@/components/champion-icon";
 import { formatChampionName } from "@/lib/ui-utils";
 
@@ -22,14 +22,28 @@ export function BlindPickBan({
   onSelectChampion,
 }: BlindPickBanProps) {
   const [expanded, setExpanded] = useState(false);
+  const [sortedPick, setSortedPick] = useState<string | null>(null);
+
+  // Collapse when a blind pick is selected, and delay the reorder
+  const prevSelected = useRef(selectedChampion);
+  if (prevSelected.current !== selectedChampion) {
+    prevSelected.current = selectedChampion;
+    if (expanded && selectedChampion) setExpanded(false);
+  }
+
+  useEffect(() => {
+    if (selectedChampion === sortedPick) return;
+    const timer = setTimeout(() => setSortedPick(selectedChampion), 200);
+    return () => clearTimeout(timer);
+  }, [selectedChampion, sortedPick]);
 
   if (!loading && blindPicks.length === 0) return null;
 
-  // Move selected champion to top, keep rest sorted by WR
-  const sorted = selectedChampion
+  // Reorder after delay: selected champion to top
+  const sorted = sortedPick
     ? [
-        ...blindPicks.filter((p) => p.champion === selectedChampion),
-        ...blindPicks.filter((p) => p.champion !== selectedChampion),
+        ...blindPicks.filter((p) => p.champion === sortedPick),
+        ...blindPicks.filter((p) => p.champion !== sortedPick),
       ]
     : blindPicks;
   const visible = expanded ? sorted : sorted.slice(0, COLLAPSED_COUNT);
