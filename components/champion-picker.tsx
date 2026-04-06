@@ -74,7 +74,7 @@ export function ChampionPicker({
             }}
             placeholder="Search champions..."
             aria-label="Search champions"
-            className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
+            className="w-full bg-transparent px-0 py-0 text-foreground placeholder:text-muted focus:outline-none"
           />
           <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto [scrollbar-gutter:stable] content-start">
             {championsLoading
@@ -122,27 +122,6 @@ export function ChampionPicker({
         </div>
 
         <div className="flex flex-col gap-3 pt-4">
-          <div className="hidden sm:flex items-center gap-2 flex-wrap min-h-[34px]">
-            {selection.map((c) => (
-              <div
-                key={c}
-                className="flex items-center gap-2 bg-background border border-card-border rounded-lg px-2.5 py-1"
-              >
-                <ChampionIcon championId={c} version={version} size={24} />
-                <span className="text-sm">{formatChampionName(c)}</span>
-                <button
-                  onClick={() => togglePick(c)}
-                  className="text-muted hover:text-loss text-sm leading-none -mr-1 p-1.5 -my-1"
-                  aria-label={`Remove ${formatChampionName(c)}`}
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-            {selection.length === 0 && (
-              <span className="text-muted text-sm">No champions selected</span>
-            )}
-          </div>
           <button
             onClick={handleConfirm}
             disabled={selection.length === 0}

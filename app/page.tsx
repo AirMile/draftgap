@@ -51,6 +51,39 @@ function RolePickerSkeleton() {
   );
 }
 
+function ConfirmedSkeleton({ championCount }: { championCount: number }) {
+  return (
+    <>
+      <div className="bg-card border border-card-border rounded-xl p-4 space-y-2">
+        <div className="border-b border-card-border pb-2 -mx-4 px-4">
+          <div className="skeleton w-32 h-6" />
+        </div>
+        <div className="space-y-2 pt-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            {Array.from({ length: championCount }).map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-1.5 sm:gap-2 border border-card-border rounded-lg px-2 sm:px-2.5 py-1"
+              >
+                <div className="skeleton !rounded-full w-5 h-5 shrink-0" />
+                <div className="skeleton h-3.5 w-12 sm:w-16" />
+                <div className="w-4 sm:w-5" />
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end min-h-[30px]">
+            <div className="skeleton !rounded-lg w-[53px] h-[30px]" />
+          </div>
+        </div>
+      </div>
+      <div className="bg-card border border-card-border rounded-xl p-4">
+        <div className="skeleton w-48 h-6" />
+      </div>
+      <DashboardSkeleton />
+    </>
+  );
+}
+
 const TIERS: { value: Tier; label: string }[] = [
   { value: "emerald_plus", label: "Emerald+" },
   { value: "platinum_plus", label: "Platinum+" },
@@ -82,7 +115,7 @@ function TierSelector({
 
   return (
     <div
-      className="absolute right-0 hidden sm:flex items-center gap-2"
+      className="absolute right-0 hidden sm:flex items-center gap-3"
       ref={ref}
     >
       {patch && (
@@ -138,11 +171,12 @@ export default function Home() {
   // handler tick, preventing a flash of stale champions before the effect runs.
   const handleRoleChange = useCallback(
     (role: Role) => {
+      if (pool?.role === role) return;
       setChampionsForRole([]);
       setChampionsLoading(true);
       setRole(role);
     },
-    [setRole],
+    [setRole, pool?.role],
   );
   const [tier, setTier] = useState<Tier>(() => {
     if (typeof window !== "undefined") {
@@ -539,6 +573,8 @@ export default function Home() {
               setConfirmed(true);
             }}
           />
+        ) : championsLoading ? (
+          <ConfirmedSkeleton championCount={activePool.champions.length} />
         ) : (
           <>
             {!sharedPool && (
@@ -555,7 +591,7 @@ export default function Home() {
                 gradeSlot={
                   stablePoolScoreRef.current ? (
                     <PoolGrade result={stablePoolScoreRef.current} />
-                  ) : activePool.champions.length >= 2 ? (
+                  ) : activePool.champions.length >= 1 ? (
                     <div className="skeleton !rounded-lg w-[53px] h-[30px]" />
                   ) : undefined
                 }
@@ -605,7 +641,7 @@ export default function Home() {
             </div>
 
             {analysisReady ? (
-              <div className="bg-card border border-card-border rounded-lg overflow-hidden divide-y divide-card-border">
+              <div className="bg-card border border-card-border rounded-xl overflow-hidden divide-y divide-card-border">
                 <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
                   <BlindPickBan
                     blindPicks={stableBlindPicksRef.current}

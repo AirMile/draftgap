@@ -46,20 +46,21 @@ export function EnemySearch({
 
   return (
     <div
-      className={`bg-card border border-card-border p-4 ${connected ? "rounded-t-xl border-b-0 pb-3" : "rounded-xl"}`}
+      className={`bg-card border border-card-border p-4 ${connected ? "rounded-t-xl border-b-0" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-0" : "rounded-xl"}`}
     >
-      <div className="relative">
+      <div
+        className={`relative -mx-4 px-4 ${connected ? "border-b border-card-border pb-2" : ""}`}
+      >
         <input
           ref={inputRef}
           type="text"
-          value={selectedEnemy ? formatChampionName(selectedEnemy) : query}
+          value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            onSelectEnemy(null);
             setIsOpen(true);
           }}
           onFocus={(e) => {
-            if (!selectedEnemy) setIsOpen(true);
+            setIsOpen(true);
             if (window.innerWidth < 640) {
               setTimeout(
                 () =>
@@ -73,26 +74,12 @@ export function EnemySearch({
           }}
           placeholder="Who are you playing against?"
           aria-label="Search enemy champion"
-          className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
+          className="w-full bg-transparent px-0 py-0 text-foreground placeholder:text-muted focus:outline-none"
         />
-        {selectedEnemy && (
-          <button
-            onClick={() => {
-              onSelectEnemy(null);
-              setQuery("");
-              setIsOpen(true);
-              inputRef.current?.focus();
-            }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground size-9 rounded-md hover:bg-white/5 flex items-center justify-center"
-            aria-label="Clear enemy selection"
-          >
-            ×
-          </button>
-        )}
-        {isOpen && !selectedEnemy && filtered.length > 0 && (
+        {isOpen && filtered.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 mt-1 bg-input border border-input-border rounded-lg z-20 max-h-96 overflow-y-auto p-3"
+            className="absolute top-full -left-px -right-px -mt-px bg-card border border-card-border border-t-0 rounded-b-xl z-20 max-h-96 overflow-y-auto p-3"
           >
             <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
               {filtered.map((c) => (
@@ -103,9 +90,11 @@ export function EnemySearch({
                     setQuery("");
                     setIsOpen(false);
                   }}
-                  className="flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-card-border transition-colors"
+                  className="flex flex-col items-center gap-1 p-1.5 rounded-lg border border-transparent hover:bg-card-border/20 transition-colors"
                 >
-                  <ChampionIcon championId={c} version={version} size={48} />
+                  <div className="rounded-lg overflow-hidden opacity-70 hover:opacity-100 transition-opacity">
+                    <ChampionIcon championId={c} version={version} size={48} />
+                  </div>
                   <span className="text-xs text-muted truncate w-full text-center leading-tight">
                     {formatChampionName(c)}
                   </span>

@@ -37,6 +37,7 @@ export function PoolInput({
 }: PoolInputProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [pending, setPending] = useState<string[]>([]);
   const [loadedChampionsKey, setLoadedChampionsKey] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -100,16 +101,34 @@ export function PoolInput({
         !inputRef.current.contains(e.target as Node)
       ) {
         setIsOpen(false);
+        setPending([]);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const togglePending = (championId: string) => {
+    setPending((prev) =>
+      prev.includes(championId)
+        ? prev.filter((c) => c !== championId)
+        : [...prev, championId],
+    );
+  };
+
   const handleSelect = (championId: string) => {
     onAddChampion(championId);
     setQuery("");
     inputRef.current?.focus();
+  };
+
+  const confirmPending = () => {
+    for (const c of pending) {
+      onAddChampion(c);
+    }
+    setPending([]);
+    setQuery("");
+    setIsOpen(false);
   };
 
   if (compact) {
@@ -122,8 +141,12 @@ export function PoolInput({
         )}
 
         {role && (
-          <div className="bg-card border border-card-border rounded-xl p-4 space-y-2">
-            <div className="relative">
+          <div
+            className={`bg-card border border-card-border rounded-xl p-4 space-y-2 ${isOpen && filtered.length > 0 ? "rounded-b-none border-b-0" : ""}`}
+          >
+            <div
+              className={`relative ${champions.length > 0 ? "border-b border-card-border pb-2 -mx-4 px-4" : ""}`}
+            >
               <input
                 ref={inputRef}
                 type="text"
@@ -147,31 +170,53 @@ export function PoolInput({
                 }}
                 placeholder="Expand your pool..."
                 aria-label="Expand your pool"
-                className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
+                className="w-full bg-transparent px-0 py-0 text-foreground placeholder:text-muted focus:outline-none"
               />
               {isOpen && filtered.length > 0 && (
                 <div
                   ref={dropdownRef}
-                  className="absolute top-full left-0 right-0 mt-1 bg-input border border-input-border rounded-lg z-50 max-h-96 overflow-y-auto p-3"
+                  className="absolute top-full -left-px -right-px -mt-px bg-card border border-card-border border-t-0 rounded-b-xl z-50 max-h-96 overflow-y-auto p-3"
                 >
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
-                    {filtered.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => handleSelect(c)}
-                        className="flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-card-border transition-colors"
-                      >
-                        <ChampionIcon
-                          championId={c}
-                          version={version}
-                          size={48}
-                        />
-                        <span className="text-xs text-muted truncate w-full text-center leading-tight">
-                          {formatChampionName(c)}
-                        </span>
-                      </button>
-                    ))}
+                    {filtered.map((c) => {
+                      const selected = pending.includes(c);
+                      return (
+                        <button
+                          key={c}
+                          onClick={() => togglePending(c)}
+                          className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border ${
+                            selected
+                              ? "bg-accent/8 border-accent/30"
+                              : "border-transparent hover:bg-card-border"
+                          }`}
+                        >
+                          <div
+                            className={`rounded-lg overflow-hidden transition-opacity ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                          >
+                            <ChampionIcon
+                              championId={c}
+                              version={version}
+                              size={48}
+                            />
+                          </div>
+                          <span
+                            className={`text-xs truncate w-full text-center leading-tight ${selected ? "text-foreground" : "text-muted"}`}
+                          >
+                            {formatChampionName(c)}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
+                  {pending.length > 0 && (
+                    <button
+                      onClick={confirmPending}
+                      className="w-full mt-3 py-2 rounded-lg font-medium text-sm bg-accent/15 border border-accent/25 text-accent hover:bg-accent/25 transition-colors"
+                    >
+                      Add {pending.length} champion
+                      {pending.length > 1 ? "s" : ""}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -179,7 +224,7 @@ export function PoolInput({
             {champions.length > 0 && (
               <div className="space-y-2">
                 {tagImagesReady ? (
-                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap py-1">
                     {champions.map((c) => (
                       <div
                         key={c}
@@ -215,9 +260,7 @@ export function PoolInput({
                     ))}
                   </div>
                 )}
-                {gradeSlot && (
-                  <div className="flex justify-end">{gradeSlot}</div>
-                )}
+                <div className="flex justify-end min-h-[30px]">{gradeSlot}</div>
               </div>
             )}
           </div>

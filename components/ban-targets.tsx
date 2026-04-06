@@ -45,8 +45,8 @@ export function BanTargets({ targets, version, loading }: BanTargetsProps) {
                 <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
                 <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
                 <div className="flex shrink-0 gap-2 ml-auto">
-                  <div className="skeleton w-10 h-3.5" />
-                  <div className="skeleton w-10 h-3.5" />
+                  <div className="skeleton w-12 h-3.5" />
+                  <div className="skeleton w-12 h-3.5" />
                 </div>
               </div>
             ))
