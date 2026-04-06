@@ -76,7 +76,7 @@ export function ChampionPicker({
             aria-label="Search champions"
             className="w-full bg-transparent px-0 py-2 text-foreground placeholder:text-muted focus:outline-none"
           />
-          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-scroll content-start">
+          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto [scrollbar-gutter:stable] content-start">
             {championsLoading
               ? Array.from({ length: 48 }).map((_, i) => (
                   <div
