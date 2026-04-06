@@ -86,20 +86,33 @@ async function fetchUGGPage(
   role: string,
 ): Promise<string | null> {
   const url = `${UGG_BASE}/${championSlug}/matchups?role=${role}`;
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-      Accept: "text/html",
-    },
-  });
+  const MAX_RETRIES = 3;
 
-  if (!res.ok) {
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        Accept: "text/html",
+      },
+    });
+
+    if (res.ok) return res.text();
+
+    if (res.status === 403 && attempt < MAX_RETRIES) {
+      const delay = REQUEST_DELAY * attempt * 2;
+      console.warn(
+        `  ⚠ ${championSlug}: HTTP 403, retry ${attempt}/${MAX_RETRIES - 1} in ${delay}ms`,
+      );
+      await sleep(delay);
+      continue;
+    }
+
     console.warn(`  ⚠ ${championSlug}: HTTP ${res.status}`);
     return null;
   }
 
-  return res.text();
+  return null;
 }
 
 /**

@@ -3,6 +3,9 @@
 # Generates fresh data, validates, commits and pushes if changed.
 set -euo pipefail
 
+# Cron has minimal PATH — ensure node/npm are found
+export PATH="/usr/local/bin:$PATH"
+
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_FILE="$PROJECT_DIR/logs/update-matchup-data.log"
 mkdir -p "$(dirname "$LOG_FILE")"
