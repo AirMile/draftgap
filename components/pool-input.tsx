@@ -21,6 +21,7 @@ interface PoolInputProps {
   compact?: boolean;
   hideRoleSelector?: boolean;
   gradeSlot?: React.ReactNode;
+  dropdownBordered?: boolean;
 }
 
 export function PoolInput({
@@ -34,6 +35,7 @@ export function PoolInput({
   compact = false,
   hideRoleSelector = false,
   gradeSlot,
+  dropdownBordered = false,
 }: PoolInputProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -175,47 +177,51 @@ export function PoolInput({
               {isOpen && filtered.length > 0 && (
                 <div
                   ref={dropdownRef}
-                  className="absolute top-full -left-px -right-px -mt-px bg-card border border-card-border border-t-0 rounded-b-xl z-50 max-h-96 overflow-y-auto p-3"
+                  className={`absolute top-full -left-px -right-px -mt-px bg-card border-x border-card-border z-50 h-96 flex flex-col ${dropdownBordered ? "border-b rounded-b-xl" : ""}`}
                 >
-                  <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
-                    {filtered.map((c) => {
-                      const selected = pending.includes(c);
-                      return (
-                        <button
-                          key={c}
-                          onClick={() => togglePending(c)}
-                          className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border ${
-                            selected
-                              ? "bg-accent/8 border-accent/30"
-                              : "border-transparent hover:bg-card-border"
-                          }`}
-                        >
-                          <div
-                            className={`rounded-lg overflow-hidden transition-opacity ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                  <div className="overflow-y-auto p-3 flex-1">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
+                      {filtered.map((c) => {
+                        const selected = pending.includes(c);
+                        return (
+                          <button
+                            key={c}
+                            onClick={() => togglePending(c)}
+                            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border ${
+                              selected
+                                ? "bg-accent/8 border-accent/30"
+                                : "border-transparent hover:bg-card-border"
+                            }`}
                           >
-                            <ChampionIcon
-                              championId={c}
-                              version={version}
-                              size={48}
-                            />
-                          </div>
-                          <span
-                            className={`text-xs truncate w-full text-center leading-tight ${selected ? "text-foreground" : "text-muted"}`}
-                          >
-                            {formatChampionName(c)}
-                          </span>
-                        </button>
-                      );
-                    })}
+                            <div
+                              className={`rounded-lg overflow-hidden transition-opacity ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                            >
+                              <ChampionIcon
+                                championId={c}
+                                version={version}
+                                size={48}
+                              />
+                            </div>
+                            <span
+                              className={`text-xs truncate w-full text-center leading-tight ${selected ? "text-foreground" : "text-muted"}`}
+                            >
+                              {formatChampionName(c)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                   {pending.length > 0 && (
-                    <button
-                      onClick={confirmPending}
-                      className="w-full mt-3 py-2 rounded-lg font-medium text-sm bg-accent/15 border border-accent/25 text-accent hover:bg-accent/25 transition-colors"
-                    >
-                      Add {pending.length} champion
-                      {pending.length > 1 ? "s" : ""}
-                    </button>
+                    <div className="px-3 pb-3 pt-3 border-t border-card-border">
+                      <button
+                        onClick={confirmPending}
+                        className="w-full py-3 rounded-lg font-medium text-sm bg-accent/15 border border-accent/25 text-accent hover:bg-accent/30 hover:border-accent/50 transition-colors"
+                      >
+                        Add {pending.length} champion
+                        {pending.length > 1 ? "s" : ""}
+                      </button>
+                    </div>
                   )}
                 </div>
               )}
@@ -247,15 +253,17 @@ export function PoolInput({
                     ))}
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap py-1">
                     {champions.map((c) => (
                       <div
                         key={c}
-                        className="flex items-center gap-1 sm:gap-2 border border-card-border rounded-lg px-1.5 sm:px-2.5 py-0.5 sm:py-1"
+                        className="flex items-center gap-1.5 sm:gap-2 bg-background border border-card-border rounded-lg px-2 sm:px-2.5 py-1 sm:py-1"
                       >
                         <div className="skeleton !rounded-full w-5 h-5 shrink-0" />
-                        <div className="skeleton h-3 sm:h-3.5 w-12 sm:w-16" />
-                        <div className="w-4 sm:w-5" />
+                        <div className="skeleton h-5 w-12 sm:w-16 rounded" />
+                        <div className="text-xs sm:text-sm leading-none -mr-0.5 sm:-mr-1 p-1 sm:p-1.5 -my-1 invisible">
+                          ×
+                        </div>
                       </div>
                     ))}
                   </div>

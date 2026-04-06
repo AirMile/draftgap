@@ -46,7 +46,7 @@ export function EnemySearch({
 
   return (
     <div
-      className={`bg-card border border-card-border p-4 ${connected ? "rounded-t-xl border-b-0" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-0" : "rounded-xl"}`}
+      className={`bg-card border border-card-border p-4 ${connected ? "pb-0 rounded-t-xl border-b-0" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-0" : "rounded-xl"}`}
     >
       <div
         className={`relative -mx-4 px-4 ${connected ? "border-b border-card-border pb-2" : ""}`}
@@ -79,7 +79,7 @@ export function EnemySearch({
         {isOpen && filtered.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute top-full -left-px -right-px -mt-px bg-card border border-card-border border-t-0 rounded-b-xl z-20 max-h-96 overflow-y-auto p-3"
+            className="absolute top-full -left-px -right-px -mt-px bg-card border border-card-border border-t-0 rounded-b-xl z-20 h-96 overflow-y-auto p-3"
           >
             <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
               {filtered.map((c) => (

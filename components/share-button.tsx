@@ -45,7 +45,7 @@ export function ShareButton({
     </svg>
   ) : (
     <svg
-      className="w-4 h-4"
+      className="w-4 h-4 text-muted"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -64,14 +64,27 @@ export function ShareButton({
 
   return (
     <>
-      {/* Desktop: inline button in header */}
+      {/* Desktop: inline button that expands with message */}
       <button
         onClick={handleCopy}
-        className="hidden sm:flex bg-background border border-card-border rounded-lg px-3 py-1 text-sm text-muted font-medium h-[38px] items-center gap-1.5 hover:border-accent/30 transition-colors"
+        className="hidden sm:flex bg-background border border-card-border rounded-lg px-3 py-1 text-sm font-medium h-[38px] items-center gap-1.5 hover:border-accent/30"
         aria-label={copied ? "Link copied" : "Share pool link"}
       >
         {icon}
-        <span className={labelColor}>{label}</span>
+        <div
+          className={`grid transition-[grid-template-columns] duration-200 ease-in-out ${copied ? "grid-cols-[1fr]" : "grid-cols-[0fr]"}`}
+        >
+          <span className="overflow-hidden whitespace-nowrap text-win">
+            Copied! Share your pool
+          </span>
+        </div>
+        <div
+          className={`grid transition-[grid-template-columns] duration-200 ease-in-out ${copied ? "grid-cols-[0fr]" : "grid-cols-[1fr]"}`}
+        >
+          <span className="overflow-hidden whitespace-nowrap text-muted">
+            Share
+          </span>
+        </div>
       </button>
 
       {/* Mobile: floating pill bottom-right with toast above */}

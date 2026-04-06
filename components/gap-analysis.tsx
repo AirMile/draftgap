@@ -107,7 +107,7 @@ export function GapAnalysis({
                     key={s.champion}
                     className="rounded-md transition-all duration-150"
                   >
-                    <div className="relative">
+                    <div className="relative group/suggestion">
                       <button
                         type="button"
                         onClick={() =>
@@ -133,7 +133,7 @@ export function GapAnalysis({
                       {onAddChampion && canAdd && (
                         <button
                           onClick={() => onAddChampion(s.champion)}
-                          className="absolute right-1 top-1/2 -translate-y-1/2 text-muted border border-card-border hover:text-accent hover:border-accent/30 hover:bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md z-10"
+                          className="absolute right-1 top-1/2 -translate-y-1/2 text-muted border border-card-border group-hover/suggestion:text-accent group-hover/suggestion:border-accent/30 hover:!bg-accent/10 transition-colors shrink-0 text-lg leading-none w-7 h-7 flex items-center justify-center rounded-md z-10"
                           aria-label={`Add ${formatChampionName(s.champion)} to pool`}
                         >
                           +

@@ -51,39 +51,6 @@ function RolePickerSkeleton() {
   );
 }
 
-function ConfirmedSkeleton({ championCount }: { championCount: number }) {
-  return (
-    <>
-      <div className="bg-card border border-card-border rounded-xl p-4 space-y-2">
-        <div className="border-b border-card-border pb-2 -mx-4 px-4">
-          <div className="skeleton w-32 h-6" />
-        </div>
-        <div className="space-y-2 pt-1">
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-            {Array.from({ length: championCount }).map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-1.5 sm:gap-2 border border-card-border rounded-lg px-2 sm:px-2.5 py-1"
-              >
-                <div className="skeleton !rounded-full w-5 h-5 shrink-0" />
-                <div className="skeleton h-3.5 w-12 sm:w-16" />
-                <div className="w-4 sm:w-5" />
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-end min-h-[30px]">
-            <div className="skeleton !rounded-lg w-[53px] h-[30px]" />
-          </div>
-        </div>
-      </div>
-      <div className="bg-card border border-card-border rounded-xl p-4">
-        <div className="skeleton w-48 h-6" />
-      </div>
-      <DashboardSkeleton />
-    </>
-  );
-}
-
 const TIERS: { value: Tier; label: string }[] = [
   { value: "emerald_plus", label: "Emerald+" },
   { value: "platinum_plus", label: "Platinum+" },
@@ -442,7 +409,6 @@ export default function Home() {
   // Keep last rendered enemy detail for collapse animation
   const lastEnemyRef = useRef<{
     enemyId: string;
-    pickRate: number | undefined;
     pool: string[];
     matchups: import("@/lib/types").MatchupData[];
     allChampions: string[];
@@ -450,7 +416,6 @@ export default function Home() {
   if (selectedEnemy && dataset) {
     lastEnemyRef.current = {
       enemyId: selectedEnemy,
-      pickRate: pickRateMap.get(selectedEnemy),
       pool: activePool?.champions ?? [],
       matchups: dataset.matchups,
       allChampions: championsForRole,
@@ -573,8 +538,6 @@ export default function Home() {
               setConfirmed(true);
             }}
           />
-        ) : championsLoading ? (
-          <ConfirmedSkeleton championCount={activePool.champions.length} />
         ) : (
           <>
             {!sharedPool && (
@@ -588,6 +551,7 @@ export default function Home() {
                 onRemoveChampion={removeChampion}
                 compact
                 hideRoleSelector
+                dropdownBordered={!!selectedEnemy}
                 gradeSlot={
                   stablePoolScoreRef.current ? (
                     <PoolGrade result={stablePoolScoreRef.current} />
@@ -619,7 +583,6 @@ export default function Home() {
                       <EnemyProfile
                         enemyId={lastEnemyRef.current.enemyId}
                         version={DDRAGON_VERSION}
-                        pickRate={lastEnemyRef.current.pickRate}
                       />
                       <QuickPick
                         pool={lastEnemyRef.current.pool}

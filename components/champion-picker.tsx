@@ -119,16 +119,16 @@ export function ChampionPicker({
                   );
                 })}
           </div>
-        </div>
-
-        <div className="flex flex-col gap-3 pt-4">
-          <button
-            onClick={handleConfirm}
-            disabled={selection.length === 0}
-            className="w-full py-2.5 rounded-lg font-medium transition-all duration-200 bg-accent/15 border border-accent/25 text-accent hover:bg-accent/25 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            Confirm ({selection.length})
-          </button>
+          {selection.length > 0 && (
+            <div className="pt-3 border-t border-card-border -mx-4 px-4 -mb-1">
+              <button
+                onClick={handleConfirm}
+                className="w-full py-3 rounded-lg font-medium text-sm bg-accent/15 border border-accent/25 text-accent hover:bg-accent/30 hover:border-accent/50 transition-colors"
+              >
+                Confirm ({selection.length})
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

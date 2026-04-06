@@ -67,14 +67,9 @@ function deriveItemTips(info: ChampionInfo): string[] {
 interface EnemyProfileProps {
   enemyId: string;
   version: string;
-  pickRate?: number;
 }
 
-export function EnemyProfile({
-  enemyId,
-  version,
-  pickRate,
-}: EnemyProfileProps) {
+export function EnemyProfile({ enemyId, version }: EnemyProfileProps) {
   const info = championMap.get(enemyId);
   if (!info) return null;
 
@@ -87,7 +82,7 @@ export function EnemyProfile({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-base font-semibold">
+            <span className="text-lg font-semibold">
               {formatChampionName(enemyId)}
             </span>
             {info.damageTypes.map((dt) => (
@@ -115,20 +110,14 @@ export function EnemyProfile({
                 .map((r) => ROLE_LABELS[r] ?? r)
                 .join(", ")}
             </span>
-            {pickRate !== undefined && (
-              <>
-                <span>·</span>
-                <span>{pickRate.toFixed(1)}% pick rate</span>
-              </>
-            )}
           </div>
 
           {(info.traits.length > 0 || info.cc.length > 0) && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
+            <div className="flex items-center flex-wrap gap-1.5 mt-2.5">
               {info.traits.map((t) => (
                 <span
                   key={t}
-                  className="text-xs text-muted bg-white/5 rounded px-1.5 py-0.5"
+                  className="text-xs bg-white/8 text-foreground/70 border border-white/10 rounded px-1.5 py-0.5"
                 >
                   {t}
                 </span>
@@ -136,7 +125,7 @@ export function EnemyProfile({
               {info.cc.map((c) => (
                 <span
                   key={c}
-                  className="text-xs text-muted bg-white/5 rounded px-1.5 py-0.5"
+                  className="text-xs bg-white/8 text-foreground/70 border border-white/10 rounded px-1.5 py-0.5"
                 >
                   {c}
                 </span>
@@ -147,7 +136,7 @@ export function EnemyProfile({
       </div>
 
       {tips.length > 0 && (
-        <div className="flex items-center gap-1.5 flex-wrap mt-3">
+        <div className="flex items-center gap-1.5 flex-wrap mt-4">
           <span className="text-xs text-muted">Build:</span>
           {tips.map((tip) => (
             <span
