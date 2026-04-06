@@ -503,7 +503,7 @@ export default function Home() {
         }
         return null;
       })
-      .filter((m) => m !== null && m.winrate < 50)
+      .filter((m): m is NonNullable<typeof m> => m !== null && m.winrate < 50)
       .sort((a, b) => a.winrate - b.winrate);
 
     return { matchups };
