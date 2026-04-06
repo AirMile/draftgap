@@ -133,6 +133,17 @@ export default function Home() {
 
   const [championsForRole, setChampionsForRole] = useState<string[]>([]);
   const [championsLoading, setChampionsLoading] = useState(false);
+
+  // Wrap setRole to synchronously reset champions state in the same event
+  // handler tick, preventing a flash of stale champions before the effect runs.
+  const handleRoleChange = useCallback(
+    (role: Role) => {
+      setChampionsForRole([]);
+      setChampionsLoading(true);
+      setRole(role);
+    },
+    [setRole],
+  );
   const [tier, setTier] = useState<Tier>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("tier") as Tier | null;
@@ -453,7 +464,7 @@ export default function Home() {
   }
 
   if (!activePool?.role) {
-    return <RolePicker onSelectRole={setRole} />;
+    return <RolePicker onSelectRole={handleRoleChange} />;
   }
 
   const analysisReady = activeIsValid && dataset;
@@ -479,7 +490,10 @@ export default function Home() {
               <Logo size="sm" />
             </h1>
           )}
-          <RoleSelector role={activePool.role} onRoleChange={setRole} />
+          <RoleSelector
+            role={activePool.role}
+            onRoleChange={handleRoleChange}
+          />
           {confirmed && (
             <TierSelector
               patch={patchRef.current}
@@ -533,7 +547,7 @@ export default function Home() {
                 champions={activePool.champions}
                 allChampions={championsForRole}
                 version={DDRAGON_VERSION}
-                onRoleChange={setRole}
+                onRoleChange={handleRoleChange}
                 onAddChampion={addChampion}
                 onRemoveChampion={removeChampion}
                 compact
