@@ -26,7 +26,7 @@ export function formatChampionName(id: string): string {
 }
 
 export function winrateColor(wr: number): string {
-  if (wr >= 52) return "text-win";
+  if (wr >= 50) return "text-win";
   if (wr > 48) return "text-neutral";
   return "text-loss";
 }

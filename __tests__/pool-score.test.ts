@@ -9,6 +9,7 @@ function makeGaps(
     bestWinrate: e.bestWinrate,
     bestChampion: "TestChamp",
     isGap: e.bestWinrate <= 48,
+    pickRate: e.pickRate ?? 0.05,
   }));
   const pickRateMap = new Map(
     entries.map((e) => [e.opponent, e.pickRate ?? 0.05]),

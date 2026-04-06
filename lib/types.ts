@@ -26,6 +26,7 @@ export interface GapResult {
   bestWinrate: number;
   bestChampion: string | null;
   isGap: boolean;
+  pickRate: number;
 }
 
 export interface Suggestion {
@@ -37,6 +38,8 @@ export interface Suggestion {
 export interface ChampionMeta {
   champion: string;
   pickRate: number;
+  winRate?: number;
+  banRate?: number;
 }
 
 export interface DuoData {

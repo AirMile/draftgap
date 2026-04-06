@@ -85,7 +85,7 @@ async function fetchUGGPage(
   championSlug: string,
   role: string,
 ): Promise<string | null> {
-  const url = `${UGG_BASE}/${championSlug}/matchups?role=${role}`;
+  const url = `${UGG_BASE}/${championSlug}/matchups?role=${role}&rank=platinum_plus`;
   const MAX_RETRIES = 3;
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -160,6 +160,44 @@ function extractTierMatchups(
   } catch {
     return [];
   }
+}
+
+interface UGGOverview {
+  winRate: number;
+  pickRate: number;
+  banRate: number;
+}
+
+/**
+ * Extract overview stats (win_rate, pick_rate, ban_rate) for a specific tier.
+ * Uses the FIRST occurrence of the tier block (overview data), unlike
+ * extractTierMatchups which uses the LAST (counters data).
+ */
+function extractTierOverview(
+  html: string,
+  tierDataKey: string,
+  uggRoleKey: string,
+): UGGOverview | null {
+  const dataKey = `"world_${tierDataKey}_${uggRoleKey}":{`;
+
+  // Find the FIRST occurrence (overview data)
+  const keyIdx = html.indexOf(dataKey);
+  if (keyIdx === -1) return null;
+
+  // Extract the text between the tier key and "counters" (or a reasonable limit)
+  const snippet = html.substring(keyIdx, keyIdx + 500);
+
+  const winMatch = snippet.match(/"win_rate":([\d.]+)/);
+  const pickMatch = snippet.match(/"pick_rate":([\d.]+)/);
+  const banMatch = snippet.match(/"ban_rate":([\d.]+)/);
+
+  if (!winMatch || !pickMatch) return null;
+
+  return {
+    winRate: parseFloat(winMatch[1]),
+    pickRate: parseFloat(pickMatch[1]),
+    banRate: banMatch ? parseFloat(banMatch[1]) : 0,
+  };
 }
 
 // --- OP.GG MCP for champion lists per role ---
@@ -600,6 +638,7 @@ async function main() {
         games: number;
       }>,
       seen: new Set<string>(),
+      overviews: new Map<string, UGGOverview>(),
     }));
 
     for (let i = 0; i < champions.length; i++) {
@@ -638,6 +677,13 @@ async function main() {
             added++;
           }
         }
+
+        // Extract overview stats (win_rate, pick_rate, ban_rate)
+        const overview = extractTierOverview(html, td.tier.dataKey, uggRoleKey);
+        if (overview) {
+          td.overviews.set(champId, overview);
+        }
+
         counts.push(`${td.tier.key}:${added}`);
       }
 
@@ -647,10 +693,6 @@ async function main() {
         await sleep(REQUEST_DELAY);
       }
     }
-
-    const championMeta = champions
-      .filter((c) => pickRates.has(c))
-      .map((c) => ({ champion: c, pickRate: pickRates.get(c)! }));
 
     // Fetch duo synergy data for bot/support
     let duosByTier: Record<string, DuoEntry[]> = {};
@@ -667,6 +709,23 @@ async function main() {
     // Write one file per tier
     for (const td of tierData) {
       const duos = duosByTier[td.tier.key];
+
+      // Build championMeta from U.GG overview data, fallback to OP.GG pick rates
+      const championMeta = champions
+        .filter((c) => td.overviews.has(c) || pickRates.has(c))
+        .map((c) => {
+          const overview = td.overviews.get(c);
+          if (overview) {
+            return {
+              champion: c,
+              pickRate: overview.pickRate,
+              winRate: overview.winRate,
+              banRate: overview.banRate,
+            };
+          }
+          return { champion: c, pickRate: pickRates.get(c)! };
+        });
+
       const dataset = {
         patch: patchShort,
         tier: td.tier.key,

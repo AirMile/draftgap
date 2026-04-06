@@ -1,96 +1,94 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { ChampionIcon } from "@/components/champion-icon";
-import { formatChampionName } from "@/lib/ui-utils";
+import { winrateColor, formatChampionName } from "@/lib/ui-utils";
 
-interface BanTarget {
-  champion: string;
-  pickRate: number;
-  bestWinrate: number;
+interface MatchupEntry {
+  opponent: string;
+  winrate: number;
+  pickRate?: number;
 }
 
 interface BanTargetsProps {
-  targets: BanTarget[];
   version: string;
-  loading?: boolean;
+  blindPickChampion: string;
+  blindPickMatchups: MatchupEntry[];
 }
 
-export function BanTargets({ targets, version, loading }: BanTargetsProps) {
+const COLLAPSED_COUNT = 5;
+
+export function BanTargets({
+  version,
+  blindPickChampion,
+  blindPickMatchups,
+}: BanTargetsProps) {
+  const [expanded, setExpanded] = useState(false);
+
+  const prevChampRef = useRef(blindPickChampion);
+  if (prevChampRef.current !== blindPickChampion) {
+    prevChampRef.current = blindPickChampion;
+    if (expanded) setExpanded(false);
+  }
+
+  const visible = expanded
+    ? blindPickMatchups
+    : blindPickMatchups.slice(0, COLLAPSED_COUNT);
+  const hasMore = blindPickMatchups.length > COLLAPSED_COUNT;
+
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-muted">Pool ban targets</span>
-        {!loading && (
-          <div className="flex gap-2">
-            <span
-              className="text-[10px] text-muted uppercase tracking-wide w-12 text-right cursor-help"
-              title="Pick Rate — how often this champion is picked"
-            >
-              pick
+        <span className="text-sm text-muted">
+          Ban targets for {formatChampionName(blindPickChampion)}
+        </span>
+        <div className="flex gap-2">
+          <span
+            className="text-[10px] text-muted uppercase tracking-wide w-10 text-right cursor-help"
+            title="Opponent Pick Rate"
+          >
+            pick
+          </span>
+          <span
+            className="text-[10px] text-muted uppercase tracking-wide w-12 text-right cursor-help"
+            title="Your Win Rate in this matchup"
+          >
+            WR
+          </span>
+        </div>
+      </div>
+      <div
+        className={`mt-2 space-y-1 ${expanded ? "max-h-64 overflow-y-auto pr-1" : ""}`}
+      >
+        {visible.map((m) => (
+          <div key={m.opponent} className="flex items-center gap-2 py-0.5">
+            <ChampionIcon championId={m.opponent} version={version} size={20} />
+            <span className="text-sm flex-1 truncate">
+              {formatChampionName(m.opponent)}
             </span>
+            {m.pickRate !== undefined && (
+              <span className="text-[11px] font-mono text-muted w-10 text-right">
+                {m.pickRate.toFixed(1)}%
+              </span>
+            )}
             <span
-              className="text-[10px] text-muted uppercase tracking-wide w-12 text-right cursor-help"
-              title="Win Rate against your best pool counter"
+              className={`text-xs font-mono font-medium w-12 text-right ${winrateColor(m.winrate)}`}
             >
-              vs best
+              {m.winrate.toFixed(1)}%
             </span>
           </div>
-        )}
+        ))}
       </div>
-      <div className="mt-2 space-y-1">
-        {loading
-          ? Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <div className="skeleton w-4 h-3" />
-                <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
-                <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
-                <div className="flex shrink-0 gap-2 ml-auto">
-                  <div className="skeleton w-12 h-3.5" />
-                  <div className="skeleton w-12 h-3.5" />
-                </div>
-              </div>
-            ))
-          : Array.from({ length: 5 }).map((_, i) => {
-              const t = targets[i];
-              return t ? (
-                <div key={t.champion} className="flex items-center gap-2">
-                  <span className="text-xs text-muted w-4">#{i + 1}</span>
-                  <ChampionIcon
-                    championId={t.champion}
-                    version={version}
-                    size={20}
-                  />
-                  <span className="text-sm flex-1">
-                    {formatChampionName(t.champion)}
-                  </span>
-                  <div className="flex shrink-0 gap-2">
-                    <span className="text-xs font-mono text-muted w-12 text-right">
-                      {t.pickRate.toFixed(1)}%
-                    </span>
-                    <span className="text-xs font-mono text-loss w-12 text-right">
-                      {(100 - t.bestWinrate).toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-              ) : i === 0 && targets.length === 0 ? (
-                <div key={i} className="flex items-center gap-2">
-                  <p className="text-xs text-muted">
-                    Your pool covers all matchups.
-                  </p>
-                </div>
-              ) : (
-                <div key={i} className="flex items-center gap-2 invisible">
-                  <span className="text-xs w-4">#</span>
-                  <div className="w-5 h-5 shrink-0" />
-                  <span className="text-sm flex-1">—</span>
-                  <div className="flex shrink-0 gap-2">
-                    <span className="text-xs w-12">—</span>
-                    <span className="text-xs w-12">—</span>
-                  </div>
-                </div>
-              );
-            })}
-      </div>
+      {hasMore ? (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-2 text-xs text-muted hover:text-foreground transition-colors self-start"
+        >
+          {expanded ? "Show less" : "Show all"}
+        </button>
+      ) : (
+        <div className="mt-2 h-4" />
+      )}
     </div>
   );
 }

@@ -1,14 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { Role } from "@/lib/types";
 import { ChampionIcon } from "@/components/champion-icon";
 import { RoleSelector, ROLES } from "@/components/role-selector";
 import { formatChampionName } from "@/lib/ui-utils";
-import { getChampionIconUrl } from "@/lib/ddragon";
-
-// Track loaded image URLs across renders — survives memory cache eviction
-const loadedImageUrls = new Set<string>();
 
 interface PoolInputProps {
   role: Role | null;
@@ -40,58 +36,24 @@ export function PoolInput({
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [pending, setPending] = useState<string[]>([]);
-  const [loadedChampionsKey, setLoadedChampionsKey] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Preload champion icons — show skeleton tags until all images are loaded
-  const championsKey = champions.join(",");
-
-  // Sync check: if all images have been loaded before, skip skeleton entirely
-  const allImagesCached =
-    champions.length === 0 ||
-    champions.every((c) => loadedImageUrls.has(getChampionIconUrl(c, version)));
-
-  const tagImagesReady = championsKey === loadedChampionsKey || allImagesCached;
-
-  useEffect(() => {
-    if (allImagesCached) {
-      setLoadedChampionsKey(championsKey);
-      return;
-    }
-    let cancelled = false;
-    const promises = champions.map(
-      (c) =>
-        new Promise<void>((resolve) => {
-          const url = getChampionIconUrl(c, version);
-          if (loadedImageUrls.has(url)) {
-            resolve();
-            return;
-          }
-          const img = new window.Image();
-          img.onload = () => {
-            loadedImageUrls.add(url);
-            resolve();
-          };
-          img.onerror = () => resolve();
-          img.src = url;
-        }),
-    );
-    Promise.all(promises).then(() => {
-      if (!cancelled) setLoadedChampionsKey(championsKey);
-    });
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- championsKey is a stable serialization of champions
-  }, [championsKey, version, allImagesCached]);
-
+  const queryLower = query.toLowerCase();
   const filtered = allChampions.filter(
     (c) =>
-      (c.toLowerCase().includes(query.toLowerCase()) ||
-        formatChampionName(c).toLowerCase().includes(query.toLowerCase())) &&
+      (c.toLowerCase().includes(queryLower) ||
+        formatChampionName(c).toLowerCase().includes(queryLower)) &&
       !champions.includes(c),
   );
+  // Pool champions matching query (for dropdown pool section)
+  const poolFiltered = query
+    ? champions.filter(
+        (c) =>
+          c.toLowerCase().includes(queryLower) ||
+          formatChampionName(c).toLowerCase().includes(queryLower),
+      )
+    : champions;
   // No auto-focus — champion picker handles initial selection
 
   useEffect(() => {
@@ -144,11 +106,14 @@ export function PoolInput({
 
         {role && (
           <div
-            className={`bg-card border border-card-border rounded-xl p-4 space-y-2 ${isOpen && filtered.length > 0 ? "rounded-b-none border-b-0" : ""}`}
+            className={`relative bg-card border border-card-border rounded-xl p-4 min-h-[70px] flex flex-col justify-center ${isOpen && (filtered.length > 0 || poolFiltered.length > 0) ? "rounded-b-none border-b-0" : ""}`}
           >
-            <div
-              className={`relative ${champions.length > 0 ? "border-b border-card-border pb-2 -mx-4 px-4" : ""}`}
-            >
+            {gradeSlot && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                {gradeSlot}
+              </div>
+            )}
+            <div>
               <input
                 ref={inputRef}
                 type="text"
@@ -174,43 +139,95 @@ export function PoolInput({
                 aria-label="Expand your pool"
                 className="w-full bg-transparent px-0 py-0 text-foreground placeholder:text-muted focus:outline-none"
               />
-              {isOpen && filtered.length > 0 && (
+              {isOpen && (filtered.length > 0 || poolFiltered.length > 0) && (
                 <div
                   ref={dropdownRef}
-                  className={`absolute top-full -left-px -right-px -mt-px bg-card border-x border-card-border z-50 h-96 flex flex-col ${dropdownBordered ? "border-b rounded-b-xl" : ""}`}
+                  className="absolute top-full -left-px -right-px -mt-px bg-card border-x border-b border-card-border z-50 h-96 flex flex-col"
                 >
                   <div className="overflow-y-auto p-3 flex-1">
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
-                      {filtered.map((c) => {
-                        const selected = pending.includes(c);
-                        return (
-                          <button
-                            key={c}
-                            onClick={() => togglePending(c)}
-                            className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border ${
-                              selected
-                                ? "bg-accent/8 border-accent/30"
-                                : "border-transparent hover:bg-card-border"
-                            }`}
-                          >
-                            <div
-                              className={`rounded-lg overflow-hidden transition-opacity ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                    {/* Pool champions section */}
+                    {poolFiltered.length > 0 && (
+                      <>
+                        <p className="text-[10px] text-muted uppercase tracking-wide mb-1.5 px-1">
+                          Your pool
+                        </p>
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1 mb-3">
+                          {poolFiltered.map((c) => (
+                            <button
+                              key={c}
+                              onClick={() => onRemoveChampion(c)}
+                              className="group flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border bg-accent/8 border-accent/30 hover:border-red-500/50 hover:bg-red-500/10 relative"
                             >
-                              <ChampionIcon
-                                championId={c}
-                                version={version}
-                                size={48}
-                              />
-                            </div>
-                            <span
-                              className={`text-xs truncate w-full text-center leading-tight ${selected ? "text-foreground" : "text-muted"}`}
-                            >
-                              {formatChampionName(c)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
+                              <div className="rounded-lg overflow-hidden relative">
+                                <div className="transition-transform duration-150 group-hover:scale-90">
+                                  <ChampionIcon
+                                    championId={c}
+                                    version={version}
+                                    size={48}
+                                  />
+                                </div>
+                                <div className="absolute inset-0 bg-red-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                  <svg
+                                    className="w-5 h-5 text-red-300"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                  >
+                                    <path d="M18 6L6 18M6 6l12 12" />
+                                  </svg>
+                                </div>
+                              </div>
+                              <span className="text-xs truncate w-full text-center leading-tight text-foreground">
+                                {formatChampionName(c)}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                    {/* Available champions */}
+                    {filtered.length > 0 && (
+                      <>
+                        {poolFiltered.length > 0 && (
+                          <p className="text-[10px] text-muted uppercase tracking-wide mb-1.5 px-1">
+                            Add to pool
+                          </p>
+                        )}
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-1">
+                          {filtered.map((c) => {
+                            const selected = pending.includes(c);
+                            return (
+                              <button
+                                key={c}
+                                onClick={() => togglePending(c)}
+                                className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors border ${
+                                  selected
+                                    ? "bg-accent/8 border-accent/30"
+                                    : "border-transparent hover:bg-card-border"
+                                }`}
+                              >
+                                <div
+                                  className={`rounded-lg overflow-hidden transition-opacity ${selected ? "" : "opacity-70 hover:opacity-100"}`}
+                                >
+                                  <ChampionIcon
+                                    championId={c}
+                                    version={version}
+                                    size={48}
+                                  />
+                                </div>
+                                <span
+                                  className={`text-xs truncate w-full text-center leading-tight ${selected ? "text-foreground" : "text-muted"}`}
+                                >
+                                  {formatChampionName(c)}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   </div>
                   {pending.length > 0 && (
                     <div className="px-3 pb-3 pt-3 border-t border-card-border">
@@ -226,51 +243,6 @@ export function PoolInput({
                 </div>
               )}
             </div>
-
-            {champions.length > 0 && (
-              <div className="space-y-2">
-                {tagImagesReady ? (
-                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap py-1">
-                    {champions.map((c) => (
-                      <div
-                        key={c}
-                        className="flex items-center gap-1.5 sm:gap-2 bg-background border border-card-border rounded-lg px-2 sm:px-2.5 py-1 sm:py-1"
-                      >
-                        <ChampionIcon
-                          championId={c}
-                          version={version}
-                          size={20}
-                        />
-                        <span className="text-sm">{formatChampionName(c)}</span>
-                        <button
-                          onClick={() => onRemoveChampion(c)}
-                          className="text-muted hover:text-loss text-xs sm:text-sm leading-none -mr-0.5 sm:-mr-1 p-1 sm:p-1.5 -my-1"
-                          aria-label={`Remove ${c}`}
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap py-1">
-                    {champions.map((c) => (
-                      <div
-                        key={c}
-                        className="flex items-center gap-1.5 sm:gap-2 bg-background border border-card-border rounded-lg px-2 sm:px-2.5 py-1 sm:py-1"
-                      >
-                        <div className="skeleton !rounded-full w-5 h-5 shrink-0" />
-                        <div className="skeleton h-5 w-12 sm:w-16 rounded" />
-                        <div className="text-xs sm:text-sm leading-none -mr-0.5 sm:-mr-1 p-1 sm:p-1.5 -my-1 invisible">
-                          ×
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="flex justify-end min-h-[30px]">{gradeSlot}</div>
-              </div>
-            )}
           </div>
         )}
       </div>

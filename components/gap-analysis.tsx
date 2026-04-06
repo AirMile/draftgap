@@ -25,32 +25,49 @@ export function GapAnalysis({
   loading,
 }: GapAnalysisProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [showAllWorst, setShowAllWorst] = useState(false);
   const gapList = gaps.filter((g) => g.isGap);
   const hasGaps = gapList.length > 0;
   const covered = totalOpponents - gapList.length;
-  const worstMatchups = [...gaps]
-    .sort((a, b) => a.bestWinrate - b.bestWinrate)
-    .slice(0, 10);
+  const allWorstMatchups = [...gaps].sort(
+    (a, b) => a.bestWinrate - b.bestWinrate,
+  );
+  // Show enough items to roughly match suggestions height (min 5, default 7)
+  const defaultCount = Math.max(5, Math.min(7, allWorstMatchups.length));
+  const worstMatchups = showAllWorst
+    ? allWorstMatchups
+    : allWorstMatchups.slice(0, defaultCount);
+  const hasMoreWorst = allWorstMatchups.length > defaultCount;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
       <div className="p-4">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted">Weakest pool matchups</span>
-          <span
-            className="text-[10px] text-muted uppercase tracking-wide cursor-help"
-            title="Best Win Rate from your pool against this opponent"
-          >
-            Best WR
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className="text-[10px] text-muted uppercase tracking-wide w-10 text-right cursor-help"
+              title="Pick Rate — how often this champion is picked"
+            >
+              pick
+            </span>
+            <div className="w-4 shrink-0" />
+            <span
+              className="text-[10px] text-muted uppercase tracking-wide w-10 text-right cursor-help"
+              title="Best Win Rate from your pool against this opponent"
+            >
+              Best WR
+            </span>
+          </div>
         </div>
         <div className="mt-2 divide-y divide-card-border">
           {loading
-            ? Array.from({ length: 10 }).map((_, i) => (
+            ? Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="flex items-center gap-2 py-1.5">
                   <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
                   <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
                   <div className="skeleton w-4 h-4 !rounded-full shrink-0" />
+                  <div className="skeleton w-10 h-3.5" />
                   <div className="skeleton w-10 h-3.5" />
                 </div>
               ))
@@ -67,21 +84,34 @@ export function GapAnalysis({
                   <span className="text-sm flex-1">
                     {formatChampionName(g.opponent)}
                   </span>
-                  {g.bestChampion && (
-                    <ChampionIcon
-                      championId={g.bestChampion}
-                      version={version}
-                      size={16}
-                    />
-                  )}
-                  <span
-                    className={`text-xs font-mono ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
-                  >
-                    {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
+                  <span className="text-[11px] font-mono text-muted w-10 text-right">
+                    {g.pickRate > 0 ? `${g.pickRate.toFixed(1)}%` : "—"}
                   </span>
+                  <div className="flex items-center gap-1.5 ml-1">
+                    {g.bestChampion && (
+                      <ChampionIcon
+                        championId={g.bestChampion}
+                        version={version}
+                        size={18}
+                      />
+                    )}
+                    <span
+                      className={`text-xs font-mono w-10 text-right ${g.isGap ? "text-loss" : g.bestWinrate < 50 ? "text-loss" : "text-neutral"}`}
+                    >
+                      {g.bestWinrate > 0 ? `${g.bestWinrate.toFixed(1)}%` : "—"}
+                    </span>
+                  </div>
                 </div>
               ))}
         </div>
+        {hasMoreWorst && (
+          <button
+            onClick={() => setShowAllWorst(!showAllWorst)}
+            className="mt-2 text-xs text-muted hover:text-foreground transition-colors"
+          >
+            {showAllWorst ? "Show less" : "Show all"}
+          </button>
+        )}
       </div>
 
       <div className="p-4">

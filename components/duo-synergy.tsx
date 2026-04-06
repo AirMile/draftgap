@@ -8,6 +8,7 @@ interface DuoSynergyProps {
   poolChampions: string[];
   duos: DuoData[];
   version: string;
+  selectedBlindPick?: string | null;
 }
 
 function ChampionDuos({
@@ -44,7 +45,12 @@ function ChampionDuos({
   );
 }
 
-export function DuoSynergy({ poolChampions, duos, version }: DuoSynergyProps) {
+export function DuoSynergy({
+  poolChampions,
+  duos,
+  version,
+  selectedBlindPick,
+}: DuoSynergyProps) {
   const duosByChampion = poolChampions
     .map((champ) => ({
       champion: champ,
@@ -53,7 +59,12 @@ export function DuoSynergy({ poolChampions, duos, version }: DuoSynergyProps) {
         .sort((a, b) => b.winrate - a.winrate)
         .slice(0, 3),
     }))
-    .filter((c) => c.partners.length > 0);
+    .filter((c) => c.partners.length > 0)
+    .sort((a, b) => {
+      if (a.champion === selectedBlindPick) return -1;
+      if (b.champion === selectedBlindPick) return 1;
+      return 0;
+    });
 
   if (duosByChampion.length === 0) return null;
 

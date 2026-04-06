@@ -33,6 +33,7 @@ export function findGaps(
   pool: string[],
   opponents: string[],
   matchups: MatchupData[],
+  pickRateMap: Map<string, number> = new Map(),
 ): GapResult[] {
   return opponents.map((opponent) => {
     let bestWinrate = 0;
@@ -51,6 +52,7 @@ export function findGaps(
       bestWinrate,
       bestChampion,
       isGap: bestWinrate <= GAP_THRESHOLD,
+      pickRate: pickRateMap.get(opponent) ?? 0,
     };
   });
 }

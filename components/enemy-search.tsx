@@ -46,7 +46,7 @@ export function EnemySearch({
 
   return (
     <div
-      className={`bg-card border border-card-border p-4 ${connected ? "pb-0 rounded-t-xl border-b-0" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-0" : "rounded-xl"}`}
+      className={`bg-card border border-card-border p-4 min-h-[70px] flex flex-col justify-center ${connected ? "pb-0 rounded-t-xl border-b-0" : isOpen && filtered.length > 0 ? "rounded-t-xl rounded-b-none border-b-0" : "rounded-xl"}`}
     >
       <div
         className={`relative -mx-4 px-4 ${connected ? "border-b border-card-border pb-2" : ""}`}

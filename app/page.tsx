@@ -67,38 +67,97 @@ function TierSelector({
   onTierChange: (tier: Tier) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const desktopRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
   const selected = TIERS.find((t) => t.value === tier) ?? TIERS[0];
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = e.target as Node;
+      if (
+        desktopRef.current?.contains(target) ||
+        mobileRef.current?.contains(target)
+      )
+        return;
+      setIsOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div
-      className="absolute right-0 hidden sm:flex items-center gap-3"
-      ref={ref}
-    >
-      {patch && (
-        <span className="text-xs text-muted hidden sm:inline">{patch}</span>
-      )}
-      <div className="relative">
+    <>
+      {/* Desktop: inline in header */}
+      <div
+        className="absolute right-0 hidden sm:flex items-center gap-3"
+        ref={desktopRef}
+      >
+        {patch && (
+          <span className="text-xs text-muted hidden sm:inline">{patch}</span>
+        )}
+        <div className="relative">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="bg-background border border-card-border rounded-lg px-3 py-1 text-sm text-muted font-medium h-[38px] flex items-center gap-1.5 hover:border-accent/30 transition-colors"
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
+          >
+            {selected.label}
+          </button>
+          {isOpen && (
+            <div className="absolute top-full right-0 mt-1 bg-card border border-card-border rounded-lg z-20 min-w-full overflow-hidden">
+              {TIERS.map((t) => (
+                <button
+                  key={t.value}
+                  onClick={() => {
+                    onTierChange(t.value);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full px-3 py-2 text-sm text-left transition-colors ${
+                    tier === t.value
+                      ? "text-accent bg-accent/10"
+                      : "text-muted hover:bg-card-border/30 hover:text-foreground"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile: floating pill bottom-right */}
+      <div className="sm:hidden fixed bottom-4 right-4 z-40" ref={mobileRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-background border border-card-border rounded-lg px-3 py-1 text-sm text-muted font-medium h-[38px] flex items-center gap-1.5 hover:border-accent/30 transition-colors"
+          className="rounded-full p-3 shadow-lg shadow-black/30 bg-card border border-card-border text-muted transition-colors hover:border-accent/30"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
+          aria-label={`Data: ${selected.label}`}
         >
-          {selected.label}
+          <svg
+            className="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 6 9 6 9" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 18 9 18 9" />
+            <path d="M6 9h12l-1.5 6h-9L6 9z" />
+            <path d="M10.5 15v2" />
+            <path d="M13.5 15v2" />
+            <path d="M9 17h6" />
+            <path d="M8 21h8" />
+            <path d="M9 17l-1 4" />
+            <path d="M15 17l1 4" />
+          </svg>
         </button>
         {isOpen && (
-          <div className="absolute top-full right-0 mt-1 bg-card border border-card-border rounded-lg z-20 min-w-full overflow-hidden">
+          <div className="absolute bottom-full right-0 mb-2 bg-card border border-card-border rounded-lg z-20 min-w-[120px] overflow-hidden shadow-lg shadow-black/30">
             {TIERS.map((t) => (
               <button
                 key={t.value}
@@ -106,7 +165,7 @@ function TierSelector({
                   onTierChange(t.value);
                   setIsOpen(false);
                 }}
-                className={`w-full px-3 py-2 text-sm text-left transition-colors ${
+                className={`w-full px-4 py-2.5 text-sm text-left transition-colors ${
                   tier === t.value
                     ? "text-accent bg-accent/10"
                     : "text-muted hover:bg-card-border/30 hover:text-foreground"
@@ -118,7 +177,7 @@ function TierSelector({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -129,6 +188,9 @@ export default function Home() {
   const [sharedPool, setSharedPool] = useState<PoolState | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [selectedEnemy, setSelectedEnemy] = useState<string | null>(null);
+  const [selectedBlindPick, setSelectedBlindPick] = useState<string | null>(
+    null,
+  );
   const prevRole = useRef(pool?.role);
 
   const [championsForRole, setChampionsForRole] = useState<string[]>([]);
@@ -200,6 +262,7 @@ export default function Home() {
       }
       setConfirmed(pool !== null && pool.champions.length > 0);
       setSelectedEnemy(null);
+      setSelectedBlindPick(null);
     }
   }, [pool?.role, pool?.champions.length, sharedPool]);
 
@@ -209,6 +272,17 @@ export default function Home() {
       setConfirmed(false);
     }
   }, [confirmed, pool?.champions.length]);
+
+  // Reset blind pick selection when champion is removed from pool
+  useEffect(() => {
+    if (
+      selectedBlindPick &&
+      activePool &&
+      !activePool.champions.includes(selectedBlindPick)
+    ) {
+      setSelectedBlindPick(null);
+    }
+  }, [selectedBlindPick, activePool]);
 
   useEffect(() => {
     if (!activePool?.role) {
@@ -297,10 +371,25 @@ export default function Home() {
     return [...knownOpponents];
   }, [activePool, dataset, roleChampions]);
 
+  const pickRateMap = useMemo(() => {
+    const map = new Map<string, number>();
+    if (dataset?.championMeta) {
+      for (const m of dataset.championMeta) {
+        map.set(m.champion, m.pickRate);
+      }
+    }
+    return map;
+  }, [dataset]);
+
   const gaps = useMemo(() => {
     if (!activePool || !dataset) return [];
-    return findGaps(activePool.champions, opponents, dataset.matchups);
-  }, [activePool, opponents, dataset]);
+    return findGaps(
+      activePool.champions,
+      opponents,
+      dataset.matchups,
+      pickRateMap,
+    );
+  }, [activePool, opponents, dataset, pickRateMap]);
 
   const gapOpponents = useMemo(
     () => gaps.filter((g) => g.isGap).map((g) => g.opponent),
@@ -327,11 +416,11 @@ export default function Home() {
     );
   }, [activePool, gapOpponents, gaps, dataset]);
 
-  const pickRateMap = useMemo(() => {
+  const winRateMap = useMemo(() => {
     const map = new Map<string, number>();
     if (dataset?.championMeta) {
       for (const m of dataset.championMeta) {
-        map.set(m.champion, m.pickRate);
+        if (m.winRate !== undefined) map.set(m.champion, m.winRate);
       }
     }
     return map;
@@ -341,6 +430,12 @@ export default function Home() {
     if (!activePool || !dataset) return [];
     return activePool.champions
       .map((champ) => {
+        // Use U.GG overall winrate if available, otherwise compute from matchups
+        const uggWinRate = winRateMap.get(champ);
+        if (uggWinRate !== undefined) {
+          return { champion: champ, avgWinrate: uggWinRate };
+        }
+
         const champMatchups = opponents
           .map((opp) => {
             const direct = dataset.matchups.find(
@@ -370,26 +465,49 @@ export default function Home() {
         return { champion: champ, avgWinrate };
       })
       .filter((p) => p !== null)
-      .sort((a, b) => b.avgWinrate - a.avgWinrate)
-      .slice(0, 5);
-  }, [activePool, opponents, dataset]);
+      .sort((a, b) => b.avgWinrate - a.avgWinrate);
+  }, [activePool, opponents, dataset, winRateMap]);
 
-  const banTargets = useMemo(() => {
-    if (gaps.length === 0 || !pickRateMap.size) return [];
-    return gaps
-      .filter((g) => g.bestWinrate < 50 && pickRateMap.has(g.opponent))
-      .map((g) => {
-        const pickRate = pickRateMap.get(g.opponent)!;
-        return {
-          champion: g.opponent,
-          pickRate,
-          bestWinrate: g.bestWinrate,
-          score: pickRate * (50 - g.bestWinrate),
-        };
+  // Auto-select the top blind pick when none is selected
+  useEffect(() => {
+    if (!selectedBlindPick && blindPicks.length > 0) {
+      setSelectedBlindPick(blindPicks[0].champion);
+    }
+  }, [selectedBlindPick, blindPicks]);
+
+  const blindPickDetail = useMemo(() => {
+    if (!selectedBlindPick || !dataset) return null;
+
+    // Build matchup list for the selected champion, sorted worst first
+    const matchups = opponents
+      .map((opp) => {
+        const direct = dataset.matchups.find(
+          (m) => m.champion === selectedBlindPick && m.opponent === opp,
+        );
+        if (direct) {
+          return {
+            opponent: opp,
+            winrate: direct.winrate,
+            pickRate: pickRateMap.get(opp),
+          };
+        }
+        const reverse = dataset.matchups.find(
+          (m) => m.champion === opp && m.opponent === selectedBlindPick,
+        );
+        if (reverse) {
+          return {
+            opponent: opp,
+            winrate: Math.round((100 - reverse.winrate) * 10) / 10,
+            pickRate: pickRateMap.get(opp),
+          };
+        }
+        return null;
       })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5);
-  }, [gaps, pickRateMap]);
+      .filter((m) => m !== null && m.winrate < 50)
+      .sort((a, b) => a.winrate - b.winrate);
+
+    return { matchups };
+  }, [selectedBlindPick, dataset, opponents, pickRateMap]);
 
   const poolScore = useMemo(() => {
     if (gaps.length === 0) return null;
@@ -424,7 +542,7 @@ export default function Home() {
 
   // Keep last valid analysis data to avoid skeleton flash during role switch
   const stableBlindPicksRef = useRef(blindPicks);
-  const stableBanTargetsRef = useRef(banTargets);
+  const stableBlindPickDetailRef = useRef(blindPickDetail);
   const stableGapsRef = useRef(gaps);
   const stableSuggestionsRef = useRef(suggestions);
   const stableOpponentsRef = useRef(opponents);
@@ -438,7 +556,7 @@ export default function Home() {
     matchupLoading || (dataset !== null && dataset.role !== activePool?.role);
   if (!isStale && dataset) {
     stableBlindPicksRef.current = blindPicks;
-    stableBanTargetsRef.current = banTargets;
+    stableBlindPickDetailRef.current = blindPickDetail;
     stableGapsRef.current = gaps;
     stableSuggestionsRef.current = suggestions;
     stableOpponentsRef.current = opponents;
@@ -604,16 +722,24 @@ export default function Home() {
             </div>
 
             {analysisReady ? (
-              <div className="bg-card border border-card-border rounded-xl overflow-hidden divide-y divide-card-border">
-                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border">
+              <div className="bg-card border border-card-border rounded-xl overflow-hidden">
+                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-card-border border-b border-card-border">
                   <BlindPickBan
                     blindPicks={stableBlindPicksRef.current}
                     version={DDRAGON_VERSION}
+                    selectedChampion={selectedBlindPick}
+                    onSelectChampion={setSelectedBlindPick}
                   />
-                  <BanTargets
-                    targets={stableBanTargetsRef.current}
-                    version={DDRAGON_VERSION}
-                  />
+                  {selectedBlindPick &&
+                    stableBlindPickDetailRef.current?.matchups && (
+                      <BanTargets
+                        version={DDRAGON_VERSION}
+                        blindPickChampion={selectedBlindPick}
+                        blindPickMatchups={
+                          stableBlindPickDetailRef.current.matchups
+                        }
+                      />
+                    )}
                 </div>
                 <div
                   className={`grid ${
@@ -621,11 +747,11 @@ export default function Home() {
                     dataStale &&
                     hadDuoRef.current &&
                     (activePool.role === "bot" || activePool.role === "support")
-                      ? "grid-rows-[1fr]"
+                      ? "grid-rows-[1fr] border-b border-card-border"
                       : `transition-[grid-template-rows,border-color] duration-200 ease-in-out ${
                           !dataStale && stableDuoRef.current
-                            ? "grid-rows-[1fr]"
-                            : "grid-rows-[0fr] !border-transparent"
+                            ? "grid-rows-[1fr] border-b border-card-border"
+                            : "grid-rows-[0fr]"
                         }`
                   }`}
                 >
@@ -635,18 +761,21 @@ export default function Home() {
                         poolChampions={stableDuoRef.current.champions}
                         duos={stableDuoRef.current.duos}
                         version={DDRAGON_VERSION}
+                        selectedBlindPick={selectedBlindPick}
                       />
                     )}
                   </div>
                 </div>
-                <GapAnalysis
-                  gaps={stableGapsRef.current}
-                  suggestions={stableSuggestionsRef.current}
-                  totalOpponents={stableOpponentsRef.current.length}
-                  version={DDRAGON_VERSION}
-                  onAddChampion={sharedPool ? undefined : addChampion}
-                  canAdd={!sharedPool}
-                />
+                <div>
+                  <GapAnalysis
+                    gaps={stableGapsRef.current}
+                    suggestions={stableSuggestionsRef.current}
+                    totalOpponents={stableOpponentsRef.current.length}
+                    version={DDRAGON_VERSION}
+                    onAddChampion={sharedPool ? undefined : addChampion}
+                    canAdd={!sharedPool}
+                  />
+                </div>
               </div>
             ) : championsLoading || matchupLoading ? (
               <DashboardSkeleton />

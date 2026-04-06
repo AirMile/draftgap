@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ChampionIcon } from "@/components/champion-icon";
 import { formatChampionName } from "@/lib/ui-utils";
 
@@ -7,41 +8,86 @@ interface BlindPickBanProps {
   blindPicks: { champion: string; avgWinrate: number }[];
   version: string;
   loading?: boolean;
+  selectedChampion: string | null;
+  onSelectChampion: (champion: string | null) => void;
 }
+
+const COLLAPSED_COUNT = 5;
 
 export function BlindPickBan({
   blindPicks,
   version,
   loading,
+  selectedChampion,
+  onSelectChampion,
 }: BlindPickBanProps) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!loading && blindPicks.length === 0) return null;
 
+  // Move selected champion to top, keep rest sorted by WR
+  const sorted = selectedChampion
+    ? [
+        ...blindPicks.filter((p) => p.champion === selectedChampion),
+        ...blindPicks.filter((p) => p.champion !== selectedChampion),
+      ]
+    : blindPicks;
+  const visible = expanded ? sorted : sorted.slice(0, COLLAPSED_COUNT);
+  const hasMore = sorted.length > COLLAPSED_COUNT;
+
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-muted">Best pool blind picks</span>
+        <span className="text-sm text-muted">Blind pick</span>
         <span
-          className="text-[10px] text-muted uppercase tracking-wide cursor-help"
-          title="Average Win Rate across all matchups"
+          className="text-[10px] text-muted uppercase tracking-wide cursor-help w-12 text-right"
+          title="Overall Win Rate from U.GG"
         >
-          Avg WR
+          WR
         </span>
       </div>
       <div className="mt-2 space-y-1">
         {loading
           ? Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex items-center gap-2">
-                <div className="skeleton w-4 h-3" />
                 <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
                 <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
                 <div className="skeleton w-10 h-3.5 ml-auto" />
               </div>
             ))
-          : Array.from({ length: 5 }).map((_, i) => {
-              const pick = blindPicks[i];
-              return pick ? (
-                <div key={pick.champion} className="flex items-center gap-2">
-                  <span className="text-xs text-muted w-4">#{i + 1}</span>
+          : visible.map((pick) => {
+              const isSelected = selectedChampion === pick.champion;
+              return (
+                <button
+                  key={pick.champion}
+                  onClick={() =>
+                    onSelectChampion(isSelected ? null : pick.champion)
+                  }
+                  className={`group flex items-center gap-2 w-full rounded-md px-1 -mx-1 py-0.5 transition-colors text-left cursor-pointer ${
+                    isSelected ? "" : "hover:bg-white/5"
+                  }`}
+                >
+                  <span
+                    className={`w-4 h-4 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      isSelected
+                        ? "border-accent bg-accent"
+                        : "border-muted/30 group-hover:border-muted/60"
+                    }`}
+                  >
+                    {isSelected && (
+                      <svg
+                        className="w-2.5 h-2.5 text-background"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={3.5}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </span>
                   <ChampionIcon
                     championId={pick.champion}
                     version={version}
@@ -50,20 +96,23 @@ export function BlindPickBan({
                   <span className="text-sm flex-1">
                     {formatChampionName(pick.champion)}
                   </span>
-                  <span className="text-xs font-mono text-win">
+                  <span className="text-xs font-mono text-win w-12 text-right">
                     {pick.avgWinrate.toFixed(1)}%
                   </span>
-                </div>
-              ) : (
-                <div key={i} className="flex items-center gap-2 invisible">
-                  <span className="text-xs w-4">#</span>
-                  <div className="w-5 h-5 shrink-0" />
-                  <span className="text-sm flex-1">—</span>
-                  <span className="text-xs w-10">—</span>
-                </div>
+                </button>
               );
             })}
       </div>
+      {hasMore ? (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-2 text-xs text-muted hover:text-foreground transition-colors self-start"
+        >
+          {expanded ? "Show less" : "Show all"}
+        </button>
+      ) : (
+        <div className="mt-2 h-4" />
+      )}
     </div>
   );
 }
