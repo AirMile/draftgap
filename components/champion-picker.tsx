@@ -53,7 +53,7 @@ export function ChampionPicker({
   };
 
   return (
-    <div className="flex flex-col animate-fade-in">
+    <div className="flex flex-col">
       <div className="max-w-5xl w-full flex flex-col">
         <div className="bg-card border border-card-border rounded-xl p-4 space-y-2">
           <input
