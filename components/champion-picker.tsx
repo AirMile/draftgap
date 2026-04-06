@@ -76,10 +76,8 @@ export function ChampionPicker({
             aria-label="Search champions"
             className="w-full bg-input border border-input-border rounded-lg px-3 py-3 text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/50"
           />
-          <div
-            className={`grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start ${championsLoading && champions.length > 0 ? "opacity-40 pointer-events-none transition-opacity duration-200" : ""}`}
-          >
-            {champions.length === 0 && championsLoading
+          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 sm:gap-3 h-[28rem] overflow-y-auto content-start">
+            {championsLoading
               ? Array.from({ length: 48 }).map((_, i) => (
                   <div
                     key={i}
