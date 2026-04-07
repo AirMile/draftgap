@@ -24,11 +24,13 @@ export function EnemySearch({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filtered = opponents.filter(
-    (c) =>
-      c.toLowerCase().includes(query.toLowerCase()) ||
-      formatChampionName(c).toLowerCase().includes(query.toLowerCase()),
-  );
+  const filtered = [...opponents]
+    .sort((a, b) => formatChampionName(a).localeCompare(formatChampionName(b)))
+    .filter(
+      (c) =>
+        c.toLowerCase().includes(query.toLowerCase()) ||
+        formatChampionName(c).toLowerCase().includes(query.toLowerCase()),
+    );
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (

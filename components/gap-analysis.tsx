@@ -59,10 +59,10 @@ export function GapAnalysis({
             </span>
           </div>
         </div>
-        <div className="mt-2 divide-y divide-card-border">
+        <div className="mt-2 space-y-1">
           {loading
             ? Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="flex items-center gap-2 py-1.5">
+                <div key={i} className="flex items-center gap-2 py-0.5">
                   <div className="skeleton w-5 h-5 !rounded-full shrink-0" />
                   <div className="skeleton h-3.5 flex-1 max-w-[100px]" />
                   <div className="skeleton w-4 h-4 !rounded-full shrink-0" />
@@ -73,7 +73,7 @@ export function GapAnalysis({
             : worstMatchups.map((g) => (
                 <div
                   key={g.opponent}
-                  className="flex items-center gap-2 py-1.5"
+                  className="flex items-center gap-2 py-0.5"
                 >
                   <ChampionIcon
                     championId={g.opponent}
