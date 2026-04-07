@@ -77,7 +77,7 @@ export function BlindPickBan({
                   onClick={() =>
                     onSelectChampion(isSelected ? null : pick.champion)
                   }
-                  className={`group flex items-center gap-2 w-full rounded-md px-1 -mx-1 py-0.5 transition-colors text-left cursor-pointer ${
+                  className={`group flex items-center gap-2 w-full rounded-md pl-1 -ml-1 py-0.5 transition-colors text-left cursor-pointer ${
                     isSelected ? "" : "hover:bg-white/5"
                   }`}
                 >

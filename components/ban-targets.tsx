@@ -31,16 +31,20 @@ export function BanTargets({
     if (expanded) setExpanded(false);
   }
 
+  const worstMatchups = blindPickMatchups.filter((m) => m.winrate < 50);
   const visible = expanded
     ? blindPickMatchups
-    : blindPickMatchups.slice(0, COLLAPSED_COUNT);
-  const hasMore = blindPickMatchups.length > COLLAPSED_COUNT;
+    : worstMatchups.slice(0, COLLAPSED_COUNT);
+  const hasMore = expanded
+    ? true
+    : worstMatchups.length > COLLAPSED_COUNT ||
+      blindPickMatchups.length > worstMatchups.length;
 
   return (
     <div className="p-4 flex flex-col">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted">
-          Ban targets for {formatChampionName(blindPickChampion)}
+          Matchups for {formatChampionName(blindPickChampion)}
         </span>
         <div className="flex gap-2">
           <span
@@ -58,7 +62,7 @@ export function BanTargets({
         </div>
       </div>
       <div
-        className={`mt-2 space-y-1 ${expanded ? "max-h-64 overflow-y-auto pr-1" : ""}`}
+        className={`mt-2 space-y-1 [scrollbar-gutter:stable] ${expanded ? "max-h-64 overflow-y-auto" : ""}`}
       >
         {visible.map((m) => (
           <div key={m.opponent} className="flex items-center gap-2 py-0.5">
