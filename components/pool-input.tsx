@@ -40,14 +40,12 @@ export function PoolInput({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const queryLower = query.toLowerCase();
-  const filtered = allChampions
-    .filter(
-      (c) =>
-        (c.toLowerCase().includes(queryLower) ||
-          formatChampionName(c).toLowerCase().includes(queryLower)) &&
-        !champions.includes(c),
-    )
-    .sort((a, b) => formatChampionName(a).localeCompare(formatChampionName(b)));
+  const filtered = allChampions.filter(
+    (c) =>
+      (c.toLowerCase().includes(queryLower) ||
+        formatChampionName(c).toLowerCase().includes(queryLower)) &&
+      !champions.includes(c),
+  );
   // Pool champions matching query (for dropdown pool section)
   const poolFiltered = query
     ? champions.filter(

@@ -33,12 +33,9 @@ export function ChampionPicker({
   }, [role]);
 
   const filteredChampions = useMemo(() => {
-    const sorted = [...champions].sort((a, b) =>
-      formatChampionName(a).localeCompare(formatChampionName(b)),
-    );
-    if (!search) return sorted;
+    if (!search) return champions;
     const q = search.toLowerCase();
-    return sorted.filter(
+    return champions.filter(
       (c) =>
         c.toLowerCase().includes(q) ||
         formatChampionName(c).toLowerCase().includes(q),
