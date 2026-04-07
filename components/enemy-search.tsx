@@ -84,7 +84,8 @@ export function EnemySearch({
               {filtered.map((c) => (
                 <button
                   key={c}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onSelectEnemy(c);
                     setQuery("");
                     setIsOpen(false);
