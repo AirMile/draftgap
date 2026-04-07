@@ -131,30 +131,16 @@ function TierSelector({
       <div className="sm:hidden fixed bottom-4 right-4 z-40" ref={mobileRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-full p-3 shadow-lg shadow-black/30 bg-card border border-card-border text-muted transition-colors hover:border-accent/30"
+          className="rounded-full p-1 shadow-lg shadow-black/30 bg-card border border-card-border text-muted transition-colors hover:border-accent/30"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
           aria-label={`Data: ${selected.label}`}
         >
-          <svg
-            className="w-5 h-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 6 9 6 9" />
-            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 18 9 18 9" />
-            <path d="M6 9h12l-1.5 6h-9L6 9z" />
-            <path d="M10.5 15v2" />
-            <path d="M13.5 15v2" />
-            <path d="M9 17h6" />
-            <path d="M8 21h8" />
-            <path d="M9 17l-1 4" />
-            <path d="M15 17l1 4" />
-          </svg>
+          <img
+            src="/tier-icon.jpg"
+            alt="Tier"
+            className="w-9 h-9 rounded-full"
+          />
         </button>
         {isOpen && (
           <div className="absolute bottom-full right-0 mb-2 bg-card border border-card-border rounded-lg z-20 min-w-[120px] overflow-hidden shadow-lg shadow-black/30">
