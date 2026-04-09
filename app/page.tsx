@@ -139,6 +139,9 @@ function TierSelector({
           <img
             src="/tier-icon.jpg"
             alt="Tier"
+            width={36}
+            height={36}
+            loading="lazy"
             className="w-9 h-9 rounded-full"
           />
         </button>

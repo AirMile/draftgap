@@ -93,6 +93,7 @@ function RoleSplash({
         src={splash}
         alt={alt}
         loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : "auto"}
         onLoad={() => setLoaded(true)}
         className={`absolute inset-0 w-full h-full object-cover object-center sm:object-top transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 ${loaded ? "opacity-100" : "opacity-0"}`}
       />
@@ -117,7 +118,7 @@ export function RolePicker({ onSelectRole }: RolePickerProps) {
         <h1>
           <Logo />
         </h1>
-        <p className="text-muted text-sm mt-2">Select your role</p>
+        <p className="text-muted text-base mt-2">Select your role</p>
       </div>
       <div className="relative grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-5 w-full max-w-md sm:max-w-4xl">
         <div className="absolute inset-x-0 -top-28 text-center pointer-events-none hidden sm:block">
